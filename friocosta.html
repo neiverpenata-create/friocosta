@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Friocosta">
+<meta name="theme-color" content="#0f1e42">
+<title>Friocosta · Recepción</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; font-family: 'Outfit', sans-serif; background: #f0f4fc; color: #111827; overflow: hidden; }
+
+/* ── LOGIN ── */
+#loginScreen {
+  position: fixed; inset: 0; z-index: 999;
+  background: linear-gradient(160deg, #0a1628 0%, #0f1e42 50%, #1a3a7c 100%);
+  display: flex; align-items: center; justify-content: center; padding: 24px;
+}
+.login-card {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: 24px; padding: 36px 28px 28px;
+  width: 100%; max-width: 360px; text-align: center;
+}
+.login-logo { font-size: 44px; margin-bottom: 8px; }
+.login-company { font-size: 24px; font-weight: 900; color: #fff; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 4px; }
+.login-tag { font-size: 11px; color: rgba(255,255,255,0.45); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 28px; }
+.login-divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent); margin-bottom: 28px; }
+.login-label { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.5); text-align: left; margin-bottom: 10px; display: block; }
+#loginInput {
+  width: 100%; padding: 16px 14px;
+  background: rgba(255,255,255,0.1);
+  border: 2px solid rgba(255,255,255,0.2);
+  border-radius: 12px; color: #fff;
+  font-size: 22px; font-family: monospace; font-weight: 600;
+  letter-spacing: 6px; text-align: center; outline: none;
+  margin-bottom: 8px; -webkit-appearance: none;
+  transition: all 0.2s;
+}
+#loginInput:focus { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.15); }
+#loginInput.shake { animation: shake 0.35s ease; border-color: #f87171; background: rgba(248,113,113,0.12); }
+@keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-10px)} 75%{transform:translateX(10px)} }
+.login-error { color: #f87171; font-size: 13px; font-weight: 600; min-height: 20px; margin-bottom: 8px; }
+.login-btn {
+  width: 100%; padding: 15px;
+  background: linear-gradient(135deg, #1a3a7c, #2952b3);
+  border: none; border-radius: 12px; color: #fff;
+  font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; font-family: inherit;
+  box-shadow: 0 4px 20px rgba(41,82,179,0.4);
+}
+.login-hint { margin-top: 16px; font-size: 11px; color: rgba(255,255,255,0.3); letter-spacing: 1px; }
+
+/* ── APP ── */
+#app { display: none; flex-direction: column; height: 100vh; }
+#app.show { display: flex; }
+
+/* ── TOPBAR ── */
+.topbar {
+  background: #0f1e42; color: #fff;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px; flex-shrink: 0;
+}
+.topbar-brand { font-size: 15px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; }
+.topbar-sub { font-size: 10px; color: rgba(255,255,255,0.5); letter-spacing: 1px; margin-top: 1px; }
+.user-btn {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,0.1); border-radius: 20px;
+  padding: 6px 12px; font-size: 12px; font-weight: 600;
+  cursor: pointer; border: 1px solid rgba(255,255,255,0.15);
+}
+
+/* ── SCROLL AREA ── */
+.app-body {
+  flex: 1; overflow-y: auto; overflow-x: hidden;
+  -webkit-overflow-scrolling: touch; padding-bottom: 80px;
+}
+
+/* ── PANELS ── */
+.panel { display: none; padding: 16px; }
+.panel.active { display: block; }
+
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: #fff; border-top: 1px solid #ccd6ef;
+  display: flex; z-index: 100;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+.nav-btn {
+  flex: 1; padding: 10px 4px 8px;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  background: none; border: none; cursor: pointer; font-family: inherit;
+  font-size: 10px; font-weight: 600; letter-spacing: 0.5px;
+  color: #6b7280; transition: color 0.15s;
+}
+.nav-btn .ni { font-size: 22px; line-height: 1; }
+.nav-btn.active { color: #2952b3; }
+
+/* ── CARDS & SECTIONS ── */
+.card { background: #fff; border: 1px solid #ccd6ef; border-radius: 14px; padding: 16px; margin-bottom: 12px; }
+.sec-title {
+  font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: #6b7280; margin: 20px 0 12px; padding-bottom: 8px;
+  border-bottom: 2px solid #2952b3;
+}
+.sec-title:first-child { margin-top: 0; }
+
+/* ── FORM ── */
+.field { margin-bottom: 14px; }
+.field-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #6b7280; margin-bottom: 6px; display: block; }
+.f-input {
+  width: 100%; padding: 12px 14px;
+  background: #f0f4fc; border: 1.5px solid #ccd6ef;
+  border-radius: 10px; color: #111827; font-size: 15px;
+  font-family: monospace; outline: none; -webkit-appearance: none;
+  transition: border-color 0.2s;
+}
+.f-input:focus { border-color: #2952b3; background: #fff; }
+textarea.f-input { resize: vertical; font-family: 'Outfit', sans-serif; font-size: 14px; }
+
+/* ── CHIPS ── */
+.chip-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.chip {
+  padding: 8px 14px; border-radius: 20px; font-size: 13px; font-weight: 600;
+  cursor: pointer; border: 1.5px solid #ccd6ef;
+  background: #f0f4fc; color: #6b7280; user-select: none;
+  transition: all 0.15s; -webkit-user-select: none;
+}
+.chip.active { background: #2952b3; border-color: #2952b3; color: #fff; }
+.chip.active-green { background: #0d6e3a; border-color: #0d6e3a; color: #fff; }
+.chip.active-amber { background: #d97706; border-color: #d97706; color: #fff; }
+.chip.active-red   { background: #b91c1c; border-color: #b91c1c; color: #fff; }
+
+/* ── DECISION GRID ── */
+.dec-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+.dec-btn {
+  padding: 12px 6px; border-radius: 10px; border: 2px solid #ccd6ef;
+  font-size: 12px; font-weight: 700; text-align: center; cursor: pointer;
+  background: #f0f4fc; color: #6b7280; line-height: 1.4;
+  transition: all 0.15s; user-select: none; font-family: inherit;
+}
+.dec-btn.ok   { background: #e6f7ee; border-color: #0d6e3a; color: #0d6e3a; }
+.dec-btn.fail { background: #fef2f2; border-color: #b91c1c; color: #b91c1c; }
+.dec-btn.warn { background: #fffbeb; border-color: #d97706; color: #92400e; }
+
+/* ── DIAG BANNER ── */
+.diag-banner {
+  border-radius: 10px; padding: 12px 14px; margin-bottom: 14px;
+  border-left: 4px solid #ccd6ef; background: #f0f4fc;
+  font-size: 13px; font-weight: 600; color: #6b7280;
+}
+.diag-banner.ok   { background: #e6f7ee; border-color: #0d6e3a; color: #065f2f; }
+.diag-banner.fail { background: #fef2f2; border-color: #b91c1c; color: #991b1b; }
+.diag-row { display: flex; align-items: center; gap: 6px; font-size: 12px; margin-top: 5px; font-weight: 500; }
+.diag-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+/* ── BTNS ── */
+.btn {
+  width: 100%; padding: 14px 20px; border-radius: 10px; cursor: pointer;
+  font-size: 13px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+  font-family: inherit; transition: all 0.15s; margin-bottom: 10px; border: none;
+}
+.btn-primary { background: #2952b3; color: #fff; box-shadow: 0 4px 14px rgba(41,82,179,0.3); }
+.btn-secondary { background: #e8eef8; color: #111827; border: 1.5px solid #ccd6ef; }
+.btn-danger { background: #fef2f2; color: #b91c1c; border: 1.5px solid #b91c1c; }
+.btn-sm { width: auto; padding: 9px 14px; font-size: 11px; margin-bottom: 0; }
+
+/* ── STATS ── */
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+.stat-box { background: #fff; border: 1px solid #ccd6ef; border-radius: 12px; padding: 14px; text-align: center; }
+.stat-num { font-family: monospace; font-size: 28px; color: #2952b3; }
+.stat-lbl { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: #6b7280; margin-top: 2px; }
+
+/* ── RECORD CARDS ── */
+.record-card {
+  background: #fff; border: 1px solid #ccd6ef; border-radius: 12px;
+  padding: 14px; margin-bottom: 10px;
+  border-left: 4px solid #ccd6ef;
+}
+.record-card.ok   { border-left-color: #0d6e3a; }
+.record-card.fail { border-left-color: #b91c1c; }
+.record-card.warn { border-left-color: #d97706; }
+.record-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
+.record-title { font-size: 15px; font-weight: 700; }
+.record-date { font-size: 11px; color: #6b7280; font-family: monospace; }
+.record-body { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.record-item { font-size: 12px; }
+.record-key { color: #6b7280; font-size: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; display: block; }
+.record-full { grid-column: 1 / -1; }
+.badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+.badge-ok   { background: #e6f7ee; color: #0d6e3a; }
+.badge-fail { background: #fef2f2; color: #b91c1c; }
+.badge-warn { background: #fffbeb; color: #92400e; }
+
+/* ── FILTER ROW ── */
+.filter-row { display: flex; gap: 8px; margin-bottom: 14px; align-items: center; }
+.filter-row input {
+  flex: 1; padding: 10px 12px; border: 1.5px solid #ccd6ef;
+  border-radius: 10px; font-family: monospace; font-size: 13px;
+  background: #fff; color: #111827; outline: none; -webkit-appearance: none;
+}
+
+/* ── RANGOS GRID ── */
+.range-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+/* ── EMPTY ── */
+.empty { text-align: center; padding: 48px 20px; color: #6b7280; }
+.empty-icon { font-size: 48px; margin-bottom: 12px; }
+.empty-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+
+/* ── TOAST ── */
+#toast {
+  position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: #111827; color: #fff; padding: 12px 20px; border-radius: 10px;
+  font-size: 13px; font-weight: 600; white-space: nowrap; z-index: 600;
+  opacity: 0; transition: all 0.3s; pointer-events: none;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* ── CONFIRM MODAL ── */
+.modal-bg {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  z-index: 800; align-items: flex-end; justify-content: center; padding: 16px;
+}
+.modal-bg.show { display: flex; }
+.modal-box { background: #fff; border-radius: 20px; padding: 24px; width: 100%; max-width: 400px; }
+.modal-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.modal-body { font-size: 14px; color: #6b7280; margin-bottom: 20px; }
+.modal-btns { display: flex; gap: 10px; }
+.modal-btns button { flex: 1; padding: 13px; border-radius: 10px; font-size: 13px; font-weight: 700; font-family: inherit; cursor: pointer; border: none; letter-spacing: 1px; text-transform: uppercase; }
+.modal-cancel { background: #e8eef8; color: #111827; }
+.modal-confirm { background: #2952b3; color: #fff; }
+</style>
+</head>
+<body>
+
+<!-- ══ LOGIN ══ -->
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-logo">🌿</div>
+    <div class="login-company">Friocosta</div>
+    <div class="login-tag">Sistema de Recepción Agrícola</div>
+    <div class="login-divider"></div>
+    <span class="login-label">🔐 Código de acceso</span>
+    <input id="loginInput" type="text" placeholder="Escribe tu código"
+      autocomplete="off" autocorrect="off" autocapitalize="characters"
+      spellcheck="false" maxlength="10"
+      oninput="this.value=this.value.toUpperCase().replace(/[^A-Z0-9]/g,'');document.getElementById('loginErr').textContent='';this.classList.remove('shake')"
+      onkeydown="if(event.key==='Enter'){event.preventDefault();doLogin()}" />
+    <div class="login-error" id="loginErr"></div>
+    <button class="login-btn" onclick="doLogin()">Ingresar →</button>
+    <div class="login-hint">Solo personal autorizado · Friocosta / Delhi</div>
+  </div>
+</div>
+
+<!-- ══ APP ══ -->
+<div id="app">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div>
+      <div class="topbar-brand">🌿 Friocosta</div>
+      <div class="topbar-sub">Recepción de Materias Primas</div>
+    </div>
+    <div class="user-btn" onclick="confirmLogout()">
+      👤 <span id="topUser">—</span>
+    </div>
+  </div>
+
+  <!-- BODY -->
+  <div class="app-body">
+
+    <!-- ══ PANEL NUEVO ══ -->
+    <div class="panel active" id="panel-nuevo">
+
+      <div class="sec-title">📌 Datos Generales</div>
+      <div class="card">
+        <div class="field"><span class="field-label">Fecha</span>
+          <input class="f-input" type="date" id="f_fecha" /></div>
+        <div class="field"><span class="field-label">Lote / Destino</span>
+          <input class="f-input" type="text" id="f_lote" placeholder="Ej. L-001-2026" /></div>
+        <div class="field"><span class="field-label">Responsable de Recepción</span>
+          <input class="f-input" type="text" id="f_responsable" placeholder="Nombre" /></div>
+        <div class="field"><span class="field-label">Supervisor</span>
+          <input class="f-input" type="text" id="f_supervisor" placeholder="Nombre del supervisor" /></div>
+      </div>
+
+      <div class="sec-title">🌾 Materia Prima</div>
+      <div class="card">
+        <div class="field"><span class="field-label">Tipo de Materia Prima</span>
+          <div class="chip-group" id="cg_materia">
+            <div class="chip" data-val="Plátano Hartón" data-color="blue" onclick="selChip(this,'materia')">🍌 Plátano Hartón</div>
+            <div class="chip" data-val="Ñame" data-color="blue" onclick="selChip(this,'materia')">🫚 Ñame</div>
+            <div class="chip" data-val="Yuca" data-color="blue" onclick="selChip(this,'materia')">🌿 Yuca</div>
+            <div class="chip" data-val="Papa" data-color="blue" onclick="selChip(this,'materia')">🥔 Papa</div>
+            <div class="chip" data-val="Plátano Verde" data-color="blue" onclick="selChip(this,'materia')">🍃 Plátano Verde</div>
+          </div>
+          <input type="hidden" id="f_materia" /></div>
+        <div class="field"><span class="field-label">KG Recibidos</span>
+          <input class="f-input" type="number" id="f_kg" inputmode="decimal" placeholder="Ej. 8860" /></div>
+        <div class="field"><span class="field-label">Proveedor</span>
+          <input class="f-input" type="text" id="f_proveedor" placeholder="Nombre o razón social" /></div>
+        <div class="field"><span class="field-label">Código Proveedor</span>
+          <input class="f-input" type="text" id="f_codProv" placeholder="Ej. IBA606" /></div>
+      </div>
+
+      <div class="sec-title">📍 Origen</div>
+      <div class="card">
+        <div class="field"><span class="field-label">Zona / Departamento</span>
+          <div class="chip-group" id="cg_zona">
+            <div class="chip" data-val="Bolívar" data-color="blue" onclick="selChip(this,'zona')">Bolívar</div>
+            <div class="chip" data-val="Tolima" data-color="blue" onclick="selChip(this,'zona')">Tolima</div>
+            <div class="chip" data-val="Córdoba" data-color="blue" onclick="selChip(this,'zona')">Córdoba</div>
+            <div class="chip" data-val="Sucre" data-color="blue" onclick="selChip(this,'zona')">Sucre</div>
+            <div class="chip" data-val="Magdalena" data-color="blue" onclick="selChip(this,'zona')">Magdalena</div>
+          </div>
+          <input type="hidden" id="f_zona" /></div>
+        <div class="field"><span class="field-label">Municipio / Procedencia</span>
+          <input class="f-input" type="text" id="f_origen" placeholder="Ej. Carmen de Bolívar" /></div>
+        <div class="field"><span class="field-label">Finca</span>
+          <input class="f-input" type="text" id="f_finca" placeholder="Nombre o N/A" /></div>
+      </div>
+
+      <div class="sec-title">📐 Especificaciones</div>
+      <div class="card">
+        <div class="field"><span class="field-label">Longitud (cm)</span>
+          <input class="f-input" type="number" id="f_longitud" inputmode="decimal" placeholder="Ej. 23" oninput="evalDiag()" /></div>
+        <div class="field"><span class="field-label">Diámetro (cm)</span>
+          <input class="f-input" type="number" id="f_diametro" inputmode="decimal" placeholder="Ej. 8" oninput="evalDiag()" /></div>
+        <div class="field"><span class="field-label">Grados °Brix</span>
+          <input class="f-input" type="number" id="f_brix" inputmode="decimal" placeholder="Ej. 6" oninput="evalDiag()" /></div>
+        <div class="field"><span class="field-label">Color</span>
+          <div class="chip-group" id="cg_color">
+            <div class="chip" data-val="Blanco"   data-color="blue" onclick="selChip(this,'color')">⬜ Blanco</div>
+            <div class="chip" data-val="Crema"    data-color="blue" onclick="selChip(this,'color')">🟡 Crema</div>
+            <div class="chip" data-val="Verde"    data-color="blue" onclick="selChip(this,'color')">🟢 Verde</div>
+            <div class="chip" data-val="Amarillo" data-color="blue" onclick="selChip(this,'color')">🟨 Amarillo</div>
+            <div class="chip" data-val="Pintón"   data-color="blue" onclick="selChip(this,'color')">🟠 Pintón</div>
+          </div>
+          <input type="hidden" id="f_color" /></div>
+      </div>
+
+      <div class="sec-title">👃 Características Organolépticas</div>
+      <div class="card">
+        <div class="field"><span class="field-label">Olor</span>
+          <div class="chip-group" id="cg_olor">
+            <div class="chip" data-val="Característico" data-color="green" onclick="selChip(this,'olor');evalDiag()">✅ Característico</div>
+            <div class="chip" data-val="Leve anormal"   data-color="amber" onclick="selChip(this,'olor');evalDiag()">⚠️ Leve anormal</div>
+            <div class="chip" data-val="Anormal"        data-color="red"   onclick="selChip(this,'olor');evalDiag()">❌ Anormal</div>
+          </div>
+          <input type="hidden" id="f_olor" /></div>
+        <div class="field"><span class="field-label">Textura / Firmeza</span>
+          <div class="chip-group" id="cg_textura">
+            <div class="chip" data-val="Firme"      data-color="green" onclick="selChip(this,'textura');evalDiag()">✅ Firme</div>
+            <div class="chip" data-val="Semiblanda" data-color="amber" onclick="selChip(this,'textura');evalDiag()">⚠️ Semiblanda</div>
+            <div class="chip" data-val="Blanda"     data-color="red"   onclick="selChip(this,'textura');evalDiag()">❌ Blanda</div>
+          </div>
+          <input type="hidden" id="f_textura" /></div>
+        <div class="field"><span class="field-label">Apariencia</span>
+          <div class="chip-group" id="cg_apariencia">
+            <div class="chip" data-val="Uniforme"      data-color="green" onclick="selChip(this,'apariencia');evalDiag()">✅ Uniforme</div>
+            <div class="chip" data-val="Daños menores" data-color="amber" onclick="selChip(this,'apariencia');evalDiag()">⚠️ Daños menores</div>
+            <div class="chip" data-val="Daños graves"  data-color="red"   onclick="selChip(this,'apariencia');evalDiag()">❌ Daños graves</div>
+          </div>
+          <input type="hidden" id="f_apariencia" /></div>
+      </div>
+
+      <div class="sec-title">⚖️ Decisión y Diagnóstico</div>
+      <div class="card">
+        <div id="diagBanner" class="diag-banner">Complete los campos para ver el diagnóstico.</div>
+        <div id="diagDetail"></div>
+        <div class="field" style="margin-top:14px;"><span class="field-label">Decisión Final</span>
+          <div class="dec-grid">
+            <button class="dec-btn" id="dec_ok"   onclick="setDec('Aceptado')">✅<br>Aceptado</button>
+            <button class="dec-btn" id="dec_fail" onclick="setDec('Rechazado')">❌<br>Rechazado</button>
+            <button class="dec-btn" id="dec_warn" onclick="setDec('Condicional')">⚠️<br>Condicional</button>
+          </div>
+          <input type="hidden" id="f_decision" /></div>
+        <div class="field" style="margin-top:14px;"><span class="field-label">Observaciones</span>
+          <textarea class="f-input" id="f_obs" rows="3" placeholder="Notas adicionales..."></textarea></div>
+      </div>
+
+      <button class="btn btn-primary" onclick="registrar()">💾 Registrar Recepción</button>
+      <button class="btn btn-secondary" onclick="limpiar()">🔄 Limpiar Formulario</button>
+    </div><!-- /panel-nuevo -->
+
+    <!-- ══ PANEL HISTORIAL ══ -->
+    <div class="panel" id="panel-historial">
+      <div class="stats-grid">
+        <div class="stat-box"><div class="stat-num" id="st_total">0</div><div class="stat-lbl">Total</div></div>
+        <div class="stat-box"><div class="stat-num" id="st_kg" style="font-size:20px;margin-top:4px">0 kg</div><div class="stat-lbl">KG Recibidos</div></div>
+        <div class="stat-box"><div class="stat-num" id="st_ok" style="color:#0d6e3a">0</div><div class="stat-lbl">Aceptados</div></div>
+        <div class="stat-box"><div class="stat-num" id="st_fail" style="color:#b91c1c">0</div><div class="stat-lbl">Rechazados</div></div>
+      </div>
+      <div class="filter-row">
+        <input type="date" id="filtroFecha" onchange="renderHistorial()" />
+        <button class="btn btn-secondary btn-sm" onclick="document.getElementById('filtroFecha').value='';renderHistorial()">Ver todos</button>
+      </div>
+      <div id="recordList"></div>
+      <div id="adminBtns" style="margin-top:8px;display:none;">
+        <button class="btn btn-danger" onclick="confirmAction('¿Borrar TODOS los registros?','Esta acción no se puede deshacer.',borrarTodo)">🗑️ Borrar todos los registros</button>
+      </div>
+    </div><!-- /panel-historial -->
+
+    <!-- ══ PANEL RANGOS ══ -->
+    <div class="panel" id="panel-rangos">
+      <div class="sec-title">⚙️ Rangos Aceptables</div>
+      <div class="card">
+        <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:14px">🍌 Plátano Hartón / Verde</div>
+        <div class="range-grid">
+          <div class="field"><span class="field-label">Long. Mín cm</span><input class="f-input" type="number" id="rPlaLongMin" inputmode="decimal" /></div>
+          <div class="field"><span class="field-label">Long. Máx cm</span><input class="f-input" type="number" id="rPlaLongMax" inputmode="decimal" /></div>
+          <div class="field"><span class="field-label">Diám. Mín cm</span><input class="f-input" type="number" id="rPlaDiamMin" inputmode="decimal" /></div>
+          <div class="field"><span class="field-label">Diám. Máx cm</span><input class="f-input" type="number" id="rPlaDiamMax" inputmode="decimal" /></div>
+          <div class="field"><span class="field-label">°Brix Mín</span><input class="f-input" type="number" id="rPlaBrixMin" inputmode="decimal" /></div>
+          <div class="field"><span class="field-label">°Brix Máx</span><input class="f-input" type="number" id="rPlaBrixMax" inputmode="decimal" /></div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:14px">🫚 Ñame / Yuca</div>
+        <div class="range-grid">
+          <div class="field"><span class="field-label">Long. Mín cm</span><input class="f-input" type="number" id="rNamLongMin" inputmode="decimal" /></div>
+          <div class="field"><span class="field-label">Long. Máx cm</span><input class="f-input" type="number" id="rNamLongMax" inputmode="decimal" /></div>
+          <div class="field"><span class="field-label">Diám. Mín cm</span><input class="f-input" type="number" id="rNamDiamMin" inputmode="decimal" /></div>
+          <div class="field"><span class="field-label">Diám. Máx cm</span><input class="f-input" type="number" id="rNamDiamMax" inputmode="decimal" /></div>
+          <div class="field"><span class="field-label">°Brix Mín</span><input class="f-input" type="number" id="rNamBrixMin" inputmode="decimal" /></div>
+          <div class="field"><span class="field-label">°Brix Máx</span><input class="f-input" type="number" id="rNamBrixMax" inputmode="decimal" /></div>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="guardarRangos()">💾 Guardar Rangos</button>
+    </div><!-- /panel-rangos -->
+
+  </div><!-- /app-body -->
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" id="nav-nuevo" onclick="goPanel('nuevo',this)">
+      <span class="ni">📥</span>Nueva
+    </button>
+    <button class="nav-btn" id="nav-historial" onclick="goPanel('historial',this)">
+      <span class="ni">📋</span>Registros
+    </button>
+    <button class="nav-btn" id="nav-rangos" onclick="goPanel('rangos',this)" style="display:none">
+      <span class="ni">⚙️</span>Rangos
+    </button>
+  </nav>
+
+</div><!-- /app -->
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- MODAL -->
+<div class="modal-bg" id="modal">
+  <div class="modal-box">
+    <div class="modal-title" id="modalTitle"></div>
+    <div class="modal-body"  id="modalBody"></div>
+    <div class="modal-btns">
+      <button class="modal-cancel"  onclick="closeModal()">Cancelar</button>
+      <button class="modal-confirm" id="modalConfirmBtn">Confirmar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══ DATOS ══════════════════════════════════════════════════════════════════
+const USERS = [
+  { code:'ADMIN001', name:'Administrador', rol:'admin'    },
+  { code:'OPR2847',  name:'Operario 1',   rol:'operario' },
+  { code:'OPR5613',  name:'Operario 2',   rol:'operario' },
+  { code:'OPR9024',  name:'Operario 3',   rol:'operario' },
+  { code:'OPR3759',  name:'Operario 4',   rol:'operario' },
+  { code:'OPR6182',  name:'Operario 5',   rol:'operario' },
+  { code:'OPR4471',  name:'Operario 6',   rol:'operario' },
+  { code:'OPR8836',  name:'Operario 7',   rol:'operario' },
+  { code:'OPR2265',  name:'Operario 8',   rol:'operario' },
+  { code:'OPR7043',  name:'Operario 9',   rol:'operario' },
+];
+const DEF_CFG = {
+  pla:{ longMin:15,longMax:35,diamMin:5, diamMax:12,brixMin:3,brixMax:10 },
+  nam:{ longMin:20,longMax:50,diamMin:6, diamMax:15,brixMin:3,brixMax:12 }
+};
+
+let currentUser = null;
+let registros = lsGet('fc_reg4', []);
+let cfg        = lsGet('fc_cfg4', DEF_CFG);
+
+function lsGet(k,d){ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):d; }catch{ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch{} }
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+
+// ══ LOGIN ══════════════════════════════════════════════════════════════════
+function doLogin(){
+  const inp = document.getElementById('loginInput');
+  const code = (inp.value||'').trim().toUpperCase().replace(/[^A-Z0-9]/g,'');
+  const err = document.getElementById('loginErr');
+  if(!code){ err.textContent='Ingrese su código.'; return; }
+  const user = USERS.find(u=>u.code===code);
+  if(!user){
+    err.textContent='❌ Código incorrecto. Intente de nuevo.';
+    inp.classList.add('shake');
+    inp.value='';
+    setTimeout(()=>inp.classList.remove('shake'),400);
+    return;
+  }
+  currentUser = user;
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('app').classList.add('show');
+  document.getElementById('topUser').textContent = user.name;
+  // Permisos admin
+  if(user.rol==='admin'){
+    document.getElementById('nav-rangos').style.display='flex';
+    document.getElementById('adminBtns').style.display='block';
+  }
+  // Pre-llenar responsable
+  document.getElementById('f_responsable').value = user.name;
+  document.getElementById('f_fecha').value = todayStr();
+}
+
+function confirmLogout(){
+  confirmAction('¿Cerrar sesión?','Se cerrará tu sesión actual.',()=>{
+    currentUser=null;
+    document.getElementById('app').classList.remove('show');
+    document.getElementById('loginScreen').style.display='flex';
+    document.getElementById('loginInput').value='';
+    document.getElementById('loginErr').textContent='';
+    document.getElementById('nav-rangos').style.display='none';
+    document.getElementById('adminBtns').style.display='none';
+    goPanel('nuevo', document.getElementById('nav-nuevo'));
+    setTimeout(()=>document.getElementById('loginInput').focus(),200);
+  });
+}
+
+// ══ NAVEGACIÓN ══════════════════════════════════════════════════════════════
+function goPanel(id, btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  btn.classList.add('active');
+  document.querySelector('.app-body').scrollTop=0;
+  if(id==='historial') renderHistorial();
+  if(id==='rangos') loadRangos();
+}
+
+// ══ CHIPS ══════════════════════════════════════════════════════════════════
+function selChip(el, field){
+  const group = el.closest('.chip-group');
+  group.querySelectorAll('.chip').forEach(c=>{
+    c.classList.remove('active','active-green','active-amber','active-red');
+  });
+  const color = el.dataset.color || 'blue';
+  const cls = color==='blue'?'active': color==='green'?'active-green': color==='amber'?'active-amber':'active-red';
+  el.classList.add(cls);
+  document.getElementById('f_'+field).value = el.dataset.val;
+}
+
+// ══ DIAGNÓSTICO ══════════════════════════════════════════════════════════════
+function evalDiag(){
+  const materia = document.getElementById('f_materia').value;
+  const key = (materia.includes('Plátano')||materia.includes('Verde')) ? 'pla' : 'nam';
+  const c = cfg[key];
+  const long = parseFloat(document.getElementById('f_longitud').value);
+  const diam = parseFloat(document.getElementById('f_diametro').value);
+  const brix = parseFloat(document.getElementById('f_brix').value);
+  const olor = document.getElementById('f_olor').value;
+  const tex  = document.getElementById('f_textura').value;
+  const ap   = document.getElementById('f_apariencia').value;
+
+  let items=[], hasFail=false;
+  const chk=(n,min,max,lbl)=>{ if(isNaN(n))return; const ok=n>=min&&n<=max; if(!ok)hasFail=true; items.push({ok,lbl:`${lbl}: ${n} (${min}–${max})`}); };
+  chk(long,c.longMin,c.longMax,'Longitud cm');
+  chk(diam,c.diamMin,c.diamMax,'Diámetro cm');
+  chk(brix,c.brixMin,c.brixMax,'°Brix');
+  if(olor){ const ok=olor==='Característico'; if(!ok)hasFail=true; items.push({ok,lbl:'Olor: '+olor}); }
+  if(tex) { const ok=tex==='Firme';           if(!ok)hasFail=true; items.push({ok,lbl:'Textura: '+tex}); }
+  if(ap)  { const ok=ap==='Uniforme';         if(!ok)hasFail=true; items.push({ok,lbl:'Apariencia: '+ap}); }
+
+  const banner = document.getElementById('diagBanner');
+  const detail = document.getElementById('diagDetail');
+
+  if(items.length===0){
+    banner.className='diag-banner';
+    banner.textContent='Complete los campos para ver el diagnóstico.';
+    detail.innerHTML='';
+    return;
+  }
+
+  banner.className='diag-banner '+(hasFail?'fail':'ok');
+  banner.textContent=hasFail?'🚫 Parámetros fuera de rango — Evalúe rechazo':'✅ Todo dentro del rango aceptable';
+  detail.innerHTML = items.map(it=>
+    `<div class="diag-row">
+      <div class="diag-dot" style="background:${it.ok?'#0d6e3a':'#b91c1c'}"></div>
+      <span style="color:${it.ok?'#0d6e3a':'#b91c1c'}">${it.lbl}</span>
+    </div>`
+  ).join('');
+
+  // Auto-sugerir decisión si no se eligió aún
+  if(!document.getElementById('f_decision').value){
+    setDec(hasFail?'Rechazado':'Aceptado');
+  }
+}
+
+// ══ DECISIÓN ══════════════════════════════════════════════════════════════
+function setDec(val){
+  document.getElementById('f_decision').value=val;
+  document.getElementById('dec_ok').className='dec-btn'+(val==='Aceptado'?' ok':'');
+  document.getElementById('dec_fail').className='dec-btn'+(val==='Rechazado'?' fail':'');
+  document.getElementById('dec_warn').className='dec-btn'+(val==='Condicional'?' warn':'');
+}
+
+// ══ REGISTRAR ══════════════════════════════════════════════════════════════
+function registrar(){
+  const fecha    = document.getElementById('f_fecha').value;
+  const materia  = document.getElementById('f_materia').value;
+  const decision = document.getElementById('f_decision').value;
+  if(!fecha)   { showToast('⚠️ Ingrese la fecha','#b91c1c'); return; }
+  if(!materia) { showToast('⚠️ Seleccione la materia prima','#b91c1c'); return; }
+  if(!decision){ showToast('⚠️ Seleccione una decisión','#b91c1c'); return; }
+
+  const reg = {
+    id: Date.now(), fecha, materia,
+    lote:         document.getElementById('f_lote').value,
+    kg:           document.getElementById('f_kg').value,
+    proveedor:    document.getElementById('f_proveedor').value,
+    codProv:      document.getElementById('f_codProv').value,
+    zona:         document.getElementById('f_zona').value,
+    origen:       document.getElementById('f_origen').value,
+    finca:        document.getElementById('f_finca').value,
+    longitud:     document.getElementById('f_longitud').value,
+    diametro:     document.getElementById('f_diametro').value,
+    brix:         document.getElementById('f_brix').value,
+    color:        document.getElementById('f_color').value,
+    olor:         document.getElementById('f_olor').value,
+    textura:      document.getElementById('f_textura').value,
+    apariencia:   document.getElementById('f_apariencia').value,
+    decision,
+    obs:          document.getElementById('f_obs').value,
+    responsable:  document.getElementById('f_responsable').value,
+    supervisor:   document.getElementById('f_supervisor').value,
+    usuario:      currentUser ? currentUser.name : '—'
+  };
+
+  registros.push(reg);
+  lsSet('fc_reg4', registros);
+  showToast('✅ Recepción registrada','#16a34a');
+  limpiar();   // <-- limpia y QUEDA en la misma página
+}
+
+// ══ LIMPIAR ══════════════════════════════════════════════════════════════
+function limpiar(){
+  const resp = document.getElementById('f_responsable').value;
+  const sup  = document.getElementById('f_supervisor').value;
+  ['f_lote','f_kg','f_proveedor','f_codProv','f_origen','f_finca',
+   'f_longitud','f_diametro','f_brix','f_obs'].forEach(id=>{
+    document.getElementById(id).value='';
+  });
+  ['f_materia','f_zona','f_color','f_olor','f_textura','f_apariencia','f_decision'].forEach(id=>{
+    document.getElementById(id).value='';
+  });
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active','active-green','active-amber','active-red'));
+  ['dec_ok','dec_fail','dec_warn'].forEach(id=>document.getElementById(id).className='dec-btn');
+  document.getElementById('diagBanner').className='diag-banner';
+  document.getElementById('diagBanner').textContent='Complete los campos para ver el diagnóstico.';
+  document.getElementById('diagDetail').innerHTML='';
+  document.getElementById('f_fecha').value = todayStr();
+  document.getElementById('f_responsable').value = resp;
+  document.getElementById('f_supervisor').value  = sup;
+  document.querySelector('.app-body').scrollTop=0;
+}
+
+// ══ HISTORIAL ══════════════════════════════════════════════════════════════
+function renderHistorial(){
+  const filtro = document.getElementById('filtroFecha').value;
+  const lista  = filtro ? registros.filter(r=>r.fecha===filtro) : [...registros];
+
+  // Stats totales
+  const totalKg = registros.reduce((a,r)=>a+(parseFloat(r.kg)||0),0);
+  document.getElementById('st_total').textContent = registros.length;
+  document.getElementById('st_kg').textContent    = totalKg>=1000?(totalKg/1000).toFixed(1)+'t':totalKg.toLocaleString('es-CO')+' kg';
+  document.getElementById('st_ok').textContent    = registros.filter(r=>r.decision==='Aceptado').length;
+  document.getElementById('st_fail').textContent  = registros.filter(r=>r.decision==='Rechazado').length;
+
+  const container = document.getElementById('recordList');
+  if(lista.length===0){
+    container.innerHTML=`<div class="empty">
+      <div class="empty-icon">${registros.length===0?'📋':'🔍'}</div>
+      <div class="empty-title">${registros.length===0?'Sin registros aún':'Sin resultados para esa fecha'}</div>
+      <div>${registros.length===0?'Registre la primera recepción':'Prueba con otra fecha o presiona Ver todos'}</div>
+    </div>`;
+    return;
+  }
+  const decCls={ Aceptado:'ok', Rechazado:'fail', Condicional:'warn' };
+  const badgeCls={ Aceptado:'badge-ok', Rechazado:'badge-fail', Condicional:'badge-warn' };
+
+  container.innerHTML=[...lista].reverse().map(r=>{
+    const items=[
+      ['KG', r.kg?Number(r.kg).toLocaleString('es-CO')+' kg':'—'],
+      ['Proveedor', r.proveedor||'—'],
+      ['Zona', r.zona||'—'],
+      ['Lote', r.lote||'—'],
+      r.longitud&&['Longitud', r.longitud+' cm'],
+      r.diametro&&['Diámetro', r.diametro+' cm'],
+      r.brix&&['°Brix', r.brix+'°'],
+      r.color&&['Color', r.color],
+      r.olor&&['Olor', r.olor],
+      r.textura&&['Textura', r.textura],
+    ].filter(Boolean);
+    return `<div class="record-card ${decCls[r.decision]||''}">
+      <div class="record-header">
+        <div>
+          <div class="record-title">${r.materia}</div>
+          <div class="record-date">${r.fecha} · ${r.responsable||'—'}</div>
+        </div>
+        <span class="badge ${badgeCls[r.decision]||'badge-warn'}">${r.decision}</span>
+      </div>
+      <div class="record-body">
+        ${items.map(([k,v])=>`<div class="record-item"><span class="record-key">${k}</span>${v}</div>`).join('')}
+        ${r.obs?`<div class="record-item record-full"><span class="record-key">Observaciones</span>${r.obs}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══ RANGOS ══════════════════════════════════════════════════════════════════
+function loadRangos(){
+  document.getElementById('rPlaLongMin').value=cfg.pla.longMin;
+  document.getElementById('rPlaLongMax').value=cfg.pla.longMax;
+  document.getElementById('rPlaDiamMin').value=cfg.pla.diamMin;
+  document.getElementById('rPlaDiamMax').value=cfg.pla.diamMax;
+  document.getElementById('rPlaBrixMin').value=cfg.pla.brixMin;
+  document.getElementById('rPlaBrixMax').value=cfg.pla.brixMax;
+  document.getElementById('rNamLongMin').value=cfg.nam.longMin;
+  document.getElementById('rNamLongMax').value=cfg.nam.longMax;
+  document.getElementById('rNamDiamMin').value=cfg.nam.diamMin;
+  document.getElementById('rNamDiamMax').value=cfg.nam.diamMax;
+  document.getElementById('rNamBrixMin').value=cfg.nam.brixMin;
+  document.getElementById('rNamBrixMax').value=cfg.nam.brixMax;
+}
+function guardarRangos(){
+  cfg.pla.longMin=+document.getElementById('rPlaLongMin').value;
+  cfg.pla.longMax=+document.getElementById('rPlaLongMax').value;
+  cfg.pla.diamMin=+document.getElementById('rPlaDiamMin').value;
+  cfg.pla.diamMax=+document.getElementById('rPlaDiamMax').value;
+  cfg.pla.brixMin=+document.getElementById('rPlaBrixMin').value;
+  cfg.pla.brixMax=+document.getElementById('rPlaBrixMax').value;
+  cfg.nam.longMin=+document.getElementById('rNamLongMin').value;
+  cfg.nam.longMax=+document.getElementById('rNamLongMax').value;
+  cfg.nam.diamMin=+document.getElementById('rNamDiamMin').value;
+  cfg.nam.diamMax=+document.getElementById('rNamDiamMax').value;
+  cfg.nam.brixMin=+document.getElementById('rNamBrixMin').value;
+  cfg.nam.brixMax=+document.getElementById('rNamBrixMax').value;
+  lsSet('fc_cfg4',cfg);
+  showToast('✅ Rangos guardados','#16a34a');
+}
+
+// ══ BORRAR ══════════════════════════════════════════════════════════════════
+function borrarTodo(){
+  registros=[];
+  lsSet('fc_reg4',[]);
+  renderHistorial();
+  showToast('🗑️ Registros eliminados');
+}
+
+// ══ TOAST ══════════════════════════════════════════════════════════════════
+let _tt=null;
+function showToast(msg,color){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.background=color||'#111827';
+  t.classList.add('show');
+  clearTimeout(_tt);
+  _tt=setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+// ══ MODAL ══════════════════════════════════════════════════════════════════
+let _modalCb=null;
+function confirmAction(title,body,cb){
+  _modalCb=cb;
+  document.getElementById('modalTitle').textContent=title;
+  document.getElementById('modalBody').textContent=body;
+  document.getElementById('modal').classList.add('show');
+  document.getElementById('modalConfirmBtn').onclick=()=>{ closeModal(); if(_modalCb)_modalCb(); };
+}
+function closeModal(){ document.getElementById('modal').classList.remove('show'); }
+
+// ══ INIT ══════════════════════════════════════════════════════════════════
+document.getElementById('f_fecha').value=todayStr();
+setTimeout(()=>{ const el=document.getElementById('loginInput'); if(el) el.focus(); },300);
+</script>
+</body>
+</html>
