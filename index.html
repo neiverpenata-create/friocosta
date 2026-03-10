@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0f1e42">
-<title>Friocosta · Recepción</title>
+<title>Friocosta · Sistema</title>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -22,17 +22,21 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#f0f4fc;color:#
 
 #app{display:none;flex-direction:column;height:100vh}
 #app.show{display:flex}
-.topbar{background:#0f1e42;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:12px 16px;flex-shrink:0}
+.topbar{background:#0f1e42;color:#fff;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;flex-shrink:0}
+.topbar-left{display:flex;flex-direction:column}
 .topbar-brand{font-size:15px;font-weight:800;letter-spacing:2px;text-transform:uppercase}
 .topbar-sub{font-size:10px;color:rgba(255,255,255,.5);letter-spacing:1px;margin-top:1px}
+.topbar-right{display:flex;align-items:center;gap:10px}
+#reloj{font-family:monospace;font-size:18px;font-weight:700;color:#4ade80;letter-spacing:2px;text-shadow:0 0 10px rgba(74,222,128,.4)}
+#relojFecha{font-size:9px;color:rgba(255,255,255,.4);letter-spacing:1px;text-align:right;margin-top:1px}
 .userbtn{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);border-radius:20px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid rgba(255,255,255,.15);color:#fff;font-family:inherit}
 .app-body{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:80px}
 .panel{display:none;padding:16px}
 .panel.active{display:block}
 
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #ccd6ef;display:flex;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,.08);padding-bottom:env(safe-area-inset-bottom,0)}
-.nbtn{flex:1;padding:10px 4px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;cursor:pointer;font-family:inherit;font-size:10px;font-weight:600;letter-spacing:.5px;color:#6b7280;transition:color .15s}
-.nbtn .ni{font-size:22px;line-height:1}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #ccd6ef;display:flex;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,.08);padding-bottom:env(safe-area-inset-bottom,0);overflow-x:auto}
+.nbtn{flex:1;min-width:60px;padding:8px 2px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;font-family:inherit;font-size:9px;font-weight:600;letter-spacing:.3px;color:#6b7280;transition:color .15s;white-space:nowrap}
+.nbtn .ni{font-size:20px;line-height:1}
 .nbtn.active{color:#2952b3}
 
 .card{background:#fff;border:1px solid #ccd6ef;border-radius:14px;padding:16px;margin-bottom:12px}
@@ -43,6 +47,7 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#f0f4fc;color:#
 .finput{width:100%;padding:12px 14px;background:#f0f4fc;border:1.5px solid #ccd6ef;border-radius:10px;color:#111827;font-size:15px;font-family:monospace;outline:none;-webkit-appearance:none;transition:border-color .2s}
 .finput:focus{border-color:#2952b3;background:#fff}
 textarea.finput{resize:vertical;font-family:'Outfit',sans-serif;font-size:14px}
+select.finput{font-family:'Outfit',sans-serif;font-size:14px}
 
 .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
 .chip{padding:8px 14px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;border:1.5px solid #ccd6ef;background:#f0f4fc;color:#6b7280;user-select:none;-webkit-user-select:none;transition:all .15s}
@@ -67,6 +72,7 @@ textarea.finput{resize:vertical;font-family:'Outfit',sans-serif;font-size:14px}
 .btn-p{background:#2952b3;color:#fff;box-shadow:0 4px 14px rgba(41,82,179,.3)}
 .btn-s{background:#e8eef8;color:#111827;border:1.5px solid #ccd6ef}
 .btn-d{background:#fef2f2;color:#b91c1c;border:1.5px solid #b91c1c}
+.btn-g{background:#0d6e3a;color:#fff;box-shadow:0 4px 14px rgba(13,110,58,.3)}
 
 .sgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
 .sbox{background:#fff;border:1px solid #ccd6ef;border-radius:12px;padding:14px;text-align:center}
@@ -90,6 +96,7 @@ textarea.finput{resize:vertical;font-family:'Outfit',sans-serif;font-size:14px}
 .bok{background:#e6f7ee;color:#0d6e3a}
 .bfail{background:#fef2f2;color:#b91c1c}
 .bwarn{background:#fffbeb;color:#92400e}
+.binfo{background:#e0e7ff;color:#2952b3}
 
 .rgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .empty{text-align:center;padding:48px 20px;color:#6b7280}
@@ -106,6 +113,28 @@ textarea.finput{resize:vertical;font-family:'Outfit',sans-serif;font-size:14px}
 .mbtns button{flex:1;padding:13px;border-radius:10px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;border:none;letter-spacing:1px;text-transform:uppercase}
 .mcancel{background:#e8eef8;color:#111827}
 .mok{background:#2952b3;color:#fff}
+
+/* Prod forms */
+.prod-menu{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:8px}
+.pmcard{background:#fff;border:1.5px solid #ccd6ef;border-radius:14px;padding:16px;text-align:center;cursor:pointer;transition:all .15s;-webkit-user-select:none}
+.pmcard:active{transform:scale(.97)}
+.pmcard .pmi{font-size:32px;margin-bottom:6px}
+.pmcard .pmn{font-size:12px;font-weight:700;color:#111827;letter-spacing:.5px}
+.pmcard .pms{font-size:10px;color:#6b7280;margin-top:2px}
+.pmcard.active-card{border-color:#2952b3;background:#e8eef8}
+
+.subpanel{display:none}
+.subpanel.active{display:block}
+.back-btn{display:flex;align-items:center;gap:8px;background:none;border:none;font-family:inherit;font-size:13px;font-weight:700;color:#2952b3;cursor:pointer;padding:4px 0 16px;letter-spacing:.5px}
+
+/* Table style for production records */
+.ptable{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
+.ptable th{background:#0f1e42;color:#fff;padding:8px 6px;text-align:left;font-size:10px;letter-spacing:1px;text-transform:uppercase}
+.ptable td{padding:7px 6px;border-bottom:1px solid #e5e7eb;vertical-align:top}
+.ptable tr:nth-child(even) td{background:#f8f9fe}
+
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
 </style>
 </head>
 <body>
@@ -114,7 +143,7 @@ textarea.finput{resize:vertical;font-family:'Outfit',sans-serif;font-size:14px}
   <div class="lcard">
     <div style="font-size:44px;margin-bottom:8px">🌿</div>
     <div style="font-size:24px;font-weight:900;color:#fff;letter-spacing:3px;text-transform:uppercase;margin-bottom:4px">FRIOCOSTA</div>
-    <div style="font-size:11px;color:rgba(255,255,255,.45);letter-spacing:2px;text-transform:uppercase;margin-bottom:28px">Sistema de Recepción Agrícola</div>
+    <div style="font-size:11px;color:rgba(255,255,255,.45);letter-spacing:2px;text-transform:uppercase;margin-bottom:28px">Sistema de Gestión Agrícola</div>
     <div style="height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);margin-bottom:28px"></div>
     <span style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);display:block;text-align:left;margin-bottom:10px">🔐 Código de acceso</span>
     <input id="loginInput" type="text" placeholder="Escribe tu código" autocomplete="off" autocorrect="off" autocapitalize="characters" spellcheck="false" maxlength="10">
@@ -126,16 +155,22 @@ textarea.finput{resize:vertical;font-family:'Outfit',sans-serif;font-size:14px}
 
 <div id="app">
   <div class="topbar">
-    <div>
+    <div class="topbar-left">
       <div class="topbar-brand">🌿 Friocosta</div>
-      <div class="topbar-sub">Recepción de Materias Primas</div>
+      <div class="topbar-sub">Sistema de Gestión</div>
     </div>
-    <button class="userbtn" onclick="confirmLogout()">👤 <span id="topUser">—</span></button>
+    <div class="topbar-right">
+      <div>
+        <div id="reloj">00:00:00</div>
+        <div id="relojFecha"></div>
+      </div>
+      <button class="userbtn" onclick="confirmLogout()">👤 <span id="topUser">—</span></button>
+    </div>
   </div>
 
   <div class="app-body">
 
-    <!-- NUEVO -->
+    <!-- RECEPCION (panel-nuevo) -->
     <div class="panel active" id="panel-nuevo">
       <div class="stitle">📌 Datos Generales</div>
       <div class="card">
@@ -149,11 +184,15 @@ textarea.finput{resize:vertical;font-family:'Outfit',sans-serif;font-size:14px}
       <div class="card">
         <div class="field"><span class="flabel">Tipo</span>
           <div class="chips" id="cg_materia">
-            <div class="chip" data-val="Plátano Hartón" data-c="b">🍌 Plátano Hartón</div>
-            <div class="chip" data-val="Ñame" data-c="b">🫚 Ñame</div>
+            <div class="chip" data-val="Plátano Hartón" data-c="b">🍌 Hartón</div>
+            <div class="chip" data-val="Plátano Verde" data-c="b">🍃 Verde</div>
+            <div class="chip" data-val="Plátano Hawaiano" data-c="b">🌺 Hawaiano</div>
+            <div class="chip" data-val="Plátano Maduro" data-c="b">🍌 Maduro</div>
             <div class="chip" data-val="Yuca" data-c="b">🌿 Yuca</div>
+            <div class="chip" data-val="Ñame" data-c="b">🫚 Ñame</div>
             <div class="chip" data-val="Papa" data-c="b">🥔 Papa</div>
-            <div class="chip" data-val="Plátano Verde" data-c="b">🍃 Plátano Verde</div>
+            <div class="chip" data-val="Batata" data-c="b">🍠 Batata</div>
+            <div class="chip" data-val="Marañón" data-c="b">🥭 Marañón</div>
           </div>
           <input type="hidden" id="f_materia">
         </div>
@@ -190,6 +229,7 @@ textarea.finput{resize:vertical;font-family:'Outfit',sans-serif;font-size:14px}
             <div class="chip" data-val="Verde" data-c="b">🟢 Verde</div>
             <div class="chip" data-val="Amarillo" data-c="b">🟨 Amarillo</div>
             <div class="chip" data-val="Pintón" data-c="b">🟠 Pintón</div>
+            <div class="chip" data-val="Maduro" data-c="b">🟫 Maduro</div>
           </div>
           <input type="hidden" id="f_color">
         </div>
@@ -262,11 +302,260 @@ textarea.finput{resize:vertical;font-family:'Outfit',sans-serif;font-size:14px}
       </div>
     </div>
 
+    <!-- PRODUCCION -->
+    <div class="panel" id="panel-prod">
+
+      <!-- Menú principal de producción -->
+      <div class="subpanel active" id="subpanel-menu">
+        <div class="stitle">🏭 Formularios de Producción</div>
+        <div class="prod-menu">
+          <div class="pmcard" onclick="openProd('pelado')"><div class="pmi">✂️</div><div class="pmn">Control Pelado</div><div class="pms">KG por operario</div></div>
+          <div class="pmcard" onclick="openProd('humedad')"><div class="pmi">💧</div><div class="pmn">Control Humedad</div><div class="pms">Antes/después freír</div></div>
+          <div class="pmcard" onclick="openProd('chips')"><div class="pmi">🍟</div><div class="pmn">Espec. Chips</div><div class="pms">Ancho y calibre</div></div>
+          <div class="pmcard" onclick="openProd('freidor')"><div class="pmi">🌡️</div><div class="pmn">Control Freidor</div><div class="pms">Temp. y tiempos</div></div>
+          <div class="pmcard" onclick="openProd('horno')"><div class="pmi">🔥</div><div class="pmn">Control Horno</div><div class="pms">Temp. y tiempos</div></div>
+          <div class="pmcard" onclick="openProd('brix')"><div class="pmi">🍬</div><div class="pmn">Control Brix</div><div class="pms">Producto terminado</div></div>
+          <div class="pmcard" onclick="openProd('canastillas')"><div class="pmi">🧺</div><div class="pmn">Canastillas/Hora</div><div class="pms">Formadas por hora</div></div>
+          <div class="pmcard" onclick="openProd('tostones')"><div class="pmi">🫓</div><div class="pmn">Espec. Tostones</div><div class="pms">Diámetro y espesor</div></div>
+          <div class="pmcard" onclick="openProd('desperdicios')"><div class="pmi">♻️</div><div class="pmn">MP Desperdicios</div><div class="pms">KG fresco/pelado</div></div>
+        </div>
+
+        <div class="stitle">📊 Registros de Producción</div>
+        <div class="filterrow">
+          <input type="date" id="filtroProdFecha" onchange="renderProdHist()">
+          <button class="btn btn-s" style="width:auto;padding:9px 14px;font-size:11px;margin-bottom:0" onclick="document.getElementById('filtroProdFecha').value='';renderProdHist()">Ver todos</button>
+        </div>
+        <div id="prodHistList"></div>
+      </div>
+
+      <!-- F1: PELADO -->
+      <div class="subpanel" id="subpanel-pelado">
+        <button class="back-btn" onclick="closeProd()">← Volver</button>
+        <div class="stitle">✂️ Control Individual de Pelado</div>
+        <div class="card">
+          <div class="row2">
+            <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p1_fecha"></div>
+            <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" id="p1_lote" placeholder="Lote"></div>
+          </div>
+          <div class="field"><span class="flabel">Operario</span><input class="finput" type="text" id="p1_operario" placeholder="Nombre del operario"></div>
+          <div class="row2">
+            <div class="field"><span class="flabel">Inicio Proceso</span><input class="finput" type="time" id="p1_inicio"></div>
+            <div class="field"><span class="flabel">Final Proceso</span><input class="finput" type="time" id="p1_final"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="stitle" style="margin-top:0">Registros por Hora</div>
+          <div id="p1_filas"></div>
+          <button class="btn btn-s" style="margin-top:8px" onclick="addFilaPelado()">+ Agregar hora</button>
+        </div>
+        <div class="card">
+          <div class="row3">
+            <div class="field"><span class="flabel">Total KG Pelados/día</span><input class="finput" type="number" id="p1_totalKg" inputmode="decimal" placeholder="0"></div>
+            <div class="field"><span class="flabel">Firma Líder</span><input class="finput" type="text" id="p1_lider" placeholder="Nombre"></div>
+            <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p1_resp" placeholder="Nombre"></div>
+          </div>
+        </div>
+        <button class="btn btn-g" onclick="guardarProd('pelado')">💾 Guardar Registro</button>
+      </div>
+
+      <!-- F2: HUMEDAD -->
+      <div class="subpanel" id="subpanel-humedad">
+        <button class="back-btn" onclick="closeProd()">← Volver</button>
+        <div class="stitle">💧 Control de Humedad</div>
+        <div class="card">
+          <div class="row2">
+            <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p2_fecha"></div>
+            <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" id="p2_lote" placeholder="Lote"></div>
+          </div>
+          <div class="field"><span class="flabel">Producto</span><input class="finput" type="text" id="p2_producto" placeholder="Ej. Chips de plátano"></div>
+          <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p2_resp" placeholder="Nombre"></div>
+        </div>
+        <div class="card">
+          <div class="stitle" style="margin-top:0">Mediciones</div>
+          <div id="p2_filas"></div>
+          <button class="btn btn-s" style="margin-top:8px" onclick="addFilaHumedad()">+ Agregar medición</button>
+        </div>
+        <button class="btn btn-g" onclick="guardarProd('humedad')">💾 Guardar Registro</button>
+      </div>
+
+      <!-- F3: CHIPS -->
+      <div class="subpanel" id="subpanel-chips">
+        <button class="back-btn" onclick="closeProd()">← Volver</button>
+        <div class="stitle">🍟 Control Especificaciones de Chips</div>
+        <div class="card">
+          <div class="row2">
+            <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p3_fecha"></div>
+            <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" id="p3_lote" placeholder="Lote"></div>
+          </div>
+          <div class="field"><span class="flabel">Cliente</span><input class="finput" type="text" id="p3_cliente" placeholder="Nombre cliente"></div>
+          <div class="row2">
+            <div class="field"><span class="flabel">Calibre (mm)</span><input class="finput" type="text" id="p3_calibre" placeholder="Ej. 1.7-2.0"></div>
+            <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p3_resp" placeholder="Nombre"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="stitle" style="margin-top:0">Mediciones por Hora</div>
+          <div id="p3_filas"></div>
+          <button class="btn btn-s" style="margin-top:8px" onclick="addFilaChips()">+ Agregar medición</button>
+        </div>
+        <button class="btn btn-g" onclick="guardarProd('chips')">💾 Guardar Registro</button>
+      </div>
+
+      <!-- F4: FREIDOR -->
+      <div class="subpanel" id="subpanel-freidor">
+        <button class="back-btn" onclick="closeProd()">← Volver</button>
+        <div class="stitle">🌡️ Control del Freidor</div>
+        <div class="card">
+          <div class="row2">
+            <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p4_fecha"></div>
+            <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" id="p4_lote" placeholder="Lote"></div>
+          </div>
+          <div class="row2">
+            <div class="field"><span class="flabel">Inicio 1</span><input class="finput" type="time" id="p4_inicio1"></div>
+            <div class="field"><span class="flabel">Final 1</span><input class="finput" type="time" id="p4_final1"></div>
+          </div>
+          <div class="row2">
+            <div class="field"><span class="flabel">Inicio 2</span><input class="finput" type="time" id="p4_inicio2"></div>
+            <div class="field"><span class="flabel">Final 2</span><input class="finput" type="time" id="p4_final2"></div>
+          </div>
+          <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p4_resp" placeholder="Nombre"></div>
+        </div>
+        <div class="card">
+          <div class="stitle" style="margin-top:0">Registros por Hora</div>
+          <div id="p4_filas"></div>
+          <button class="btn btn-s" style="margin-top:8px" onclick="addFilaFreidor()">+ Agregar registro</button>
+        </div>
+        <button class="btn btn-g" onclick="guardarProd('freidor')">💾 Guardar Registro</button>
+      </div>
+
+      <!-- F5: HORNO -->
+      <div class="subpanel" id="subpanel-horno">
+        <button class="back-btn" onclick="closeProd()">← Volver</button>
+        <div class="stitle">🔥 Control del Horno</div>
+        <div class="card">
+          <div class="row2">
+            <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p5_fecha"></div>
+            <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" id="p5_lote" placeholder="Lote"></div>
+          </div>
+          <div class="row2">
+            <div class="field"><span class="flabel">Inicio 1</span><input class="finput" type="time" id="p5_inicio1"></div>
+            <div class="field"><span class="flabel">Final 1</span><input class="finput" type="time" id="p5_final1"></div>
+          </div>
+          <div class="row2">
+            <div class="field"><span class="flabel">Inicio 2</span><input class="finput" type="time" id="p5_inicio2"></div>
+            <div class="field"><span class="flabel">Final 2</span><input class="finput" type="time" id="p5_final2"></div>
+          </div>
+          <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p5_resp" placeholder="Nombre"></div>
+        </div>
+        <div class="card">
+          <div class="stitle" style="margin-top:0">Registros por Hora</div>
+          <div id="p5_filas"></div>
+          <button class="btn btn-s" style="margin-top:8px" onclick="addFilaHorno()">+ Agregar registro</button>
+        </div>
+        <button class="btn btn-g" onclick="guardarProd('horno')">💾 Guardar Registro</button>
+      </div>
+
+      <!-- F6: BRIX -->
+      <div class="subpanel" id="subpanel-brix">
+        <button class="back-btn" onclick="closeProd()">← Volver</button>
+        <div class="stitle">🍬 Control Brix Producto Terminado</div>
+        <div class="card">
+          <div class="row2">
+            <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p6_fecha"></div>
+            <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p6_resp" placeholder="Nombre"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="stitle" style="margin-top:0">Muestras</div>
+          <div id="p6_filas"></div>
+          <button class="btn btn-s" style="margin-top:8px" onclick="addFilaBrix()">+ Agregar muestra</button>
+        </div>
+        <button class="btn btn-g" onclick="guardarProd('brix')">💾 Guardar Registro</button>
+      </div>
+
+      <!-- F7: CANASTILLAS -->
+      <div class="subpanel" id="subpanel-canastillas">
+        <button class="back-btn" onclick="closeProd()">← Volver</button>
+        <div class="stitle">🧺 Control Canastillas por Hora</div>
+        <div class="card">
+          <div class="row2">
+            <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p7_fecha"></div>
+            <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" id="p7_lote" placeholder="Lote"></div>
+          </div>
+          <div class="row2">
+            <div class="field"><span class="flabel">Inicio 1</span><input class="finput" type="time" id="p7_inicio1"></div>
+            <div class="field"><span class="flabel">Final 1</span><input class="finput" type="time" id="p7_final1"></div>
+          </div>
+          <div class="row2">
+            <div class="field"><span class="flabel">Inicio 2</span><input class="finput" type="time" id="p7_inicio2"></div>
+            <div class="field"><span class="flabel">Final 2</span><input class="finput" type="time" id="p7_final2"></div>
+          </div>
+          <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p7_resp" placeholder="Nombre"></div>
+        </div>
+        <div class="card">
+          <div class="stitle" style="margin-top:0">Registros por Hora</div>
+          <div id="p7_filas"></div>
+          <button class="btn btn-s" style="margin-top:8px" onclick="addFilaCanastillas()">+ Agregar hora</button>
+        </div>
+        <div class="card">
+          <div class="field"><span class="flabel">Total KG / día</span><input class="finput" type="number" id="p7_totalKg" inputmode="decimal" placeholder="0"></div>
+        </div>
+        <button class="btn btn-g" onclick="guardarProd('canastillas')">💾 Guardar Registro</button>
+      </div>
+
+      <!-- F8: TOSTONES -->
+      <div class="subpanel" id="subpanel-tostones">
+        <button class="back-btn" onclick="closeProd()">← Volver</button>
+        <div class="stitle">🫓 Control Especificaciones Tostones</div>
+        <div class="card">
+          <div class="row2">
+            <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p8_fecha"></div>
+            <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p8_resp" placeholder="Nombre"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="stitle" style="margin-top:0">Mediciones</div>
+          <div id="p8_filas"></div>
+          <button class="btn btn-s" style="margin-top:8px" onclick="addFilaTostones()">+ Agregar medición</button>
+        </div>
+        <button class="btn btn-g" onclick="guardarProd('tostones')">💾 Guardar Registro</button>
+      </div>
+
+      <!-- F9: DESPERDICIOS -->
+      <div class="subpanel" id="subpanel-desperdicios">
+        <button class="back-btn" onclick="closeProd()">← Volver</button>
+        <div class="stitle">♻️ Control Materia Prima y Desperdicios</div>
+        <div class="card">
+          <div class="row2">
+            <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p9_fecha"></div>
+            <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" id="p9_lote" placeholder="Lote"></div>
+          </div>
+          <div class="field"><span class="flabel">Materia Prima</span>
+            <select class="finput" id="p9_materia">
+              <option value="">Seleccionar...</option>
+              <option>Plátano Hartón</option><option>Plátano Verde</option>
+              <option>Plátano Hawaiano</option><option>Plátano Maduro</option>
+              <option>Yuca</option><option>Ñame</option>
+              <option>Papa</option><option>Batata</option><option>Marañón</option>
+            </select>
+          </div>
+          <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p9_resp" placeholder="Nombre"></div>
+        </div>
+        <div class="card">
+          <div class="stitle" style="margin-top:0">Pesos</div>
+          <div id="p9_filas"></div>
+          <button class="btn btn-s" style="margin-top:8px" onclick="addFilaDesperdicio()">+ Agregar registro</button>
+        </div>
+        <button class="btn btn-g" onclick="guardarProd('desperdicios')">💾 Guardar Registro</button>
+      </div>
+
+    </div><!-- /panel-prod -->
+
     <!-- RANGOS -->
     <div class="panel" id="panel-rangos">
       <div class="stitle">⚙️ Rangos Aceptables</div>
       <div class="card">
-        <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:14px">🍌 Plátano Hartón / Verde</div>
+        <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:14px">🍌 Plátano</div>
         <div class="rgrid">
           <div class="field"><span class="flabel">Long. Mín cm</span><input class="finput" type="number" id="rPlaLongMin" inputmode="decimal"></div>
           <div class="field"><span class="flabel">Long. Máx cm</span><input class="finput" type="number" id="rPlaLongMax" inputmode="decimal"></div>
@@ -277,7 +566,7 @@ textarea.finput{resize:vertical;font-family:'Outfit',sans-serif;font-size:14px}
         </div>
       </div>
       <div class="card">
-        <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:14px">🫚 Ñame / Yuca</div>
+        <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:14px">🫚 Ñame / Yuca / Raíces</div>
         <div class="rgrid">
           <div class="field"><span class="flabel">Long. Mín cm</span><input class="finput" type="number" id="rNamLongMin" inputmode="decimal"></div>
           <div class="field"><span class="flabel">Long. Máx cm</span><input class="finput" type="number" id="rNamLongMax" inputmode="decimal"></div>
@@ -290,12 +579,13 @@ textarea.finput{resize:vertical;font-family:'Outfit',sans-serif;font-size:14px}
       <button class="btn btn-p" onclick="guardarRangos()">💾 Guardar Rangos</button>
     </div>
 
-  </div>
+  </div><!-- /app-body -->
 
   <!-- NAV -->
   <nav class="bottom-nav">
-    <button class="nbtn active" id="nav-nuevo" onclick="goPanel('nuevo',this)"><span class="ni">📥</span>Nueva</button>
+    <button class="nbtn active" id="nav-nuevo" onclick="goPanel('nuevo',this)"><span class="ni">📥</span>Recepción</button>
     <button class="nbtn" id="nav-historial" onclick="goPanel('historial',this)"><span class="ni">📋</span>Registros</button>
+    <button class="nbtn" id="nav-prod" onclick="goPanel('prod',this)"><span class="ni">🏭</span>Producción</button>
     <button class="nbtn" id="nav-rangos" onclick="goPanel('rangos',this)" style="display:none"><span class="ni">⚙️</span>Rangos</button>
   </nav>
 </div>
@@ -314,6 +604,8 @@ textarea.finput{resize:vertical;font-family:'Outfit',sans-serif;font-size:14px}
 </div>
 
 <script>
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbwXFs3WTwvgXm68zaEhFlY25nJXevC0byGnWV6vy2pCOSE-QCclBDuQ1xMd0QOm017OVw/exec';
+
 const USERS=[
   {code:'ADMIN001',name:'Administrador',rol:'admin'},
   {code:'OPR2847',name:'Operario 1',rol:'operario'},
@@ -327,11 +619,25 @@ const USERS=[
   {code:'OPR7043',name:'Operario 9',rol:'operario'},
 ];
 const DEF={pla:{longMin:15,longMax:35,diamMin:5,diamMax:12,brixMin:3,brixMax:10},nam:{longMin:20,longMax:50,diamMin:6,diamMax:15,brixMin:3,brixMax:12}};
-let me=null,regs=lg('fc_reg5',[]),cfg=lg('fc_cfg5',DEF);
+let me=null,regs=lg('fc_reg5',[]),cfg=lg('fc_cfg5',DEF),prodRegs=lg('fc_prod6',[]);
 
 function lg(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch{return d;}}
 function ls(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}}
 function today(){return new Date().toISOString().slice(0,10);}
+function nowTime(){const n=new Date();return n.toTimeString().slice(0,5);}
+
+// RELOJ
+function tickReloj(){
+  const n=new Date();
+  const h=String(n.getHours()).padStart(2,'0');
+  const m=String(n.getMinutes()).padStart(2,'0');
+  const s=String(n.getSeconds()).padStart(2,'0');
+  document.getElementById('reloj').textContent=h+':'+m+':'+s;
+  const dias=['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+  const meses=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
+  document.getElementById('relojFecha').textContent=dias[n.getDay()]+' '+n.getDate()+' '+meses[n.getMonth()]+' '+n.getFullYear();
+}
+setInterval(tickReloj,1000);tickReloj();
 
 // LOGIN
 document.getElementById('loginInput').addEventListener('input',function(){
@@ -363,6 +669,13 @@ function doLogin(){
     document.getElementById('nav-rangos').style.display='flex';
     document.getElementById('adminBtns').style.display='block';
   }
+  // Pre-fill production forms with today and user
+  ['p1','p2','p3','p4','p5','p6','p7','p8','p9'].forEach(p=>{
+    const fd=document.getElementById(p+'_fecha');
+    if(fd)fd.value=today();
+    const fr=document.getElementById(p+'_resp')||document.getElementById(p+'_operario');
+    if(fr)fr.value=u.name;
+  });
 }
 
 function confirmLogout(){
@@ -388,9 +701,287 @@ function goPanel(id,btn){
   document.querySelector('.app-body').scrollTop=0;
   if(id==='historial')renderHistorial();
   if(id==='rangos')loadRangos();
+  if(id==='prod'){closeProd();renderProdHist();}
 }
 
-// CHIPS
+// PRODUCCION NAVEGACION
+function openProd(tipo){
+  document.querySelectorAll('#panel-prod .subpanel').forEach(s=>s.classList.remove('active'));
+  document.getElementById('subpanel-'+tipo).classList.add('active');
+  document.querySelector('.app-body').scrollTop=0;
+}
+function closeProd(){
+  document.querySelectorAll('#panel-prod .subpanel').forEach(s=>s.classList.remove('active'));
+  document.getElementById('subpanel-menu').classList.add('active');
+  document.querySelector('.app-body').scrollTop=0;
+}
+
+// =================== FILAS DINÁMICAS ===================
+
+// F1 PELADO
+function addFilaPelado(){
+  const c=document.getElementById('p1_filas');
+  const i=c.children.length+1;
+  c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Hora Inicio</span><input class="finput" type="time" value="${nowTime()}"></div>
+      <div class="field"><span class="flabel">Hora Final</span><input class="finput" type="time"></div>
+    </div>
+    <div class="row3">
+      <div class="field"><span class="flabel">KG Pelados/h</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Acumulado</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">KG Cáscara/h</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
+  </div>`);
+}
+
+// F2 HUMEDAD
+function addFilaHumedad(){
+  const c=document.getElementById('p2_filas');
+  const i=c.children.length+1;
+  c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">MEDICIÓN #${i}</div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Fecha/Hora</span><input class="finput" type="text" placeholder="Ej. 9:25am 02/02/26"></div>
+      <div class="field"><span class="flabel">Hum. Antes (%)</span><input class="finput" type="number" inputmode="decimal" placeholder="0.00"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Hum. Después (%)</span><input class="finput" type="number" inputmode="decimal" placeholder="0.00"></div>
+      <div class="field"><span class="flabel">Temp Ambiente (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
+  </div>`);
+}
+
+// F3 CHIPS
+function addFilaChips(){
+  const c=document.getElementById('p3_filas');
+  const i=c.children.length+1;
+  c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">MEDICIÓN #${i}</div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Hora</span><input class="finput" type="time" value="${nowTime()}"></div>
+      <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" placeholder="Lote"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Ancho (mm)</span><input class="finput" type="number" inputmode="decimal" placeholder="0.0"></div>
+      <div class="field"><span class="flabel">Calibre (mm)</span><input class="finput" type="number" inputmode="decimal" placeholder="0.0"></div>
+    </div>
+    <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
+  </div>`);
+}
+
+// F4 FREIDOR
+function addFilaFreidor(){
+  const c=document.getElementById('p4_filas');
+  const i=c.children.length+1;
+  c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Hora</span><input class="finput" type="time" value="${nowTime()}"></div>
+      <div class="field"><span class="flabel">Temp 1 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="row3">
+      <div class="field"><span class="flabel">Temp 2 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temp 3 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temp 4 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="row3">
+      <div class="field"><span class="flabel">Temp 5 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">T. Fritura (min)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Vel. Malla (Hz)</span><input class="finput" type="text" placeholder="0"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Alim. Aceite (L/T)</span><input class="finput" type="text" placeholder="0"></div>
+      <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
+    </div>
+  </div>`);
+}
+
+// F5 HORNO
+function addFilaHorno(){
+  const c=document.getElementById('p5_filas');
+  const i=c.children.length+1;
+  c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Hora</span><input class="finput" type="time" value="${nowTime()}"></div>
+      <div class="field"><span class="flabel">Temp 1 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="row3">
+      <div class="field"><span class="flabel">Temp 2 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temp 3 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">T. Horno (min)</span><input class="finput" type="text" placeholder="0"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Vel. Malla (Hz)</span><input class="finput" type="text" placeholder="0"></div>
+      <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
+    </div>
+  </div>`);
+}
+
+// F6 BRIX
+function addFilaBrix(){
+  const c=document.getElementById('p6_filas');
+  const i=c.children.length+1;
+  c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">MUESTRA #${i}</div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Producto</span><input class="finput" type="text" placeholder="Ej. Estefana"></div>
+      <div class="field"><span class="flabel">Proveedor</span><input class="finput" type="text" placeholder="Nombre"></div>
+    </div>
+    <div class="row3">
+      <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" placeholder="Lote"></div>
+      <div class="field"><span class="flabel">Resultado °Brix</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Hora Muestra</span><input class="finput" type="time" value="${nowTime()}"></div>
+    </div>
+  </div>`);
+}
+
+// F7 CANASTILLAS
+function addFilaCanastillas(){
+  const c=document.getElementById('p7_filas');
+  const i=c.children.length+1;
+  c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
+    <div class="row3">
+      <div class="field"><span class="flabel">Hora Ini</span><input class="finput" type="time" value="${nowTime()}"></div>
+      <div class="field"><span class="flabel">Hora Fin</span><input class="finput" type="time"></div>
+      <div class="field"><span class="flabel"># Canastillas</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="row3">
+      <div class="field"><span class="flabel">KG Quemado</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">KG No Conf.</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">KG Caído/Piso</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
+  </div>`);
+}
+
+// F8 TOSTONES
+function addFilaTostones(){
+  const c=document.getElementById('p8_filas');
+  const i=c.children.length+1;
+  c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">MEDICIÓN #${i}</div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Hora</span><input class="finput" type="time" value="${nowTime()}"></div>
+      <div class="field"><span class="flabel">Cliente</span><input class="finput" type="text" placeholder="Cliente"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" placeholder="Lote"></div>
+      <div class="field"><span class="flabel">Diám. Grande (cm)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Espesor Grande (mm)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Espesor Pequeña (mm)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
+  </div>`);
+}
+
+// F9 DESPERDICIOS
+function addFilaDesperdicio(){
+  const c=document.getElementById('p9_filas');
+  const i=c.children.length+1;
+  c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
+    <div class="row2">
+      <div class="field"><span class="flabel">KG Fresco</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">KG Pelado</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="row3">
+      <div class="field"><span class="flabel">Desc. Cáscara (KG)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Desc. Crudo (KG)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Desc. Frito (KG)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
+  </div>`);
+}
+
+// =================== GUARDAR PRODUCCIÓN ===================
+const PROD_NAMES={pelado:'Control Pelado',humedad:'Control Humedad',chips:'Espec. Chips',freidor:'Control Freidor',horno:'Control Horno',brix:'Control Brix',canastillas:'Canastillas/Hora',tostones:'Espec. Tostones',desperdicios:'MP Desperdicios'};
+
+function recopilarFilas(containerId){
+  const rows=[];
+  document.getElementById(containerId).querySelectorAll('.card').forEach(card=>{
+    const inputs=card.querySelectorAll('input,select,textarea');
+    const obj={};
+    inputs.forEach((inp,idx)=>{
+      const lbl=card.querySelectorAll('.flabel')[idx];
+      const key=lbl?lbl.textContent.trim():('campo'+(idx+1));
+      obj[key]=inp.value;
+    });
+    rows.push(obj);
+  });
+  return rows;
+}
+
+function guardarProd(tipo){
+  const prefix='p'+{pelado:1,humedad:2,chips:3,freidor:4,horno:5,brix:6,canastillas:7,tostones:8,desperdicios:9}[tipo];
+  const fechaEl=document.getElementById(prefix+'_fecha');
+  if(!fechaEl||!fechaEl.value){showToast('⚠️ Ingrese la fecha','#b91c1c');return;}
+  
+  const rec={
+    id:Date.now(),
+    tipo:tipo,
+    nombre:PROD_NAMES[tipo],
+    fecha:fechaEl.value,
+    usuario:me?me.name:'—',
+    datos:{}
+  };
+
+  // Recopilar campos fijos
+  ['lote','resp','operario','producto','cliente','calibre','materia','lider','totalKg',
+   'inicio','final','inicio1','final1','inicio2','final2','totalKg'].forEach(f=>{
+    const el=document.getElementById(prefix+'_'+f);
+    if(el)rec.datos[f]=el.value;
+  });
+  // Recopilar filas dinámicas
+  const filasEl=document.getElementById(prefix+'_filas');
+  if(filasEl)rec.datos.filas=recopilarFilas(prefix+'_filas');
+
+  prodRegs.push(rec);
+  ls('fc_prod6',prodRegs);
+  showToast('✅ '+rec.nombre+' guardado','#16a34a');
+
+  // Enviar a Google Sheets
+  const payload={...rec,hoja:rec.nombre};
+  fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(payload)})
+    .then(r=>r.json())
+    .then(d=>{if(d.result==='ok')showToast('☁️ Guardado en Sheets','#0d6e3a');})
+    .catch(()=>showToast('⚠️ Sin conexión - guardado local','#d97706'));
+
+  // Limpiar filas dinámicas
+  if(filasEl)filasEl.innerHTML='';
+  closeProd();
+  renderProdHist();
+}
+
+// HISTORIAL PRODUCCION
+function renderProdHist(){
+  const f=document.getElementById('filtroProdFecha').value;
+  const lista=f?prodRegs.filter(r=>r.fecha===f):[...prodRegs];
+  const con=document.getElementById('prodHistList');
+  if(!lista.length){
+    con.innerHTML=`<div class="empty"><div style="font-size:48px;margin-bottom:12px">🏭</div><div style="font-size:14px;font-weight:600">Sin registros de producción</div></div>`;
+    return;
+  }
+  const colors={pelado:'#2952b3',humedad:'#0891b2',chips:'#d97706',freidor:'#dc2626',horno:'#ea580c',brix:'#7c3aed',canastillas:'#0d6e3a',tostones:'#be185d',desperdicios:'#374151'};
+  con.innerHTML=[...lista].reverse().map(r=>`
+    <div class="rc" style="border-left-color:${colors[r.tipo]||'#ccd6ef'}">
+      <div class="rchead">
+        <div><div class="rctitle">${r.nombre}</div><div class="rcdate">${r.fecha} · ${r.usuario}</div></div>
+        <span class="badge binfo">${r.tipo}</span>
+      </div>
+      ${r.datos.lote?`<div style="font-size:12px;color:#6b7280">Lote: ${r.datos.lote}</div>`:''}
+      ${r.datos.filas?`<div style="font-size:11px;color:#6b7280;margin-top:4px">${r.datos.filas.length} registro(s)</div>`:''}
+    </div>`).join('');
+}
+
+// CHIPS RECEPCION
 document.querySelectorAll('.chips').forEach(function(g){
   g.addEventListener('click',function(e){
     const chip=e.target.closest('.chip');
@@ -432,7 +1023,6 @@ function evalDiag(){
   if(!document.getElementById('f_decision').value)setDec(hasFail?'Rechazado':'Aceptado');
 }
 
-// DECISION
 function setDec(val){
   document.getElementById('f_decision').value=val;
   document.getElementById('dec_ok').className='decbtn'+(val==='Aceptado'?' ok':'');
@@ -440,7 +1030,6 @@ function setDec(val){
   document.getElementById('dec_warn').className='decbtn'+(val==='Condicional'?' warn':'');
 }
 
-// REGISTRAR
 function registrar(){
   if(!document.getElementById('f_fecha').value){showToast('⚠️ Ingrese la fecha','#b91c1c');return;}
   if(!document.getElementById('f_materia').value){showToast('⚠️ Seleccione la materia prima','#b91c1c');return;}
@@ -472,15 +1061,13 @@ function registrar(){
   regs.push(r);ls('fc_reg5',regs);
   showToast('✅ Recepción registrada','#16a34a');
   limpiar();
-  // Enviar a Google Sheets
-  const SCRIPT_URL='https://script.google.com/macros/s/AKfycbyMJxrrYMtm8Jwxc50v98_0zhBm5FPGAj6MC3YHpfprnTzPoZtKgJfYJXQbfml4-Szl5Q/exec';
-  fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(r)})
+  const payload={...r,hoja:'RECEPCIONES'};
+  fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(payload)})
     .then(res=>res.json())
-    .then(data=>{ if(data.result==='ok') showToast('☁️ Guardado en Google Sheets','#0d6e3a'); })
-    .catch(()=>{ showToast('⚠️ Sin conexión - guardado local','#d97706'); });
+    .then(data=>{if(data.result==='ok')showToast('☁️ Guardado en Google Sheets','#0d6e3a');})
+    .catch(()=>{showToast('⚠️ Sin conexión - guardado local','#d97706');});
 }
 
-// LIMPIAR
 function limpiar(){
   const resp=document.getElementById('f_responsable').value;
   const sup=document.getElementById('f_supervisor').value;
@@ -497,7 +1084,6 @@ function limpiar(){
   document.querySelector('.app-body').scrollTop=0;
 }
 
-// HISTORIAL
 function renderHistorial(){
   const f=document.getElementById('filtroFecha').value;
   const lista=f?regs.filter(r=>r.fecha===f):[...regs];
@@ -508,7 +1094,7 @@ function renderHistorial(){
   document.getElementById('st_fail').textContent=regs.filter(r=>r.decision==='Rechazado').length;
   const con=document.getElementById('recordList');
   if(!lista.length){
-    con.innerHTML=`<div class="empty"><div style="font-size:48px;margin-bottom:12px">${regs.length?'🔍':'📋'}</div><div style="font-size:14px;font-weight:600;margin-bottom:6px">${regs.length?'Sin resultados para esa fecha':'Sin registros aún'}</div><div style="font-size:13px">${regs.length?'Prueba con otra fecha':'Registre la primera recepción'}</div></div>`;
+    con.innerHTML=`<div class="empty"><div style="font-size:48px;margin-bottom:12px">${regs.length?'🔍':'📋'}</div><div style="font-size:14px;font-weight:600;margin-bottom:6px">${regs.length?'Sin resultados para esa fecha':'Sin registros aún'}</div></div>`;
     return;
   }
   const dc={Aceptado:'ok',Rechazado:'fail',Condicional:'warn'};
@@ -521,11 +1107,10 @@ function renderHistorial(){
       r.brix&&['°Brix',r.brix+'°'],r.color&&['Color',r.color],
       r.olor&&['Olor',r.olor],r.textura&&['Textura',r.textura],
     ].filter(Boolean);
-    return `<div class="rc ${dc[r.decision]||''}"><div class="rchead"><div><div class="rctitle">${r.materia}</div><div class="rcdate">${r.fecha} · ${r.responsable||'—'}</div></div><span class="badge ${bc[r.decision]||'bwarn'}">${r.decision}</span></div><div class="rcbody">${items.map(([k,v])=>`<div class="rci"><span class="rckey">${k}</span>${v}</div>`).join('')}${r.obs?`<div class="rci rcfull"><span class="rckey">Observaciones</span>${r.obs}</div>`:''}</div></div>`;
+    return `<div class="rc ${dc[r.decision]||''}"><div class="rchead"><div><div class="rctitle">${r.materia}</div><div class="rcdate">${r.fecha} · ${r.responsable||'—'}</div></div><span class="badge ${bc[r.decision]||'bwarn'}">${r.decision}</span></div><div class="rcbody">${items.map(([k,v])=>`<div class="rci"><span class="rckey">${k}</span>${v}</div>`).join('')}${r.obs?`<div class="rci rcfull"><span class="rckey">Obs</span>${r.obs}</div>`:''}</div></div>`;
   }).join('');
 }
 
-// RANGOS
 function loadRangos(){
   document.getElementById('rPlaLongMin').value=cfg.pla.longMin;document.getElementById('rPlaLongMax').value=cfg.pla.longMax;
   document.getElementById('rPlaDiamMin').value=cfg.pla.diamMin;document.getElementById('rPlaDiamMax').value=cfg.pla.diamMax;
@@ -544,10 +1129,8 @@ function guardarRangos(){
   ls('fc_cfg5',cfg);showToast('✅ Rangos guardados','#16a34a');
 }
 
-// BORRAR
 function borrarTodo(){regs=[];ls('fc_reg5',[]);renderHistorial();showToast('🗑️ Registros eliminados');}
 
-// TOAST
 let _tt=null;
 function showToast(msg,color){
   const t=document.getElementById('toast');
@@ -556,7 +1139,6 @@ function showToast(msg,color){
   _tt=setTimeout(()=>t.classList.remove('show'),2500);
 }
 
-// MODAL
 let _cb=null;
 function confirmAction(title,body,cb){
   _cb=cb;
@@ -567,7 +1149,6 @@ function confirmAction(title,body,cb){
 }
 function closeModal(){document.getElementById('modal').classList.remove('show');}
 
-// INIT
 document.getElementById('f_fecha').value=today();
 setTimeout(()=>document.getElementById('loginInput').focus(),300);
 </script>
