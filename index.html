@@ -34,8 +34,12 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#f0f4fc;color:#
 .panel{display:none;padding:16px}
 .panel.active{display:block}
 
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #ccd6ef;display:flex;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,.08);padding-bottom:env(safe-area-inset-bottom,0);overflow-x:auto}
-.nbtn{flex:1;min-width:60px;padding:8px 2px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;font-family:inherit;font-size:9px;font-weight:600;letter-spacing:.3px;color:#6b7280;transition:color .15s;white-space:nowrap}
+.top-tabs{background:#0a1628;display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;flex-shrink:0;border-bottom:2px solid rgba(255,255,255,.1)}
+.top-tabs::-webkit-scrollbar{display:none}
+.ttab{flex:0 0 auto;padding:11px 16px 9px;display:flex;align-items:center;background:none;border:none;border-bottom:3px solid transparent;cursor:pointer;font-family:inherit;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.45);transition:all .2s;white-space:nowrap;margin-bottom:-2px}
+.ttab.active{color:#4ade80;border-bottom-color:#4ade80;background:rgba(74,222,128,.07)}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #ccd6ef;display:flex;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,.08);padding-bottom:env(safe-area-inset-bottom,0)}
+.nbtn{flex:1;padding:8px 2px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;font-family:inherit;font-size:9px;font-weight:600;letter-spacing:.3px;color:#6b7280;transition:color .15s;white-space:nowrap}
 .nbtn .ni{font-size:20px;line-height:1}
 .nbtn.active{color:#2952b3}
 
@@ -101,7 +105,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
 .rgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .empty{text-align:center;padding:48px 20px;color:#6b7280}
 
-#toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:#111827;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;white-space:nowrap;z-index:600;opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.3)}
+#toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%) translateY(20px);background:#111827;color:#fff;padding:12px 20px;border-radius:10px;font-size:13px;font-weight:600;white-space:nowrap;z-index:600;opacity:0;transition:all .3s;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.3)}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:800;align-items:flex-end;justify-content:center;padding:16px}
@@ -167,6 +171,19 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
       <button class="userbtn" onclick="confirmLogout()">👤 <span id="topUser">—</span></button>
     </div>
   </div>
+
+  <nav class="top-tabs" id="top-tabs-nav">
+    <button class="ttab active" id="tab-nuevo" onclick="goTab('nuevo',this)">Recepción MP</button>
+    <button class="ttab" id="tab-pelado" onclick="goTab('pelado',this)">Control Pelado</button>
+    <button class="ttab" id="tab-humedad" onclick="goTab('humedad',this)">Control Humedad</button>
+    <button class="ttab" id="tab-chips" onclick="goTab('chips',this)">Espec. Chips</button>
+    <button class="ttab" id="tab-freidor" onclick="goTab('freidor',this)">Control Freidor</button>
+    <button class="ttab" id="tab-horno" onclick="goTab('horno',this)">Control Horno</button>
+    <button class="ttab" id="tab-brix" onclick="goTab('brix',this)">Control Brix</button>
+    <button class="ttab" id="tab-canastillas" onclick="goTab('canastillas',this)">Canastillas/Hora</button>
+    <button class="ttab" id="tab-tostones" onclick="goTab('tostones',this)">Espec. Tostones</button>
+    <button class="ttab" id="tab-desperdicios" onclick="goTab('desperdicios',this)">MP Desperdicios</button>
+  </nav>
 
   <div class="app-body">
 
@@ -297,40 +314,24 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         <button class="btn btn-s" style="width:auto;padding:9px 14px;font-size:11px;margin-bottom:0" onclick="document.getElementById('filtroFecha').value='';renderHistorial()">Ver todos</button>
       </div>
       <div id="recordList"></div>
+      <div class="stitle" style="margin-top:16px">🏭 Registros de Producción</div>
+      <div class="filterrow">
+        <input type="date" id="filtroProdFecha" onchange="renderProdHist()">
+        <button class="btn btn-s" style="width:auto;padding:9px 14px;font-size:11px;margin-bottom:0" onclick="document.getElementById('filtroProdFecha').value='';renderProdHist()">Ver todos</button>
+      </div>
+      <div id="prodHistList"></div>
       <div id="adminBtns" style="margin-top:8px;display:none">
         <button class="btn btn-d" onclick="confirmAction('¿Borrar TODOS los registros?','Esta acción no se puede deshacer.',borrarTodo)">🗑️ Borrar todos los registros</button>
       </div>
     </div>
 
     <!-- PRODUCCION -->
-    <div class="panel" id="panel-prod">
-
+    
       <!-- Menú principal de producción -->
-      <div class="subpanel active" id="subpanel-menu">
-        <div class="stitle">🏭 Formularios de Producción</div>
-        <div class="prod-menu">
-          <div class="pmcard" onclick="openProd('pelado')"><div class="pmi">✂️</div><div class="pmn">Control Pelado</div><div class="pms">KG por operario</div></div>
-          <div class="pmcard" onclick="openProd('humedad')"><div class="pmi">💧</div><div class="pmn">Control Humedad</div><div class="pms">Antes/después freír</div></div>
-          <div class="pmcard" onclick="openProd('chips')"><div class="pmi">🍟</div><div class="pmn">Espec. Chips</div><div class="pms">Ancho y calibre</div></div>
-          <div class="pmcard" onclick="openProd('freidor')"><div class="pmi">🌡️</div><div class="pmn">Control Freidor</div><div class="pms">Temp. y tiempos</div></div>
-          <div class="pmcard" onclick="openProd('horno')"><div class="pmi">🔥</div><div class="pmn">Control Horno</div><div class="pms">Temp. y tiempos</div></div>
-          <div class="pmcard" onclick="openProd('brix')"><div class="pmi">🍬</div><div class="pmn">Control Brix</div><div class="pms">Producto terminado</div></div>
-          <div class="pmcard" onclick="openProd('canastillas')"><div class="pmi">🧺</div><div class="pmn">Canastillas/Hora</div><div class="pms">Formadas por hora</div></div>
-          <div class="pmcard" onclick="openProd('tostones')"><div class="pmi">🫓</div><div class="pmn">Espec. Tostones</div><div class="pms">Diámetro y espesor</div></div>
-          <div class="pmcard" onclick="openProd('desperdicios')"><div class="pmi">♻️</div><div class="pmn">MP Desperdicios</div><div class="pms">KG fresco/pelado</div></div>
-        </div>
-
-        <div class="stitle">📊 Registros de Producción</div>
-        <div class="filterrow">
-          <input type="date" id="filtroProdFecha" onchange="renderProdHist()">
-          <button class="btn btn-s" style="width:auto;padding:9px 14px;font-size:11px;margin-bottom:0" onclick="document.getElementById('filtroProdFecha').value='';renderProdHist()">Ver todos</button>
-        </div>
-        <div id="prodHistList"></div>
-      </div>
+      
 
       <!-- F1: PELADO -->
-      <div class="subpanel" id="subpanel-pelado">
-        <button class="back-btn" onclick="closeProd()">← Volver</button>
+    <div class="panel" id="panel-pelado">
         <div class="stitle">✂️ Control Individual de Pelado</div>
         <div class="card">
           <div class="row2">
@@ -359,8 +360,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
       </div>
 
       <!-- F2: HUMEDAD -->
-      <div class="subpanel" id="subpanel-humedad">
-        <button class="back-btn" onclick="closeProd()">← Volver</button>
+    <div class="panel" id="panel-humedad">
         <div class="stitle">💧 Control de Humedad</div>
         <div class="card">
           <div class="row2">
@@ -379,8 +379,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
       </div>
 
       <!-- F3: CHIPS -->
-      <div class="subpanel" id="subpanel-chips">
-        <button class="back-btn" onclick="closeProd()">← Volver</button>
+    <div class="panel" id="panel-chips">
         <div class="stitle">🍟 Control Especificaciones de Chips</div>
         <div class="card">
           <div class="row2">
@@ -402,8 +401,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
       </div>
 
       <!-- F4: FREIDOR -->
-      <div class="subpanel" id="subpanel-freidor">
-        <button class="back-btn" onclick="closeProd()">← Volver</button>
+    <div class="panel" id="panel-freidor">
         <div class="stitle">🌡️ Control del Freidor</div>
         <div class="card">
           <div class="row2">
@@ -429,8 +427,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
       </div>
 
       <!-- F5: HORNO -->
-      <div class="subpanel" id="subpanel-horno">
-        <button class="back-btn" onclick="closeProd()">← Volver</button>
+    <div class="panel" id="panel-horno">
         <div class="stitle">🔥 Control del Horno</div>
         <div class="card">
           <div class="row2">
@@ -456,8 +453,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
       </div>
 
       <!-- F6: BRIX -->
-      <div class="subpanel" id="subpanel-brix">
-        <button class="back-btn" onclick="closeProd()">← Volver</button>
+    <div class="panel" id="panel-brix">
         <div class="stitle">🍬 Control Brix Producto Terminado</div>
         <div class="card">
           <div class="row2">
@@ -474,8 +470,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
       </div>
 
       <!-- F7: CANASTILLAS -->
-      <div class="subpanel" id="subpanel-canastillas">
-        <button class="back-btn" onclick="closeProd()">← Volver</button>
+    <div class="panel" id="panel-canastillas">
         <div class="stitle">🧺 Control Canastillas por Hora</div>
         <div class="card">
           <div class="row2">
@@ -504,8 +499,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
       </div>
 
       <!-- F8: TOSTONES -->
-      <div class="subpanel" id="subpanel-tostones">
-        <button class="back-btn" onclick="closeProd()">← Volver</button>
+    <div class="panel" id="panel-tostones">
         <div class="stitle">🫓 Control Especificaciones Tostones</div>
         <div class="card">
           <div class="row2">
@@ -522,8 +516,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
       </div>
 
       <!-- F9: DESPERDICIOS -->
-      <div class="subpanel" id="subpanel-desperdicios">
-        <button class="back-btn" onclick="closeProd()">← Volver</button>
+    <div class="panel" id="panel-desperdicios">
         <div class="stitle">♻️ Control Materia Prima y Desperdicios</div>
         <div class="card">
           <div class="row2">
@@ -549,7 +542,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         <button class="btn btn-g" onclick="guardarProd('desperdicios')">💾 Guardar Registro</button>
       </div>
 
-    </div><!-- /panel-prod -->
+    <!-- /panel-prod -->
 
     <!-- RANGOS -->
     <div class="panel" id="panel-rangos">
@@ -583,9 +576,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
 
   <!-- NAV -->
   <nav class="bottom-nav">
-    <button class="nbtn active" id="nav-nuevo" onclick="goPanel('nuevo',this)"><span class="ni">📥</span>Recepción</button>
-    <button class="nbtn" id="nav-historial" onclick="goPanel('historial',this)"><span class="ni">📋</span>Registros</button>
-    <button class="nbtn" id="nav-prod" onclick="goPanel('prod',this)"><span class="ni">🏭</span>Producción</button>
+    <button class="nbtn active" id="nav-historial" onclick="goPanel('historial',this)"><span class="ni">📋</span>Registros</button>
     <button class="nbtn" id="nav-rangos" onclick="goPanel('rangos',this)" style="display:none"><span class="ni">⚙️</span>Rangos</button>
   </nav>
 </div>
@@ -687,34 +678,34 @@ function confirmLogout(){
     document.getElementById('loginErr').textContent='';
     document.getElementById('nav-rangos').style.display='none';
     document.getElementById('adminBtns').style.display='none';
-    goPanel('nuevo',document.getElementById('nav-nuevo'));
+    goTab('nuevo',document.getElementById('tab-nuevo'));
     setTimeout(()=>document.getElementById('loginInput').focus(),200);
   });
 }
 
 // NAVEGACION
-function goPanel(id,btn){
+function goTab(id,btn){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.ttab').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('active'));
   document.getElementById('panel-'+id).classList.add('active');
   btn.classList.add('active');
   document.querySelector('.app-body').scrollTop=0;
-  if(id==='historial')renderHistorial();
-  if(id==='rangos')loadRangos();
-  if(id==='prod'){closeProd();renderProdHist();}
 }
 
-// PRODUCCION NAVEGACION
-function openProd(tipo){
-  document.querySelectorAll('#panel-prod .subpanel').forEach(s=>s.classList.remove('active'));
-  document.getElementById('subpanel-'+tipo).classList.add('active');
+function goPanel(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.ttab').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  btn.classList.add('active');
   document.querySelector('.app-body').scrollTop=0;
+  if(id==='historial'){renderHistorial();renderProdHist();}
+  if(id==='rangos')loadRangos();
 }
-function closeProd(){
-  document.querySelectorAll('#panel-prod .subpanel').forEach(s=>s.classList.remove('active'));
-  document.getElementById('subpanel-menu').classList.add('active');
-  document.querySelector('.app-body').scrollTop=0;
-}
+
+function openProd(tipo){ goTab(tipo, document.getElementById('tab-'+tipo)); }
+function closeProd(){ goTab('nuevo', document.getElementById('tab-nuevo')); }
 
 // =================== FILAS DINÁMICAS ===================
 
