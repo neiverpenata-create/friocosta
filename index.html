@@ -336,12 +336,12 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         <div class="card">
           <div class="row2">
             <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p1_fecha"></div>
-            <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" id="p1_lote" placeholder="Lote"></div>
+            <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" id="p1_lote" placeholder="Ej. L-001-2026"></div>
           </div>
           <div class="field"><span class="flabel">Operario</span><input class="finput" type="text" id="p1_operario" placeholder="Nombre del operario"></div>
           <div class="row2">
-            <div class="field"><span class="flabel">Inicio Proceso</span><input class="finput" type="time" id="p1_inicio"></div>
-            <div class="field"><span class="flabel">Final Proceso</span><input class="finput" type="time" id="p1_final"></div>
+            <div class="field"><span class="flabel">Hora Inicio del Proceso</span><input class="finput" type="time" id="p1_inicio"></div>
+            <div class="field"><span class="flabel">Hora Final del Proceso</span><input class="finput" type="time" id="p1_final"></div>
           </div>
         </div>
         <div class="card">
@@ -351,8 +351,8 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         </div>
         <div class="card">
           <div class="row3">
-            <div class="field"><span class="flabel">Total KG Pelados/día</span><input class="finput" type="number" id="p1_totalKg" inputmode="decimal" placeholder="0"></div>
-            <div class="field"><span class="flabel">Firma Líder</span><input class="finput" type="text" id="p1_lider" placeholder="Nombre"></div>
+            <div class="field"><span class="flabel">Total KG Pelados en el Día</span><input class="finput" type="number" id="p1_totalKg" inputmode="decimal" placeholder="0" readonly style="background:#e6f7ee;color:#0d6e3a;font-weight:800;font-size:20px;text-align:center"></div>
+            <div class="field"><span class="flabel">Firma Líder de Producción</span><input class="finput" type="text" id="p1_lider" placeholder="Nombre"></div>
             <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p1_resp" placeholder="Nombre"></div>
           </div>
         </div>
@@ -365,7 +365,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         <div class="card">
           <div class="row2">
             <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p2_fecha"></div>
-            <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" id="p2_lote" placeholder="Lote"></div>
+            <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" id="p2_lote" placeholder="Ej. L-001-2026"></div>
           </div>
           <div class="field"><span class="flabel">Producto</span><input class="finput" type="text" id="p2_producto" placeholder="Ej. Chips de plátano"></div>
           <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p2_resp" placeholder="Nombre"></div>
@@ -384,11 +384,11 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         <div class="card">
           <div class="row2">
             <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p3_fecha"></div>
-            <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" id="p3_lote" placeholder="Lote"></div>
+            <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" id="p3_lote" placeholder="Ej. L-001-2026"></div>
           </div>
           <div class="field"><span class="flabel">Cliente</span><input class="finput" type="text" id="p3_cliente" placeholder="Nombre cliente"></div>
           <div class="row2">
-            <div class="field"><span class="flabel">Calibre (mm)</span><input class="finput" type="text" id="p3_calibre" placeholder="Ej. 1.7-2.0"></div>
+            <div class="field"><span class="flabel">Calibre Medido (mm)</span><input class="finput" type="text" id="p3_calibre" placeholder="Ej. 1.7-2.0"></div>
             <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p3_resp" placeholder="Nombre"></div>
           </div>
         </div>
@@ -406,15 +406,15 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         <div class="card">
           <div class="row2">
             <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p4_fecha"></div>
-            <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" id="p4_lote" placeholder="Lote"></div>
+            <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" id="p4_lote" placeholder="Ej. L-001-2026"></div>
           </div>
           <div class="row2">
-            <div class="field"><span class="flabel">Inicio 1</span><input class="finput" type="time" id="p4_inicio1"></div>
-            <div class="field"><span class="flabel">Final 1</span><input class="finput" type="time" id="p4_final1"></div>
+            <div class="field"><span class="flabel">Hora Inicio Proceso 1</span><input class="finput" type="time" id="p4_inicio1"></div>
+            <div class="field"><span class="flabel">Hora Final Proceso 1</span><input class="finput" type="time" id="p4_final1"></div>
           </div>
           <div class="row2">
-            <div class="field"><span class="flabel">Inicio 2</span><input class="finput" type="time" id="p4_inicio2"></div>
-            <div class="field"><span class="flabel">Final 2</span><input class="finput" type="time" id="p4_final2"></div>
+            <div class="field"><span class="flabel">Hora Inicio Proceso 2</span><input class="finput" type="time" id="p4_inicio2"></div>
+            <div class="field"><span class="flabel">Hora Final Proceso 2</span><input class="finput" type="time" id="p4_final2"></div>
           </div>
           <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p4_resp" placeholder="Nombre"></div>
         </div>
@@ -432,15 +432,15 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         <div class="card">
           <div class="row2">
             <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p5_fecha"></div>
-            <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" id="p5_lote" placeholder="Lote"></div>
+            <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" id="p5_lote" placeholder="Ej. L-001-2026"></div>
           </div>
           <div class="row2">
-            <div class="field"><span class="flabel">Inicio 1</span><input class="finput" type="time" id="p5_inicio1"></div>
-            <div class="field"><span class="flabel">Final 1</span><input class="finput" type="time" id="p5_final1"></div>
+            <div class="field"><span class="flabel">Hora Inicio Proceso 1</span><input class="finput" type="time" id="p5_inicio1"></div>
+            <div class="field"><span class="flabel">Hora Final Proceso 1</span><input class="finput" type="time" id="p5_final1"></div>
           </div>
           <div class="row2">
-            <div class="field"><span class="flabel">Inicio 2</span><input class="finput" type="time" id="p5_inicio2"></div>
-            <div class="field"><span class="flabel">Final 2</span><input class="finput" type="time" id="p5_final2"></div>
+            <div class="field"><span class="flabel">Hora Inicio Proceso 2</span><input class="finput" type="time" id="p5_inicio2"></div>
+            <div class="field"><span class="flabel">Hora Final Proceso 2</span><input class="finput" type="time" id="p5_final2"></div>
           </div>
           <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p5_resp" placeholder="Nombre"></div>
         </div>
@@ -475,15 +475,15 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         <div class="card">
           <div class="row2">
             <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p7_fecha"></div>
-            <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" id="p7_lote" placeholder="Lote"></div>
+            <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" id="p7_lote" placeholder="Ej. L-001-2026"></div>
           </div>
           <div class="row2">
-            <div class="field"><span class="flabel">Inicio 1</span><input class="finput" type="time" id="p7_inicio1"></div>
-            <div class="field"><span class="flabel">Final 1</span><input class="finput" type="time" id="p7_final1"></div>
+            <div class="field"><span class="flabel">Hora Inicio Proceso 1</span><input class="finput" type="time" id="p7_inicio1"></div>
+            <div class="field"><span class="flabel">Hora Final Proceso 1</span><input class="finput" type="time" id="p7_final1"></div>
           </div>
           <div class="row2">
-            <div class="field"><span class="flabel">Inicio 2</span><input class="finput" type="time" id="p7_inicio2"></div>
-            <div class="field"><span class="flabel">Final 2</span><input class="finput" type="time" id="p7_final2"></div>
+            <div class="field"><span class="flabel">Hora Inicio Proceso 2</span><input class="finput" type="time" id="p7_inicio2"></div>
+            <div class="field"><span class="flabel">Hora Final Proceso 2</span><input class="finput" type="time" id="p7_final2"></div>
           </div>
           <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p7_resp" placeholder="Nombre"></div>
         </div>
@@ -521,7 +521,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         <div class="card">
           <div class="row2">
             <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p9_fecha"></div>
-            <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" id="p9_lote" placeholder="Lote"></div>
+            <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" id="p9_lote" placeholder="Ej. L-001-2026"></div>
           </div>
           <div class="field"><span class="flabel">Materia Prima</span>
             <select class="finput" id="p9_materia">
@@ -710,19 +710,32 @@ function closeProd(){ goTab('nuevo', document.getElementById('tab-nuevo')); }
 // =================== FILAS DINÁMICAS ===================
 
 // F1 PELADO
+function calcTotalPelado(){
+  let total=0;
+  document.querySelectorAll('#p1_filas .card').forEach(card=>{
+    const inputs=card.querySelectorAll('input[type="number"]');
+    // First number input is Peso KG Pelados por Hora
+    const kg=parseFloat(inputs[0]?.value)||0;
+    total+=kg;
+    // Auto-fill Acumulado (second input)
+    if(inputs[1]) inputs[1].value=total>0?total.toFixed(2):'';
+  });
+  document.getElementById('p1_totalKg').value=total>0?total.toFixed(2):'';
+}
+
 function addFilaPelado(){
   const c=document.getElementById('p1_filas');
   const i=c.children.length+1;
   c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
     <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
     <div class="row2">
-      <div class="field"><span class="flabel">Hora Inicio</span><input class="finput" type="time" value="${nowTime()}"></div>
-      <div class="field"><span class="flabel">Hora Final</span><input class="finput" type="time"></div>
+      <div class="field"><span class="flabel">Hora Iniciocio</span><input class="finput" type="time" value="${nowTime()}"></div>
+      <div class="field"><span class="flabel">Hora Finalal</span><input class="finput" type="time"></div>
     </div>
     <div class="row3">
-      <div class="field"><span class="flabel">KG Pelados/h</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">Acumulado</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">KG Cáscara/h</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Peso KG Pelados por Hora</span><input class="finput" type="number" inputmode="decimal" placeholder="0" oninput="calcTotalPelado()"></div>
+      <div class="field"><span class="flabel">Acumulado</span><input class="finput" type="number" inputmode="decimal" placeholder="0" readonly style="background:#e8eef8;color:#2952b3;font-weight:700"></div>
+      <div class="field"><span class="flabel">KG de Cáscara por Hora</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
     </div>
     <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
   </div>`);
@@ -735,12 +748,12 @@ function addFilaHumedad(){
   c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
     <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">MEDICIÓN #${i}</div>
     <div class="row2">
-      <div class="field"><span class="flabel">Fecha/Hora</span><input class="finput" type="text" placeholder="Ej. 9:25am 02/02/26"></div>
-      <div class="field"><span class="flabel">Hum. Antes (%)</span><input class="finput" type="number" inputmode="decimal" placeholder="0.00"></div>
+      <div class="field"><span class="flabel">Fecha y Hora de Medición</span><input class="finput" type="text" placeholder="Ej. 9:25am 02/02/26"></div>
+      <div class="field"><span class="flabel">Humedad Antes de Freír (%)</span><input class="finput" type="number" inputmode="decimal" placeholder="0.00"></div>
     </div>
     <div class="row2">
-      <div class="field"><span class="flabel">Hum. Después (%)</span><input class="finput" type="number" inputmode="decimal" placeholder="0.00"></div>
-      <div class="field"><span class="flabel">Temp Ambiente (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Humedad Después de Freír (%)</span><input class="finput" type="number" inputmode="decimal" placeholder="0.00"></div>
+      <div class="field"><span class="flabel">Temperatura Ambiente (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
     </div>
     <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
   </div>`);
@@ -754,11 +767,11 @@ function addFilaChips(){
     <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">MEDICIÓN #${i}</div>
     <div class="row2">
       <div class="field"><span class="flabel">Hora</span><input class="finput" type="time" value="${nowTime()}"></div>
-      <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" placeholder="Lote"></div>
+      <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" placeholder="Ej. L-001-2026"></div>
     </div>
     <div class="row2">
-      <div class="field"><span class="flabel">Ancho (mm)</span><input class="finput" type="number" inputmode="decimal" placeholder="0.0"></div>
-      <div class="field"><span class="flabel">Calibre (mm)</span><input class="finput" type="number" inputmode="decimal" placeholder="0.0"></div>
+      <div class="field"><span class="flabel">Ancho Medido (mm)</span><input class="finput" type="number" inputmode="decimal" placeholder="0.0"></div>
+      <div class="field"><span class="flabel">Calibre Medido (mm)</span><input class="finput" type="number" inputmode="decimal" placeholder="0.0"></div>
     </div>
     <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
   </div>`);
@@ -772,20 +785,20 @@ function addFilaFreidor(){
     <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
     <div class="row2">
       <div class="field"><span class="flabel">Hora</span><input class="finput" type="time" value="${nowTime()}"></div>
-      <div class="field"><span class="flabel">Temp 1 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 1 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
     </div>
     <div class="row3">
-      <div class="field"><span class="flabel">Temp 2 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">Temp 3 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">Temp 4 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 2 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 3 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 4 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
     </div>
     <div class="row3">
-      <div class="field"><span class="flabel">Temp 5 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">T. Fritura (min)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">Vel. Malla (Hz)</span><input class="finput" type="text" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 5 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Tiempo de Fritura (min)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Velocidad de Malla (Hz)</span><input class="finput" type="text" placeholder="0"></div>
     </div>
     <div class="row2">
-      <div class="field"><span class="flabel">Alim. Aceite (L/T)</span><input class="finput" type="text" placeholder="0"></div>
+      <div class="field"><span class="flabel">Alimentación de Aceite (L/T)</span><input class="finput" type="text" placeholder="0"></div>
       <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
     </div>
   </div>`);
@@ -799,15 +812,15 @@ function addFilaHorno(){
     <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
     <div class="row2">
       <div class="field"><span class="flabel">Hora</span><input class="finput" type="time" value="${nowTime()}"></div>
-      <div class="field"><span class="flabel">Temp 1 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 1 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
     </div>
     <div class="row3">
-      <div class="field"><span class="flabel">Temp 2 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">Temp 3 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">T. Horno (min)</span><input class="finput" type="text" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 2 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 3 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Tiempo en Horno (min)</span><input class="finput" type="text" placeholder="0"></div>
     </div>
     <div class="row2">
-      <div class="field"><span class="flabel">Vel. Malla (Hz)</span><input class="finput" type="text" placeholder="0"></div>
+      <div class="field"><span class="flabel">Velocidad de Malla (Hz)</span><input class="finput" type="text" placeholder="0"></div>
       <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
     </div>
   </div>`);
@@ -824,9 +837,9 @@ function addFilaBrix(){
       <div class="field"><span class="flabel">Proveedor</span><input class="finput" type="text" placeholder="Nombre"></div>
     </div>
     <div class="row3">
-      <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" placeholder="Lote"></div>
-      <div class="field"><span class="flabel">Resultado °Brix</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">Hora Muestra</span><input class="finput" type="time" value="${nowTime()}"></div>
+      <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" placeholder="Ej. L-001-2026"></div>
+      <div class="field"><span class="flabel">Resultado en °Brix</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Hora de Toma de Muestra</span><input class="finput" type="time" value="${nowTime()}"></div>
     </div>
   </div>`);
 }
@@ -838,14 +851,14 @@ function addFilaCanastillas(){
   c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
     <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
     <div class="row3">
-      <div class="field"><span class="flabel">Hora Ini</span><input class="finput" type="time" value="${nowTime()}"></div>
-      <div class="field"><span class="flabel">Hora Fin</span><input class="finput" type="time"></div>
-      <div class="field"><span class="flabel"># Canastillas</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Hora Inicio</span><input class="finput" type="time" value="${nowTime()}"></div>
+      <div class="field"><span class="flabel">Hora Final</span><input class="finput" type="time"></div>
+      <div class="field"><span class="flabel">Número de Canastillas Formadas</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
     </div>
     <div class="row3">
-      <div class="field"><span class="flabel">KG Quemado</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">KG No Conf.</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">KG Caído/Piso</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">KG Producto Quemado</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">KG Producto No Conforme</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">KG Caídos al Piso</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
     </div>
     <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
   </div>`);
@@ -862,12 +875,12 @@ function addFilaTostones(){
       <div class="field"><span class="flabel">Cliente</span><input class="finput" type="text" placeholder="Cliente"></div>
     </div>
     <div class="row2">
-      <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" placeholder="Lote"></div>
-      <div class="field"><span class="flabel">Diám. Grande (cm)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" placeholder="Ej. L-001-2026"></div>
+      <div class="field"><span class="flabel">Diámetro Tostón Grande (cm)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
     </div>
     <div class="row2">
-      <div class="field"><span class="flabel">Espesor Grande (mm)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">Espesor Pequeña (mm)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Espesor Tostón Grande (mm)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Espesor Tostón Pequeña (mm)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
     </div>
     <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
   </div>`);
@@ -880,13 +893,13 @@ function addFilaDesperdicio(){
   c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
     <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
     <div class="row2">
-      <div class="field"><span class="flabel">KG Fresco</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">KG Pelado</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Peso KG Fresco</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Peso KG Pelado</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
     </div>
     <div class="row3">
-      <div class="field"><span class="flabel">Desc. Cáscara (KG)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">Desc. Crudo (KG)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">Desc. Frito (KG)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Desperdicios Cáscara (KG)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Desperdicios Crudo (KG)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Desperdicios Frito (KG)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
     </div>
     <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
   </div>`);
