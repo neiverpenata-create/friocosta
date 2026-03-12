@@ -722,7 +722,24 @@ function goPanel(id,btn){
 }
 
 function openProd(tipo){ goTab(tipo, document.getElementById('tab-'+tipo)); }
-function closeProd(){ goTab('nuevo', document.getElementById('tab-nuevo')); }
+function closeProd(){ /* no redirige */ }
+
+function limpiarFormProd(tipo){
+  const prefix='p'+{pelado:1,humedad:2,chips:3,freidor:4,horno:5,brix:6,canastillas:7,tostones:8,desperdicios:9}[tipo];
+  // Limpiar fecha y campos fijos
+  ['fecha','lote','resp','operario','producto','cliente','calibre','materia',
+   'lider','totalKg','inicio','final','inicio1','final1','inicio2','final2',
+   'proveedor','kgFresco','kgPelado','cascara','crudo','frito','obs'].forEach(f=>{
+    const el=document.getElementById(prefix+'_'+f);
+    if(el){
+      if(el.tagName==='SELECT') el.selectedIndex=0;
+      else el.value='';
+    }
+  });
+  // Limpiar filas dinámicas
+  const filasEl=document.getElementById(prefix+'_filas');
+  if(filasEl) filasEl.innerHTML='';
+}
 
 // =================== FILAS DINÁMICAS ===================
 
@@ -978,6 +995,82 @@ function recopilarFilas(containerId){
   return rows;
 }
 
+function gv(id){const el=document.getElementById(id);return el?el.value:'';}
+
+function buildFila(tipo, prefix){
+  const ts=new Date().toISOString();
+  const fecha=gv(prefix+'_fecha');
+  const usuario=me?me.name:'—';
+  const lote=gv(prefix+'_lote');
+  const resp=gv(prefix+'_resp');
+
+  // Filas dinamicas: cada fila se envia como fila separada pero aqui las concatenamos
+  const filasEl=document.getElementById(prefix+'_filas');
+  const filasData=filasEl?recopilarFilas(prefix+'_filas'):[];
+
+  // Para formularios con filas dinamicas, enviamos la primera fila o datos planos
+  const fd=filasData[0]||{};
+  const fdVals=Object.values(fd);
+
+  // PELADO: Timestamp|Fecha|Usuario|Lote|Operario|Hora Inicio|Hora Final|KG Pelados/Hora|Acumulado|KG Cascara/Hora|Obs|Total KG|Firma Lider
+  if(tipo==='pelado'){
+    return [ts,fecha,usuario,lote,gv(prefix+'_operario'),
+      gv(prefix+'_inicio'),gv(prefix+'_final'),
+      fdVals[2]||'',fdVals[3]||'',fdVals[4]||'',fdVals[5]||'',
+      gv(prefix+'_totalKg'),gv(prefix+'_lider')];
+  }
+  // HUMEDAD: Timestamp|Fecha|Usuario|Lote|Producto|Responsable|Hora Medicion|Recepcion MP dia antes|Hum antes freir|Hum despues freir|Hum despues horno|Temp amb atemperar|Min15|Min30|Min45|Min60|Hum relativa|Obs
+  if(tipo==='humedad'){
+    return [ts,fecha,usuario,lote,gv(prefix+'_producto'),resp,
+      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',fdVals[4]||'',
+      fdVals[5]||'',fdVals[6]||'',fdVals[7]||'',fdVals[8]||'',fdVals[9]||'',
+      fdVals[10]||'',fdVals[11]||''];
+  }
+  // CHIPS: Timestamp|Fecha|Usuario|Lote|Cliente|Calibre Especificado|Responsable|Hora|Ancho Medido|Calibre Medido|Obs
+  if(tipo==='chips'){
+    return [ts,fecha,usuario,lote,gv(prefix+'_cliente'),gv(prefix+'_calibre'),resp,
+      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||''];
+  }
+  // FREIDOR: Timestamp|Fecha|Usuario|Lote|Responsable|HI1|HF1|HI2|HF2|Hora|T1|T2|T3|T4|T5|Tiempo|Velocidad|Aceite|Obs
+  if(tipo==='freidor'){
+    return [ts,fecha,usuario,lote,resp,
+      gv(prefix+'_inicio1'),gv(prefix+'_final1'),gv(prefix+'_inicio2'),gv(prefix+'_final2'),
+      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',fdVals[4]||'',fdVals[5]||'',
+      fdVals[6]||'',fdVals[7]||'',fdVals[8]||'',fdVals[9]||''];
+  }
+  // HORNO: Timestamp|Fecha|Usuario|Lote|Responsable|HI1|HF1|HI2|HF2|Hora|T1|T2|T3|Tiempo|Velocidad|Obs
+  if(tipo==='horno'){
+    return [ts,fecha,usuario,lote,resp,
+      gv(prefix+'_inicio1'),gv(prefix+'_final1'),gv(prefix+'_inicio2'),gv(prefix+'_final2'),
+      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',
+      fdVals[4]||'',fdVals[5]||'',fdVals[6]||''];
+  }
+  // BRIX: Timestamp|Fecha|Usuario|Responsable|Producto|Proveedor|Lote|Resultado Brix|Hora muestra
+  if(tipo==='brix'){
+    return [ts,fecha,usuario,resp,
+      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',fdVals[4]||''];
+  }
+  // CANASTILLAS: Timestamp|Fecha|Usuario|Lote|Responsable|HI1|HF1|HI2|HF2|Hora inicio|Hora final|Canastillas|Personas|KG quemado|KG no conforme|KG caido|Obs|Total KG
+  if(tipo==='canastillas'){
+    return [ts,fecha,usuario,lote,resp,
+      gv(prefix+'_inicio1'),gv(prefix+'_final1'),gv(prefix+'_inicio2'),gv(prefix+'_final2'),
+      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',
+      fdVals[4]||'',fdVals[5]||'',fdVals[6]||'',fdVals[7]||'',
+      gv(prefix+'_totalKg')];
+  }
+  // TOSTONES: Timestamp|Fecha|Usuario|Responsable|Hora|Cliente|Lote|Diam grande|Esp grande|Esp pequeña|Obs
+  if(tipo==='tostones'){
+    return [ts,fecha,usuario,resp,
+      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',fdVals[4]||'',fdVals[5]||'',fdVals[6]||''];
+  }
+  // DESPERDICIOS: Timestamp|Fecha|Usuario|Lote|Materia Prima|Responsable|KG fresco|KG pelado|Casc|Crudo|Frito|Obs
+  if(tipo==='desperdicios'){
+    return [ts,fecha,usuario,lote,gv(prefix+'_materia'),resp,
+      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',fdVals[4]||'',fdVals[5]||''];
+  }
+  return [ts,fecha,usuario,lote,resp];
+}
+
 function guardarProd(tipo){
   const prefix='p'+{pelado:1,humedad:2,chips:3,freidor:4,horno:5,brix:6,canastillas:7,tostones:8,desperdicios:9}[tipo];
   const fechaEl=document.getElementById(prefix+'_fecha');
@@ -992,13 +1085,11 @@ function guardarProd(tipo){
     datos:{}
   };
 
-  // Recopilar campos fijos
   ['lote','resp','operario','producto','cliente','calibre','materia','lider','totalKg',
-   'inicio','final','inicio1','final1','inicio2','final2','totalKg'].forEach(f=>{
+   'inicio1','final1','inicio2','final2','proveedor','kgFresco','kgPelado','cascara','crudo','frito','obs'].forEach(f=>{
     const el=document.getElementById(prefix+'_'+f);
     if(el)rec.datos[f]=el.value;
   });
-  // Recopilar filas dinámicas
   const filasEl=document.getElementById(prefix+'_filas');
   if(filasEl)rec.datos.filas=recopilarFilas(prefix+'_filas');
 
@@ -1006,18 +1097,15 @@ function guardarProd(tipo){
   ls('fc_prod6',prodRegs);
   showToast('✅ '+rec.nombre+' guardado','#16a34a');
 
-  // Enviar a Google Sheets
-  // Convertir rec a fila array (timestamp + todos los valores del objeto)
-  const filaArr = [new Date().toISOString(), ...Object.values(rec)];
-  const payload={hoja:rec.nombre, fila:filaArr};
+  const fila=buildFila(tipo,prefix);
+  const payload={hoja:rec.nombre, fila:fila};
   fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)})
     .then(res=>res.json())
     .then(data=>{if(data.status==='ok')showToast('☁️ Guardado en Sheets','#0d6e3a');else showToast('⚠️ Error Sheets','#b91c1c');})
     .catch(()=>showToast('⚠️ Sin conexión - guardado local','#d97706'));
 
-  // Limpiar filas dinámicas
-  if(filasEl)filasEl.innerHTML='';
-  closeProd();
+  // Limpiar formulario y quedarse en la misma pantalla
+  limpiarFormProd(tipo);
   renderProdHist();
 }
 
@@ -1035,7 +1123,10 @@ function renderProdHist(){
     <div class="rc" style="border-left-color:${colors[r.tipo]||'#ccd6ef'}">
       <div class="rchead">
         <div><div class="rctitle">${r.nombre}</div><div class="rcdate">${r.fecha} · ${r.usuario}</div></div>
-        <span class="badge binfo">${r.tipo}</span>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="badge binfo">${r.tipo}</span>
+          <button onclick="eliminarProd(${r.id})" style="background:none;border:none;cursor:pointer;font-size:16px;color:#b91c1c;padding:2px 6px;border-radius:6px;line-height:1" title="Eliminar">🗑️</button>
+        </div>
       </div>
       ${r.datos.lote?`<div style="font-size:12px;color:#6b7280">Lote: ${r.datos.lote}</div>`:''}
       ${r.datos.filas?`<div style="font-size:11px;color:#6b7280;margin-top:4px">${r.datos.filas.length} registro(s)</div>`:''}
@@ -1122,7 +1213,7 @@ function registrar(){
   regs.push(r);ls('fc_reg5',regs);
   showToast('✅ Recepción registrada','#16a34a');
   limpiar();
-  const payload={hoja:'RECEPCIONES',fila:[new Date().toISOString(),r.fecha,r.usuario,r.materia,r.lote,r.kg,r.proveedor,r.codProv,r.zona,r.origen,r.finca,r.longitud,r.diametro,r.brix,r.color,r.olor,r.textura,r.apariencia,r.decision,r.obs,r.responsable,r.supervisor]};
+  const payload={hoja:'RECEPCIONES',fila:[r.fecha,r.materia,r.kg,r.proveedor,r.codProv,r.zona,r.origen,r.longitud,r.diametro,r.brix,r.color,r.olor,r.textura,r.apariencia,r.decision,r.obs,r.responsable]};
   fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)})
     .then(res=>res.json())
     .then(data=>{if(data.status==='ok')showToast('☁️ Guardado en Google Sheets','#0d6e3a');else showToast('⚠️ Error Sheets','#b91c1c');})
@@ -1168,7 +1259,7 @@ function renderHistorial(){
       r.brix&&['°Brix',r.brix+'°'],r.color&&['Color',r.color],
       r.olor&&['Olor',r.olor],r.textura&&['Textura',r.textura],
     ].filter(Boolean);
-    return `<div class="rc ${dc[r.decision]||''}"><div class="rchead"><div><div class="rctitle">${r.materia}</div><div class="rcdate">${r.fecha} · ${r.responsable||'—'}</div></div><span class="badge ${bc[r.decision]||'bwarn'}">${r.decision}</span></div><div class="rcbody">${items.map(([k,v])=>`<div class="rci"><span class="rckey">${k}</span>${v}</div>`).join('')}${r.obs?`<div class="rci rcfull"><span class="rckey">Obs</span>${r.obs}</div>`:''}</div></div>`;
+    return `<div class="rc ${dc[r.decision]||''}"><div class="rchead"><div><div class="rctitle">${r.materia}</div><div class="rcdate">${r.fecha} · ${r.responsable||'—'}</div></div><div style="display:flex;align-items:center;gap:8px"><span class="badge ${bc[r.decision]||'bwarn'}">${r.decision}</span><button onclick="eliminarRec(${r.id})" style="background:none;border:none;cursor:pointer;font-size:16px;color:#b91c1c;padding:2px 6px;border-radius:6px;line-height:1" title="Eliminar">🗑️</button></div></div><div class="rcbody">${items.map(([k,v])=>`<div class="rci"><span class="rckey">${k}</span>${v}</div>`).join('')}${r.obs?`<div class="rci rcfull"><span class="rckey">Obs</span>${r.obs}</div>`:''}</div></div>`;
   }).join('');
 }
 
@@ -1191,6 +1282,40 @@ function guardarRangos(){
 }
 
 function borrarTodo(){regs=[];ls('fc_reg5',[]);renderHistorial();showToast('🗑️ Registros eliminados');}
+
+function eliminarRec(id){
+  if(!confirm('¿Eliminar este registro? También se borrará del Sheets.')) return;
+  const idx=regs.findIndex(r=>r.id===id);
+  if(idx===-1) return;
+  const r=regs[idx];
+  regs.splice(idx,1);
+  ls('fc_reg5',regs);
+  renderHistorial();
+  showToast('🗑️ Registro eliminado','#b91c1c');
+  // Borrar en Sheets
+  fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain'},
+    body:JSON.stringify({accion:'eliminar',hoja:'RECEPCIONES',id:String(id)})})
+    .then(res=>res.json())
+    .then(data=>{if(data.status==='ok')showToast('☁️ Borrado del Sheets','#0d6e3a');})
+    .catch(()=>{});
+}
+
+function eliminarProd(id){
+  if(!confirm('¿Eliminar este registro? También se borrará del Sheets.')) return;
+  const idx=prodRegs.findIndex(r=>r.id===id);
+  if(idx===-1) return;
+  const r=prodRegs[idx];
+  prodRegs.splice(idx,1);
+  ls('fc_prod6',prodRegs);
+  renderProdHist();
+  showToast('🗑️ Registro eliminado','#b91c1c');
+  // Borrar en Sheets
+  fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain'},
+    body:JSON.stringify({accion:'eliminar',hoja:r.nombre,id:String(id)})})
+    .then(res=>res.json())
+    .then(data=>{if(data.status==='ok')showToast('☁️ Borrado del Sheets','#0d6e3a');})
+    .catch(()=>{});
+}
 
 let _tt=null;
 function showToast(msg,color){
