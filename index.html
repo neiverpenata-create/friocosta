@@ -595,7 +595,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
 </div>
 
 <script>
-const SCRIPT_URL='https://script.google.com/macros/s/AKfycbwXFs3WTwvgXm68zaEhFlY25nJXevC0byGnWV6vy2pCOSE-QCclBDuQ1xMd0QOm017OVw/exec';
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbwM7a682-l5SzG-aSFKzk2xgk9CEQ6hqsiUV6YM53UaFUmjaQxVuJp7xfoiJuJcFdM/exec';
 
 const USERS=[
   {code:'ADMIN001',name:'Administrador',rol:'admin'},
@@ -1007,9 +1007,12 @@ function guardarProd(tipo){
   showToast('✅ '+rec.nombre+' guardado','#16a34a');
 
   // Enviar a Google Sheets
-  const payload={...rec,hoja:rec.nombre};
-  fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)})
-    .then(()=>showToast('☁️ Guardado en Sheets','#0d6e3a'))
+  // Convertir rec a fila array (timestamp + todos los valores del objeto)
+  const filaArr = [new Date().toISOString(), ...Object.values(rec)];
+  const payload={hoja:rec.nombre, fila:filaArr};
+  fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)})
+    .then(res=>res.json())
+    .then(data=>{if(data.status==='ok')showToast('☁️ Guardado en Sheets','#0d6e3a');else showToast('⚠️ Error Sheets','#b91c1c');})
     .catch(()=>showToast('⚠️ Sin conexión - guardado local','#d97706'));
 
   // Limpiar filas dinámicas
@@ -1119,9 +1122,10 @@ function registrar(){
   regs.push(r);ls('fc_reg5',regs);
   showToast('✅ Recepción registrada','#16a34a');
   limpiar();
-  const payload={...r,hoja:'RECEPCIONES'};
-  fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)})
-    .then(()=>showToast('☁️ Guardado en Google Sheets','#0d6e3a'))
+  const payload={hoja:'RECEPCIONES',fila:[new Date().toISOString(),r.fecha,r.usuario,r.materia,r.lote,r.kg,r.proveedor,r.codProv,r.zona,r.origen,r.finca,r.longitud,r.diametro,r.brix,r.color,r.olor,r.textura,r.apariencia,r.decision,r.obs,r.responsable,r.supervisor]};
+  fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)})
+    .then(res=>res.json())
+    .then(data=>{if(data.status==='ok')showToast('☁️ Guardado en Google Sheets','#0d6e3a');else showToast('⚠️ Error Sheets','#b91c1c');})
     .catch(()=>showToast('⚠️ Sin conexión - guardado local','#d97706'));
 }
 
