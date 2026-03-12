@@ -1008,9 +1008,8 @@ function guardarProd(tipo){
 
   // Enviar a Google Sheets
   const payload={...rec,hoja:rec.nombre};
-  fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(payload)})
-    .then(r=>r.json())
-    .then(d=>{if(d.result==='ok')showToast('☁️ Guardado en Sheets','#0d6e3a');})
+  fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)})
+    .then(()=>showToast('☁️ Guardado en Sheets','#0d6e3a'))
     .catch(()=>showToast('⚠️ Sin conexión - guardado local','#d97706'));
 
   // Limpiar filas dinámicas
@@ -1121,10 +1120,9 @@ function registrar(){
   showToast('✅ Recepción registrada','#16a34a');
   limpiar();
   const payload={...r,hoja:'RECEPCIONES'};
-  fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify(payload)})
-    .then(res=>res.json())
-    .then(data=>{if(data.result==='ok')showToast('☁️ Guardado en Google Sheets','#0d6e3a');})
-    .catch(()=>{showToast('⚠️ Sin conexión - guardado local','#d97706');});
+  fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)})
+    .then(()=>showToast('☁️ Guardado en Google Sheets','#0d6e3a'))
+    .catch(()=>showToast('⚠️ Sin conexión - guardado local','#d97706'));
 }
 
 function limpiar(){
