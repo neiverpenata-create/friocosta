@@ -92,6 +92,9 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
 .rchead{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
 .rctitle{font-size:15px;font-weight:700}
 .rcdate{font-size:11px;color:#6b7280;font-family:monospace}
+.rc-clickable{cursor:pointer;transition:box-shadow .15s,transform .15s}
+.rc-clickable:hover{box-shadow:0 4px 16px rgba(0,0,0,.13);transform:translateY(-1px)}
+.rc-clickable:active{transform:scale(.98)}
 .rcbody{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .rci{font-size:12px}
 .rckey{color:#6b7280;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;display:block}
@@ -589,6 +592,13 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
   </div>
 </div>
 
+<div class="modal-bg" id="detailModal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.7);align-items:flex-start;justify-content:center;overflow-y:auto;padding:16px">
+  <div style="background:#fff;border-radius:16px;width:100%;max-width:480px;padding:20px;margin:auto;position:relative">
+    <button onclick="closeDetail()" style="position:absolute;top:12px;right:12px;background:#f1f5f9;border:none;border-radius:50%;width:32px;height:32px;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center">✕</button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
 <script>
 const SCRIPT_URL='https://script.google.com/macros/s/AKfycbwM7a682-l5SzG-aSFKzk2xgk9CEQ6hqsiUV6YM53UaFUmjaQxVuJp7xfoiJuJcFdM/exec';
 
@@ -983,7 +993,11 @@ function recopilarFilas(containerId){
     inputs.forEach((inp,idx)=>{
       const lbl=card.querySelectorAll('.flabel')[idx];
       const key=lbl?lbl.textContent.trim():('campo'+(idx+1));
-      obj[key]=inp.value;
+      if(inp.type==='file'){
+        obj[key]=inp.getAttribute('data-b64')||'';
+      } else {
+        obj[key]=inp.value;
+      }
     });
     rows.push(obj);
   });
@@ -1091,7 +1105,9 @@ function guardarProd(tipo){
   showToast('✅ '+rec.nombre+' guardado','#16a34a');
 
   const fila=buildFila(tipo,prefix);
-  const payload={hoja:rec.nombre, fila:fila};
+  // Eliminar fotos antes de enviar a Sheets (solo quedan en la app)
+  const filaSinFotos=fila.map(v=>(typeof v==='string'&&v.startsWith('data:image'))?'[foto]':v);
+  const payload={hoja:rec.nombre, fila:filaSinFotos};
   fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)})
     .then(()=>showToast('☁️ Guardado en Sheets','#0d6e3a'))
     .catch(()=>showToast('⚠️ Sin conexión - guardado local','#d97706'));
@@ -1112,33 +1128,21 @@ function renderHistTipo(tipo){
   const color=COLORS_PROD[tipo]||'#ccd6ef';
   con.innerHTML='<div style="font-size:12px;font-weight:700;color:'+color+';margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">📋 Registros guardados</div>'+
   lista.map(r=>{
-    const filaHtml=r.datos.filas&&r.datos.filas.length?
-      r.datos.filas.map((fila,i)=>{
-        const keys=Object.keys(fila).filter(k=>fila[k]!==''&&fila[k]!==null&&fila[k]!==undefined);
-        return `<div style="background:#f8fafc;border-radius:8px;padding:8px;margin-top:6px;font-size:11px"><strong style="color:${color}">Medición ${i+1}</strong><div class="rcbody" style="margin-top:4px">${keys.map(k=>`<div class="rci"><span class="rckey">${k}</span>${fila[k]}</div>`).join('')}</div></div>`;
-      }).join(''):'';
-    return `<div class="rc" style="border-left-color:${color};margin-bottom:10px">
+    const hasPhoto=r.datos.filas&&r.datos.filas.some(f=>Object.values(f).some(v=>v&&v.toString&&v.toString().startsWith('data:image')));
+    const photoSrc=hasPhoto?r.datos.filas.map(f=>Object.values(f).find(v=>v&&v.toString&&v.toString().startsWith('data:image'))).find(Boolean):'';
+    const medCount=r.datos.filas&&r.datos.filas.length?r.datos.filas.length:0;
+    return `<div class="rc rc-clickable" style="border-left-color:${color};margin-bottom:10px" onclick="openDetail('${tipo}',${r.id})">
       <div class="rchead">
-        <div><div class="rctitle">${r.nombre}</div><div class="rcdate">${r.fecha}${r.hora?' · '+r.hora:''} · ${r.usuario}</div></div>
-        <button onclick="eliminarProd(${r.id})" style="background:none;border:none;cursor:pointer;font-size:16px;color:#b91c1c;padding:2px 6px;border-radius:6px;line-height:1" title="Eliminar">🗑️</button>
+        <div style="flex:1"><div class="rctitle">${r.nombre}</div><div class="rcdate">${r.fecha}${r.hora?' · '+r.hora:''} · ${r.usuario}</div></div>
+        ${photoSrc?`<img src="${photoSrc}" style="width:48px;height:48px;object-fit:cover;border-radius:8px;margin:0 8px;border:2px solid ${color}44">`:''}
+        <span style="font-size:11px;color:#6b7280">${medCount>0?medCount+' med.':''}  ›</span>
       </div>
       <div class="rcbody" style="margin-top:8px">
         ${r.datos.lote?`<div class="rci"><span class="rckey">Lote</span>${r.datos.lote}</div>`:''}
         ${r.datos.resp?`<div class="rci"><span class="rckey">Responsable</span>${r.datos.resp}</div>`:''}
         ${r.datos.operario?`<div class="rci"><span class="rckey">Operario</span>${r.datos.operario}</div>`:''}
-        ${r.datos.producto?`<div class="rci"><span class="rckey">Producto</span>${r.datos.producto}</div>`:''}
-        ${r.datos.cliente?`<div class="rci"><span class="rckey">Cliente</span>${r.datos.cliente}</div>`:''}
-        ${r.datos.proveedor?`<div class="rci"><span class="rckey">Proveedor</span>${r.datos.proveedor}</div>`:''}
-        ${r.datos.inicio1?`<div class="rci"><span class="rckey">Inicio P1</span>${r.datos.inicio1}</div>`:''}
-        ${r.datos.final1?`<div class="rci"><span class="rckey">Final P1</span>${r.datos.final1}</div>`:''}
-        ${r.datos.inicio2?`<div class="rci"><span class="rckey">Inicio P2</span>${r.datos.inicio2}</div>`:''}
-        ${r.datos.final2?`<div class="rci"><span class="rckey">Final P2</span>${r.datos.final2}</div>`:''}
         ${r.datos.totalKg?`<div class="rci"><span class="rckey">Total KG</span>${r.datos.totalKg}</div>`:''}
-        ${r.datos.lider?`<div class="rci"><span class="rckey">Líder</span>${r.datos.lider}</div>`:''}
-        ${r.datos.calibre?`<div class="rci"><span class="rckey">Calibre</span>${r.datos.calibre}</div>`:''}
-        ${r.datos.obs?`<div class="rci rcfull"><span class="rckey">Obs</span>${r.datos.obs}</div>`:''}
       </div>
-      ${filaHtml}
     </div>`;
   }).join('');
 }
@@ -1269,7 +1273,7 @@ function renderHistorialGeneral(){
       r.brix&&['°Brix',r.brix+'°'],r.color&&['Color',r.color],
       r.olor&&['Olor',r.olor],r.textura&&['Textura',r.textura],
     ].filter(Boolean);
-    return `<div class="rc ${dc[r.decision]||''}" style="border-left-color:#0d6e3a"><div class="rchead"><div><div class="rctitle">🌾 ${r.materia}</div><div class="rcdate">${r.fecha}${r.hora?" · "+r.hora:""} · ${r.responsable||"—"}</div></div><div style="display:flex;align-items:center;gap:8px"><span class="badge ${bc[r.decision]||'bwarn'}">${r.decision}</span><button onclick="eliminarRec(${r.id})" style="background:none;border:none;cursor:pointer;font-size:16px;color:#b91c1c;padding:2px 6px;border-radius:6px;line-height:1" title="Eliminar">🗑️</button></div></div><div class="rcbody">${items.map(([k,v])=>`<div class="rci"><span class="rckey">${k}</span>${v}</div>`).join('')}${r.obs?`<div class="rci rcfull"><span class="rckey">Obs</span>${r.obs}</div>`:""}</div></div>`;
+    return `<div class="rc rc-clickable ${dc[r.decision]||''}" style="border-left-color:#0d6e3a" onclick="openDetail('recepcion',${r.id})"><div class="rchead"><div><div class="rctitle">🌾 ${r.materia}</div><div class="rcdate">${r.fecha}${r.hora?" · "+r.hora:""} · ${r.responsable||"—"}</div></div><div style="display:flex;align-items:center;gap:8px"><span class="badge ${bc[r.decision]||'bwarn'}">${r.decision}</span><span style="font-size:16px;color:#6b7280">›</span></div></div><div class="rcbody">${items.map(([k,v])=>`<div class="rci"><span class="rckey">${k}</span>${v}</div>`).join('')}${r.obs?`<div class="rci rcfull"><span class="rckey">Obs</span>${r.obs}</div>`:""}</div></div>`;
   }).join('');
 
   // Produccion
@@ -1281,7 +1285,7 @@ function renderHistorialGeneral(){
         const keys=Object.keys(fila).filter(k=>fila[k]!==''&&fila[k]!==null&&fila[k]!==undefined);
         return `<div style="background:#f8fafc;border-radius:8px;padding:8px;margin-top:6px;font-size:11px"><strong style="color:${color}">Fila ${i+1}</strong><div class="rcbody" style="margin-top:4px">${keys.map(k=>`<div class="rci"><span class="rckey">${k}</span>${fila[k]}</div>`).join('')}</div></div>`;
       }).join(''):'';
-    return `<div class="rc" style="border-left-color:${color}"><div class="rchead"><div><div class="rctitle">${r.nombre}</div><div class="rcdate">${r.fecha}${r.hora?" · "+r.hora:""} · ${r.usuario}</div></div><button onclick="eliminarProd(${r.id})" style="background:none;border:none;cursor:pointer;font-size:16px;color:#b91c1c;padding:2px 6px;border-radius:6px;line-height:1" title="Eliminar">🗑️</button></div><div class="rcbody" style="margin-top:8px">${r.datos.lote?`<div class="rci"><span class="rckey">Lote</span>${r.datos.lote}</div>`:""} ${r.datos.resp?`<div class="rci"><span class="rckey">Responsable</span>${r.datos.resp}</div>`:""} ${r.datos.operario?`<div class="rci"><span class="rckey">Operario</span>${r.datos.operario}</div>`:""} ${r.datos.producto?`<div class="rci"><span class="rckey">Producto</span>${r.datos.producto}</div>`:""} ${r.datos.cliente?`<div class="rci"><span class="rckey">Cliente</span>${r.datos.cliente}</div>`:""} ${r.datos.inicio1?`<div class="rci"><span class="rckey">Inicio</span>${r.datos.inicio1}</div>`:""} ${r.datos.final1?`<div class="rci"><span class="rckey">Final</span>${r.datos.final1}</div>`:""} ${r.datos.totalKg?`<div class="rci"><span class="rckey">Total KG</span>${r.datos.totalKg}</div>`:""} ${r.datos.lider?`<div class="rci"><span class="rckey">Líder</span>${r.datos.lider}</div>`:""} ${r.datos.obs?`<div class="rci rcfull"><span class="rckey">Obs</span>${r.datos.obs}</div>`:""}</div>${filaHtml}</div>`;
+    return `<div class="rc rc-clickable" style="border-left-color:${color}" onclick="openDetail('${r.tipo}',${r.id})"><div class="rchead"><div><div class="rctitle">${r.nombre}</div><div class="rcdate">${r.fecha}${r.hora?" · "+r.hora:""} · ${r.usuario}</div></div><span style="font-size:16px;color:#6b7280">›</span></div><div class="rcbody" style="margin-top:8px">${r.datos.lote?`<div class="rci"><span class="rckey">Lote</span>${r.datos.lote}</div>`:""} ${r.datos.resp?`<div class="rci"><span class="rckey">Responsable</span>${r.datos.resp}</div>`:""} ${r.datos.operario?`<div class="rci"><span class="rckey">Operario</span>${r.datos.operario}</div>`:""} ${r.datos.producto?`<div class="rci"><span class="rckey">Producto</span>${r.datos.producto}</div>`:""} ${r.datos.cliente?`<div class="rci"><span class="rckey">Cliente</span>${r.datos.cliente}</div>`:""} ${r.datos.inicio1?`<div class="rci"><span class="rckey">Inicio</span>${r.datos.inicio1}</div>`:""} ${r.datos.final1?`<div class="rci"><span class="rckey">Final</span>${r.datos.final1}</div>`:""} ${r.datos.totalKg?`<div class="rci"><span class="rckey">Total KG</span>${r.datos.totalKg}</div>`:""} ${r.datos.lider?`<div class="rci"><span class="rckey">Líder</span>${r.datos.lider}</div>`:""} ${r.datos.obs?`<div class="rci rcfull"><span class="rckey">Obs</span>${r.datos.obs}</div>`:""}</div>${filaHtml}</div>`;
   }).join('');
 
   const total=listaRec.length+listaProd.length;
@@ -1363,6 +1367,97 @@ function confirmAction(title,body,cb){
   document.getElementById('modalOk').onclick=function(){closeModal();if(_cb)_cb();};
 }
 function closeModal(){document.getElementById('modal').classList.remove('show');}
+
+function closeDetail(){
+  const m=document.getElementById('detailModal');
+  m.style.display='none';
+  document.body.style.overflow='';
+}
+
+function openDetail(tipo, id){
+  const COLORS={pelado:'#2952b3',humedad:'#0891b2',chips:'#d97706',freidor:'#dc2626',horno:'#ea580c',brix:'#7c3aed',canastillas:'#0d6e3a',tostones:'#be185d',desperdicios:'#374151',recepcion:'#0d6e3a'};
+  const dc={Aceptado:'#16a34a',Rechazado:'#dc2626',Condicional:'#d97706'};
+  let r,color,isRec=false;
+  if(tipo==='recepcion'){
+    r=regs.find(x=>x.id===id);
+    color=COLORS.recepcion;
+    isRec=true;
+  } else {
+    r=prodRegs.find(x=>x.id===id);
+    color=COLORS[tipo]||'#ccd6ef';
+  }
+  if(!r) return;
+
+  let html=`<div style="border-left:4px solid ${color};padding-left:12px;margin-bottom:16px">
+    <div style="font-size:18px;font-weight:800;color:#111827">${isRec?r.materia:r.nombre}</div>
+    <div style="font-size:12px;color:#6b7280;margin-top:2px">${r.fecha}${r.hora?' · '+r.hora:''} · ${isRec?r.responsable||'—':r.usuario}</div>
+  </div>`;
+
+  if(isRec){
+    // Recepcion MP detail
+    const fields=[
+      ['KG Recibidos', r.kg?Number(r.kg).toLocaleString('es-CO')+' kg':'—'],
+      ['Proveedor', r.proveedor||'—'],['Código Prov.', r.codProv||'—'],
+      ['Zona', r.zona||'—'],['Origen', r.origen||'—'],['Lote', r.lote||'—'],
+      r.longitud&&['Longitud', r.longitud+' cm'],r.diametro&&['Diámetro', r.diametro+' cm'],
+      r.brix&&['°Brix', r.brix+'°'],r.color&&['Color', r.color],
+      r.olor&&['Olor', r.olor],r.textura&&['Textura', r.textura],
+      r.apariencia&&['Apariencia', r.apariencia],
+    ].filter(Boolean);
+    html+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+      ${fields.map(([k,v])=>`<div style="background:#f8fafc;border-radius:8px;padding:8px"><div style="font-size:10px;font-weight:700;color:#6b7280;text-transform:uppercase">${k}</div><div style="font-size:13px;font-weight:600;color:#111827;margin-top:2px">${v}</div></div>`).join('')}
+    </div>`;
+    if(r.decision){
+      html+=`<div style="background:${dc[r.decision]||'#6b7280'}22;border:1px solid ${dc[r.decision]||'#6b7280'};border-radius:10px;padding:10px;text-align:center;font-weight:700;color:${dc[r.decision]||'#6b7280'};margin-bottom:12px">Decisión: ${r.decision}</div>`;
+    }
+    if(r.obs) html+=`<div style="background:#fffbeb;border-radius:8px;padding:10px;font-size:13px;margin-bottom:12px"><strong>Observaciones:</strong> ${r.obs}</div>`;
+  } else {
+    // Produccion detail
+    const d=r.datos||{};
+    const mainFields=[
+      d.lote&&['Lote',d.lote], d.resp&&['Responsable',d.resp],
+      d.operario&&['Operario',d.operario], d.producto&&['Producto',d.producto],
+      d.cliente&&['Cliente',d.cliente], d.proveedor&&['Proveedor',d.proveedor],
+      d.inicio1&&['Inicio P1',d.inicio1], d.final1&&['Final P1',d.final1],
+      d.inicio2&&['Inicio P2',d.inicio2], d.final2&&['Final P2',d.final2],
+      d.totalKg&&['Total KG',d.totalKg], d.lider&&['Líder',d.lider],
+      d.calibre&&['Calibre',d.calibre],
+    ].filter(Boolean);
+    if(mainFields.length){
+      html+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px">
+        ${mainFields.map(([k,v])=>`<div style="background:#f8fafc;border-radius:8px;padding:8px"><div style="font-size:10px;font-weight:700;color:#6b7280;text-transform:uppercase">${k}</div><div style="font-size:13px;font-weight:600;color:#111827;margin-top:2px">${v}</div></div>`).join('')}
+      </div>`;
+    }
+    if(d.obs) html+=`<div style="background:#fffbeb;border-radius:8px;padding:10px;font-size:13px;margin-bottom:12px"><strong>Observaciones:</strong> ${d.obs}</div>`;
+    // Mediciones with photos
+    if(d.filas&&d.filas.length){
+      html+=`<div style="font-size:13px;font-weight:700;color:${color};margin-bottom:8px;border-bottom:2px solid ${color}22;padding-bottom:4px">📋 Mediciones (${d.filas.length})</div>`;
+      d.filas.forEach((fila,i)=>{
+        const keys=Object.keys(fila);
+        const photoKey=keys.find(k=>fila[k]&&fila[k].startsWith&&fila[k].startsWith('data:image'));
+        const textKeys=keys.filter(k=>k!==photoKey&&fila[k]!==''&&fila[k]!==null);
+        html+=`<div style="background:#f8fafc;border-radius:10px;padding:10px;margin-bottom:8px;border-left:3px solid ${color}">
+          <div style="font-size:12px;font-weight:700;color:${color};margin-bottom:6px">Medición ${i+1}</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            ${textKeys.map(k=>`<div style="background:#fff;border-radius:6px;padding:6px"><div style="font-size:9px;font-weight:700;color:#6b7280;text-transform:uppercase">${k}</div><div style="font-size:12px;font-weight:600;color:#111827;margin-top:1px">${fila[k]}</div></div>`).join('')}
+          </div>
+          ${photoKey?`<div style="margin-top:8px"><div style="font-size:10px;font-weight:700;color:#6b7280;margin-bottom:4px">📷 FOTO DE EVIDENCIA</div><img src="${fila[photoKey]}" style="width:100%;max-height:220px;object-fit:cover;border-radius:8px;border:2px solid ${color}44"></div>`:''}
+        </div>`;
+      });
+    }
+  }
+
+  html+=`<div style="display:flex;gap:8px;margin-top:16px">
+    <button onclick="closeDetail()" style="flex:1;padding:12px;background:#f1f5f9;border:none;border-radius:10px;font-weight:600;cursor:pointer">Cerrar</button>
+    <button onclick="(tipo==='recepcion'?eliminarRec:eliminarProd)(${id});closeDetail();" style="padding:12px 16px;background:#fee2e2;border:none;border-radius:10px;color:#dc2626;font-weight:600;cursor:pointer">🗑️ Eliminar</button>
+  </div>`;
+
+  document.getElementById('detailContent').innerHTML=html;
+  const m=document.getElementById('detailModal');
+  m.style.display='flex';
+  document.body.style.overflow='hidden';
+  m.scrollTop=0;
+}
 
 document.getElementById('f_fecha').value=today();
 renderProdHist();
