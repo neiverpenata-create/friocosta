@@ -615,6 +615,7 @@ let me=null,regs=lg('fc_reg5',[]),cfg=lg('fc_cfg5',DEF),prodRegs=lg('fc_prod6',[
 function lg(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch{return d;}}
 function ls(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}}
 function today(){return new Date().toISOString().slice(0,10);}
+function tsLegible(){const n=new Date();const d=String(n.getDate()).padStart(2,'0');const m=String(n.getMonth()+1).padStart(2,'0');const y=n.getFullYear();const h=String(n.getHours()).padStart(2,'0');const mi=String(n.getMinutes()).padStart(2,'0');return `${d}/${m}/${y} ${h}:${mi}`;}
 function nowTime(){const n=new Date();return n.toTimeString().slice(0,5);}
 
 function previewFoto(input, prevId){
@@ -784,7 +785,6 @@ function addFilaHumedad(){
   c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
     <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">MEDICIÓN #${i}</div>
     <div class="row2">
-      <div class="field"><span class="flabel">Hora y Fecha de Medición</span><input class="finput" type="text" value="${ahora}" style="background:#e8eef8;color:#2952b3;font-weight:700"></div>
       <div class="field"><span class="flabel">Recepción MP un Día Antes</span><input class="finput" type="number" inputmode="decimal" placeholder="0.00"></div>
     </div>
     <div class="row2">
@@ -998,77 +998,74 @@ function recopilarFilas(containerId){
 function gv(id){const el=document.getElementById(id);return el?el.value:'';}
 
 function buildFila(tipo, prefix){
-  const ts=new Date().toISOString();
-  const fecha=gv(prefix+'_fecha');
+  const ts=tsLegible();
   const usuario=me?me.name:'—';
   const lote=gv(prefix+'_lote');
   const resp=gv(prefix+'_resp');
 
-  // Filas dinamicas: cada fila se envia como fila separada pero aqui las concatenamos
   const filasEl=document.getElementById(prefix+'_filas');
   const filasData=filasEl?recopilarFilas(prefix+'_filas'):[];
-
-  // Para formularios con filas dinamicas, enviamos la primera fila o datos planos
   const fd=filasData[0]||{};
   const fdVals=Object.values(fd);
 
-  // PELADO: Timestamp|Fecha|Usuario|Lote|Operario|Hora Inicio|Hora Final|KG Pelados/Hora|Acumulado|KG Cascara/Hora|Obs|Total KG|Firma Lider
+  // PELADO fila dinámica orden: [HoraInicio, HoraFinal, KGPelados, Acumulado, KGCascara, Obs]
   if(tipo==='pelado'){
-    return [ts,fecha,usuario,lote,gv(prefix+'_operario'),
+    return [ts,usuario,lote,gv(prefix+'_operario'),
       gv(prefix+'_inicio'),gv(prefix+'_final'),
-      fdVals[2]||'',fdVals[3]||'',fdVals[4]||'',fdVals[5]||'',
+      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',
       gv(prefix+'_totalKg'),gv(prefix+'_lider')];
   }
-  // HUMEDAD: Timestamp|Fecha|Usuario|Lote|Producto|Responsable|Hora Medicion|Recepcion MP dia antes|Hum antes freir|Hum despues freir|Hum despues horno|Temp amb atemperar|Min15|Min30|Min45|Min60|Hum relativa|Obs
+  // HUMEDAD fila dinámica orden (sin HoraFecha): [RecepcionMP, HumAntes, HumDespFreir, HumDespHorno, TempAmb, Min15, Min30, Min45, Min60, HumRelativa, Obs]
   if(tipo==='humedad'){
-    return [ts,fecha,usuario,lote,gv(prefix+'_producto'),resp,
-      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',fdVals[4]||'',
-      fdVals[5]||'',fdVals[6]||'',fdVals[7]||'',fdVals[8]||'',fdVals[9]||'',
-      fdVals[10]||'',fdVals[11]||''];
+    return [ts,usuario,lote,gv(prefix+'_producto'),resp,
+      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',
+      fdVals[4]||'',fdVals[5]||'',fdVals[6]||'',fdVals[7]||'',fdVals[8]||'',
+      fdVals[9]||'',fdVals[10]||''];
   }
-  // CHIPS: Timestamp|Fecha|Usuario|Lote|Cliente|Calibre Especificado|Responsable|Hora|Ancho Medido|Calibre Medido|Obs
+  // CHIPS fila dinámica orden: [Hora, Lote, AnchoMedido, CalibreMedido, Obs]
   if(tipo==='chips'){
-    return [ts,fecha,usuario,lote,gv(prefix+'_cliente'),gv(prefix+'_calibre'),resp,
-      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||''];
+    return [ts,usuario,lote,gv(prefix+'_cliente'),gv(prefix+'_calibre'),resp,
+      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',fdVals[4]||''];
   }
-  // FREIDOR: Timestamp|Fecha|Usuario|Lote|Responsable|HI1|HF1|HI2|HF2|Hora|T1|T2|T3|T4|T5|Tiempo|Velocidad|Aceite|Obs
+  // FREIDOR fila dinámica orden: [Hora, T1, T2, T3, T4, T5, Tiempo, Velocidad, Aceite, Obs]
   if(tipo==='freidor'){
-    return [ts,fecha,usuario,lote,resp,
+    return [ts,usuario,lote,resp,
       gv(prefix+'_inicio1'),gv(prefix+'_final1'),gv(prefix+'_inicio2'),gv(prefix+'_final2'),
-      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',fdVals[4]||'',fdVals[5]||'',
-      fdVals[6]||'',fdVals[7]||'',fdVals[8]||'',fdVals[9]||''];
+      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',fdVals[4]||'',
+      fdVals[5]||'',fdVals[6]||'',fdVals[7]||'',fdVals[8]||'',fdVals[9]||''];
   }
-  // HORNO: Timestamp|Fecha|Usuario|Lote|Responsable|HI1|HF1|HI2|HF2|Hora|T1|T2|T3|Tiempo|Velocidad|Obs
+  // HORNO fila dinámica orden: [Hora, T1, T2, T3, Tiempo, Velocidad, Obs]
   if(tipo==='horno'){
-    return [ts,fecha,usuario,lote,resp,
+    return [ts,usuario,lote,resp,
       gv(prefix+'_inicio1'),gv(prefix+'_final1'),gv(prefix+'_inicio2'),gv(prefix+'_final2'),
       fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',
       fdVals[4]||'',fdVals[5]||'',fdVals[6]||''];
   }
-  // BRIX: Timestamp|Fecha|Usuario|Responsable|Producto|Proveedor|Lote|Resultado Brix|Hora muestra
+  // BRIX fila dinámica orden: [ProductoTerminado, Proveedor, Lote, ResultadoBrix, HoraMuestra]
   if(tipo==='brix'){
-    return [ts,fecha,usuario,resp,
+    return [ts,usuario,resp,
       fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',fdVals[4]||''];
   }
-  // CANASTILLAS: Timestamp|Fecha|Usuario|Lote|Responsable|HI1|HF1|HI2|HF2|Hora inicio|Hora final|Canastillas|Personas|KG quemado|KG no conforme|KG caido|Obs|Total KG
+  // CANASTILLAS fila dinámica orden: [HoraInicio, HoraFinal, Canastillas, Personas, KGQuemado, KGNoConforme, KGCaido, Obs]
   if(tipo==='canastillas'){
-    return [ts,fecha,usuario,lote,resp,
+    return [ts,usuario,lote,resp,
       gv(prefix+'_inicio1'),gv(prefix+'_final1'),gv(prefix+'_inicio2'),gv(prefix+'_final2'),
       fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',
       fdVals[4]||'',fdVals[5]||'',fdVals[6]||'',fdVals[7]||'',
       gv(prefix+'_totalKg')];
   }
-  // TOSTONES: Timestamp|Fecha|Usuario|Responsable|Hora|Cliente|Lote|Diam grande|Esp grande|Esp pequeña|Obs
+  // TOSTONES fila dinámica orden: [Hora, Cliente, Lote, DiamGrande, EspGrande, EspPequena, Obs]
   if(tipo==='tostones'){
-    return [ts,fecha,usuario,resp,
-      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',fdVals[4]||'',fdVals[5]||'',fdVals[6]||''];
+    return [ts,usuario,resp,
+      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',
+      fdVals[4]||'',fdVals[5]||'',fdVals[6]||''];
   }
-  // DESPERDICIOS: Timestamp|Fecha|Usuario|Lote|Materia Prima|Responsable|KG fresco|KG pelado|Casc|Crudo|Frito|Obs
+  // DESPERDICIOS fila dinámica orden: [KGFresco, KGPelado, Cascara, Crudo, Frito, Obs]
   if(tipo==='desperdicios'){
-    return [ts,fecha,usuario,lote,gv(prefix+'_materia'),resp,
+    return [ts,usuario,lote,gv(prefix+'_materia'),resp,
       fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',fdVals[4]||'',fdVals[5]||''];
   }
-  return [ts,fecha,usuario,lote,resp];
+  return [ts,usuario,lote,resp];
 }
 
 function guardarProd(tipo){
@@ -1099,9 +1096,8 @@ function guardarProd(tipo){
 
   const fila=buildFila(tipo,prefix);
   const payload={hoja:rec.nombre, fila:fila};
-  fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)})
-    .then(res=>res.json())
-    .then(data=>{if(data.status==='ok')showToast('☁️ Guardado en Sheets','#0d6e3a');else showToast('⚠️ Error Sheets','#b91c1c');})
+  fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)})
+    .then(()=>showToast('☁️ Guardado en Sheets','#0d6e3a'))
     .catch(()=>showToast('⚠️ Sin conexión - guardado local','#d97706'));
 
   // Limpiar formulario y quedarse en la misma pantalla
@@ -1213,10 +1209,9 @@ function registrar(){
   regs.push(r);ls('fc_reg5',regs);
   showToast('✅ Recepción registrada','#16a34a');
   limpiar();
-  const payload={hoja:'RECEPCIONES',fila:[r.fecha,r.materia,r.kg,r.proveedor,r.codProv,r.zona,r.origen,r.longitud,r.diametro,r.brix,r.color,r.olor,r.textura,r.apariencia,r.decision,r.obs,r.responsable]};
-  fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)})
-    .then(res=>res.json())
-    .then(data=>{if(data.status==='ok')showToast('☁️ Guardado en Google Sheets','#0d6e3a');else showToast('⚠️ Error Sheets','#b91c1c');})
+  const payload={hoja:'RECEPCIONES',fila:[tsLegible(),r.materia,r.kg,r.proveedor,r.codProv,r.zona,r.origen,r.longitud,r.diametro,r.brix,r.color,r.olor,r.textura,r.apariencia,r.decision,r.obs,r.responsable]};
+  fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)})
+    .then(()=>showToast('☁️ Guardado en Google Sheets','#0d6e3a'))
     .catch(()=>showToast('⚠️ Sin conexión - guardado local','#d97706'));
 }
 
@@ -1293,7 +1288,7 @@ function eliminarRec(id){
   renderHistorial();
   showToast('🗑️ Registro eliminado','#b91c1c');
   // Borrar en Sheets
-  fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain'},
+  fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},
     body:JSON.stringify({accion:'eliminar',hoja:'RECEPCIONES',id:String(id)})})
     .then(res=>res.json())
     .then(data=>{if(data.status==='ok')showToast('☁️ Borrado del Sheets','#0d6e3a');})
@@ -1310,7 +1305,7 @@ function eliminarProd(id){
   renderProdHist();
   showToast('🗑️ Registro eliminado','#b91c1c');
   // Borrar en Sheets
-  fetch(SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain'},
+  fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},
     body:JSON.stringify({accion:'eliminar',hoja:r.nombre,id:String(id)})})
     .then(res=>res.json())
     .then(data=>{if(data.status==='ok')showToast('☁️ Borrado del Sheets','#0d6e3a');})
