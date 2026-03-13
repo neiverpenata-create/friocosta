@@ -301,22 +301,14 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
       <button class="btn btn-s" onclick="limpiar()">🔄 Limpiar Formulario</button>
     </div>
 
-    <!-- HISTORIAL -->
+    <!-- HISTORIAL GENERAL -->
     <div class="panel" id="panel-historial">
-      <div class="sgrid">
-        <div class="sbox"><div class="snum" id="st_total">0</div><div class="slbl">Total</div></div>
-        <div class="sbox"><div class="snum" id="st_kg" style="font-size:20px;margin-top:4px">0 kg</div><div class="slbl">KG</div></div>
-        <div class="sbox"><div class="snum" id="st_ok" style="color:#0d6e3a">0</div><div class="slbl">Aceptados</div></div>
-        <div class="sbox"><div class="snum" id="st_fail" style="color:#b91c1c">0</div><div class="slbl">Rechazados</div></div>
-      </div>
+      <div class="stitle" style="margin-bottom:12px">🔍 Buscar Registros por Fecha</div>
       <div class="filterrow">
-        <input type="date" id="filtroFecha" onchange="renderHistorial()">
-        <button class="btn btn-s" style="width:auto;padding:9px 14px;font-size:11px;margin-bottom:0" onclick="document.getElementById('filtroFecha').value='';renderHistorial()">Ver todos</button>
+        <input type="date" id="filtroFecha" onchange="renderHistorialGeneral()">
+        <button class="btn btn-s" style="width:auto;padding:9px 14px;font-size:11px;margin-bottom:0" onclick="document.getElementById('filtroFecha').value='';renderHistorialGeneral()">Ver todos</button>
       </div>
       <div id="recordList"></div>
-      <div id="adminBtns" style="margin-top:8px;display:none">
-        <button class="btn btn-d" onclick="confirmAction('¿Borrar TODOS los registros?','Esta acción no se puede deshacer.',borrarTodo)">🗑️ Borrar todos los registros</button>
-      </div>
     </div>
 
     <!-- PRODUCCION -->
@@ -721,7 +713,7 @@ function goPanel(id,btn){
   document.getElementById('panel-'+id).classList.add('active');
   btn.classList.add('active');
   document.querySelector('.app-body').scrollTop=0;
-  if(id==='historial'){renderHistorial();renderProdHist();}
+  if(id==='historial'){renderHistorialGeneral();}
   if(id==='rangos')loadRangos();
 }
 
@@ -1119,8 +1111,13 @@ function renderHistTipo(tipo){
   if(!lista.length){con.innerHTML='';return;}
   const color=COLORS_PROD[tipo]||'#ccd6ef';
   con.innerHTML='<div style="font-size:12px;font-weight:700;color:'+color+';margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">📋 Registros guardados</div>'+
-  lista.map(r=>`
-    <div class="rc" style="border-left-color:${color};margin-bottom:10px">
+  lista.map(r=>{
+    const filaHtml=r.datos.filas&&r.datos.filas.length?
+      r.datos.filas.map((fila,i)=>{
+        const keys=Object.keys(fila).filter(k=>fila[k]!==''&&fila[k]!==null&&fila[k]!==undefined);
+        return `<div style="background:#f8fafc;border-radius:8px;padding:8px;margin-top:6px;font-size:11px"><strong style="color:${color}">Medición ${i+1}</strong><div class="rcbody" style="margin-top:4px">${keys.map(k=>`<div class="rci"><span class="rckey">${k}</span>${fila[k]}</div>`).join('')}</div></div>`;
+      }).join(''):'';
+    return `<div class="rc" style="border-left-color:${color};margin-bottom:10px">
       <div class="rchead">
         <div><div class="rctitle">${r.nombre}</div><div class="rcdate">${r.fecha}${r.hora?' · '+r.hora:''} · ${r.usuario}</div></div>
         <button onclick="eliminarProd(${r.id})" style="background:none;border:none;cursor:pointer;font-size:16px;color:#b91c1c;padding:2px 6px;border-radius:6px;line-height:1" title="Eliminar">🗑️</button>
@@ -1132,15 +1129,18 @@ function renderHistTipo(tipo){
         ${r.datos.producto?`<div class="rci"><span class="rckey">Producto</span>${r.datos.producto}</div>`:''}
         ${r.datos.cliente?`<div class="rci"><span class="rckey">Cliente</span>${r.datos.cliente}</div>`:''}
         ${r.datos.proveedor?`<div class="rci"><span class="rckey">Proveedor</span>${r.datos.proveedor}</div>`:''}
-        ${r.datos.inicio1?`<div class="rci"><span class="rckey">Inicio</span>${r.datos.inicio1}</div>`:''}
-        ${r.datos.final1?`<div class="rci"><span class="rckey">Final</span>${r.datos.final1}</div>`:''}
+        ${r.datos.inicio1?`<div class="rci"><span class="rckey">Inicio P1</span>${r.datos.inicio1}</div>`:''}
+        ${r.datos.final1?`<div class="rci"><span class="rckey">Final P1</span>${r.datos.final1}</div>`:''}
+        ${r.datos.inicio2?`<div class="rci"><span class="rckey">Inicio P2</span>${r.datos.inicio2}</div>`:''}
+        ${r.datos.final2?`<div class="rci"><span class="rckey">Final P2</span>${r.datos.final2}</div>`:''}
         ${r.datos.totalKg?`<div class="rci"><span class="rckey">Total KG</span>${r.datos.totalKg}</div>`:''}
         ${r.datos.lider?`<div class="rci"><span class="rckey">Líder</span>${r.datos.lider}</div>`:''}
         ${r.datos.calibre?`<div class="rci"><span class="rckey">Calibre</span>${r.datos.calibre}</div>`:''}
         ${r.datos.obs?`<div class="rci rcfull"><span class="rckey">Obs</span>${r.datos.obs}</div>`:''}
-        ${r.datos.filas&&r.datos.filas.length?`<div class="rci"><span class="rckey">Mediciones</span>${r.datos.filas.length} fila(s)</div>`:''}
       </div>
-    </div>`).join('');
+      ${filaHtml}
+    </div>`;
+  }).join('');
 }
 
 function renderProdHist(){
@@ -1250,22 +1250,18 @@ function limpiar(){
   document.querySelector('.app-body').scrollTop=0;
 }
 
-function renderHistorial(){
+function renderHistorial(){renderHistorialGeneral();}
+
+function renderHistorialGeneral(){
   const f=document.getElementById('filtroFecha').value;
-  const lista=f?regs.filter(r=>r.fecha===f):[...regs];
-  const totKg=regs.reduce((a,r)=>a+(parseFloat(r.kg)||0),0);
-  document.getElementById('st_total').textContent=regs.length;
-  document.getElementById('st_kg').textContent=totKg>=1000?(totKg/1000).toFixed(1)+'t':totKg.toLocaleString('es-CO')+' kg';
-  document.getElementById('st_ok').textContent=regs.filter(r=>r.decision==='Aceptado').length;
-  document.getElementById('st_fail').textContent=regs.filter(r=>r.decision==='Rechazado').length;
   const con=document.getElementById('recordList');
-  if(!lista.length){
-    con.innerHTML=`<div class="empty"><div style="font-size:48px;margin-bottom:12px">${regs.length?'🔍':'📋'}</div><div style="font-size:14px;font-weight:600;margin-bottom:6px">${regs.length?'Sin resultados para esa fecha':'Sin registros aún'}</div></div>`;
-    return;
-  }
+  const COLORS={pelado:'#2952b3',humedad:'#0891b2',chips:'#d97706',freidor:'#dc2626',horno:'#ea580c',brix:'#7c3aed',canastillas:'#0d6e3a',tostones:'#be185d',desperdicios:'#374151',recepcion:'#0d6e3a'};
   const dc={Aceptado:'ok',Rechazado:'fail',Condicional:'warn'};
   const bc={Aceptado:'bok',Rechazado:'bfail',Condicional:'bwarn'};
-  con.innerHTML=[...lista].reverse().map(r=>{
+
+  // Recepcion MP
+  let listaRec=f?regs.filter(r=>r.fecha===f):[...regs];
+  const htmlRec=listaRec.reverse().map(r=>{
     const items=[
       ['KG',r.kg?Number(r.kg).toLocaleString('es-CO')+' kg':'—'],
       ['Proveedor',r.proveedor||'—'],['Zona',r.zona||'—'],['Lote',r.lote||'—'],
@@ -1273,8 +1269,27 @@ function renderHistorial(){
       r.brix&&['°Brix',r.brix+'°'],r.color&&['Color',r.color],
       r.olor&&['Olor',r.olor],r.textura&&['Textura',r.textura],
     ].filter(Boolean);
-    return `<div class="rc ${dc[r.decision]||''}"><div class="rchead"><div><div class="rctitle">${r.materia}</div><div class="rcdate">${r.fecha}${r.hora?" · "+r.hora:""} · ${r.responsable||"—"}</div></div><div style="display:flex;align-items:center;gap:8px"><span class="badge ${bc[r.decision]||'bwarn'}">${r.decision}</span><button onclick="eliminarRec(${r.id})" style="background:none;border:none;cursor:pointer;font-size:16px;color:#b91c1c;padding:2px 6px;border-radius:6px;line-height:1" title="Eliminar">🗑️</button></div></div><div class="rcbody">${items.map(([k,v])=>`<div class="rci"><span class="rckey">${k}</span>${v}</div>`).join('')}${r.obs?`<div class="rci rcfull"><span class="rckey">Obs</span>${r.obs}</div>`:''}</div></div>`;
+    return `<div class="rc ${dc[r.decision]||''}" style="border-left-color:#0d6e3a"><div class="rchead"><div><div class="rctitle">🌾 ${r.materia}</div><div class="rcdate">${r.fecha}${r.hora?" · "+r.hora:""} · ${r.responsable||"—"}</div></div><div style="display:flex;align-items:center;gap:8px"><span class="badge ${bc[r.decision]||'bwarn'}">${r.decision}</span><button onclick="eliminarRec(${r.id})" style="background:none;border:none;cursor:pointer;font-size:16px;color:#b91c1c;padding:2px 6px;border-radius:6px;line-height:1" title="Eliminar">🗑️</button></div></div><div class="rcbody">${items.map(([k,v])=>`<div class="rci"><span class="rckey">${k}</span>${v}</div>`).join('')}${r.obs?`<div class="rci rcfull"><span class="rckey">Obs</span>${r.obs}</div>`:""}</div></div>`;
   }).join('');
+
+  // Produccion
+  let listaProd=f?prodRegs.filter(r=>r.fecha===f):[...prodRegs];
+  const htmlProd=listaProd.reverse().map(r=>{
+    const color=COLORS[r.tipo]||'#ccd6ef';
+    const filaHtml=r.datos.filas&&r.datos.filas.length?
+      r.datos.filas.map((fila,i)=>{
+        const keys=Object.keys(fila).filter(k=>fila[k]!==''&&fila[k]!==null&&fila[k]!==undefined);
+        return `<div style="background:#f8fafc;border-radius:8px;padding:8px;margin-top:6px;font-size:11px"><strong style="color:${color}">Fila ${i+1}</strong><div class="rcbody" style="margin-top:4px">${keys.map(k=>`<div class="rci"><span class="rckey">${k}</span>${fila[k]}</div>`).join('')}</div></div>`;
+      }).join(''):'';
+    return `<div class="rc" style="border-left-color:${color}"><div class="rchead"><div><div class="rctitle">${r.nombre}</div><div class="rcdate">${r.fecha}${r.hora?" · "+r.hora:""} · ${r.usuario}</div></div><button onclick="eliminarProd(${r.id})" style="background:none;border:none;cursor:pointer;font-size:16px;color:#b91c1c;padding:2px 6px;border-radius:6px;line-height:1" title="Eliminar">🗑️</button></div><div class="rcbody" style="margin-top:8px">${r.datos.lote?`<div class="rci"><span class="rckey">Lote</span>${r.datos.lote}</div>`:""} ${r.datos.resp?`<div class="rci"><span class="rckey">Responsable</span>${r.datos.resp}</div>`:""} ${r.datos.operario?`<div class="rci"><span class="rckey">Operario</span>${r.datos.operario}</div>`:""} ${r.datos.producto?`<div class="rci"><span class="rckey">Producto</span>${r.datos.producto}</div>`:""} ${r.datos.cliente?`<div class="rci"><span class="rckey">Cliente</span>${r.datos.cliente}</div>`:""} ${r.datos.inicio1?`<div class="rci"><span class="rckey">Inicio</span>${r.datos.inicio1}</div>`:""} ${r.datos.final1?`<div class="rci"><span class="rckey">Final</span>${r.datos.final1}</div>`:""} ${r.datos.totalKg?`<div class="rci"><span class="rckey">Total KG</span>${r.datos.totalKg}</div>`:""} ${r.datos.lider?`<div class="rci"><span class="rckey">Líder</span>${r.datos.lider}</div>`:""} ${r.datos.obs?`<div class="rci rcfull"><span class="rckey">Obs</span>${r.datos.obs}</div>`:""}</div>${filaHtml}</div>`;
+  }).join('');
+
+  const total=listaRec.length+listaProd.length;
+  if(!total){
+    con.innerHTML=`<div class="empty"><div style="font-size:48px;margin-bottom:12px">${(regs.length+prodRegs.length)?'🔍':'📋'}</div><div style="font-size:14px;font-weight:600">${(regs.length+prodRegs.length)?'Sin resultados para esa fecha':'Sin registros aún'}</div></div>`;
+    return;
+  }
+  con.innerHTML=(htmlRec+htmlProd);
 }
 
 function loadRangos(){
