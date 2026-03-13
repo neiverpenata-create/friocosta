@@ -1317,37 +1317,24 @@ function guardarRangos(){
 function borrarTodo(){regs=[];ls('fc_reg5',[]);renderHistorial();showToast('🗑️ Registros eliminados');}
 
 function eliminarRec(id){
-  if(!confirm('¿Eliminar este registro? También se borrará del Sheets.')) return;
+  if(!confirm('¿Eliminar este registro de la app?')) return;
   const idx=regs.findIndex(r=>r.id===id);
   if(idx===-1) return;
-  const r=regs[idx];
   regs.splice(idx,1);
   ls('fc_reg5',regs);
   renderHistorial();
-  showToast('🗑️ Registro eliminado','#b91c1c');
-  // Borrar en Sheets
-  fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},
-    body:JSON.stringify({accion:'eliminar',hoja:'RECEPCIONES',id:String(id)})})
-    .then(res=>res.json())
-    .then(data=>{if(data.status==='ok')showToast('☁️ Borrado del Sheets','#0d6e3a');})
-    .catch(()=>{});
+  showToast('🗑️ Eliminado de la app','#b91c1c');
 }
 
 function eliminarProd(id){
-  if(!confirm('¿Eliminar este registro? También se borrará del Sheets.')) return;
+  if(!confirm('¿Eliminar este registro de la app?')) return;
   const idx=prodRegs.findIndex(r=>r.id===id);
   if(idx===-1) return;
   const r=prodRegs[idx];
   prodRegs.splice(idx,1);
   ls('fc_prod6',prodRegs);
   renderHistTipo(r.tipo);
-  showToast('🗑️ Registro eliminado','#b91c1c');
-  // Borrar en Sheets
-  fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},
-    body:JSON.stringify({accion:'eliminar',hoja:r.nombre,id:String(id)})})
-    .then(res=>res.json())
-    .then(data=>{if(data.status==='ok')showToast('☁️ Borrado del Sheets','#0d6e3a');})
-    .catch(()=>{});
+  showToast('🗑️ Eliminado de la app','#b91c1c');
 }
 
 let _tt=null;
