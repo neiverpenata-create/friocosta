@@ -213,7 +213,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           </div>
           <input type="hidden" id="f_materia">
         </div>
-        <div class="field"><span class="flabel">KG Recibidos</span><input class="finput" type="number" id="f_kg" inputmode="decimal" placeholder="Ej. 8860"></div>
+        <div class="field"><span class="flabel">KG Recibidos</span><input class="finput" type="text" id="f_kg" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="Ej. 8860"></div>
         <div class="field"><span class="flabel">Proveedor</span><input class="finput" type="text" id="f_proveedor" placeholder="Nombre o razón social"></div>
         <div class="field"><span class="flabel">Código Proveedor</span><input class="finput" type="text" id="f_codProv" placeholder="Ej. IBA606"></div>
       </div>
@@ -236,9 +236,9 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
 
       <div class="stitle">📐 Especificaciones</div>
       <div class="card">
-        <div class="field"><span class="flabel">Longitud (cm)</span><input class="finput" type="number" id="f_longitud" inputmode="decimal" placeholder="Ej. 23"></div>
-        <div class="field"><span class="flabel">Diámetro (cm)</span><input class="finput" type="number" id="f_diametro" inputmode="decimal" placeholder="Ej. 8"></div>
-        <div class="field"><span class="flabel">Grados °Brix</span><input class="finput" type="number" id="f_brix" inputmode="decimal" placeholder="Ej. 6"></div>
+        <div class="field"><span class="flabel">Longitud (cm)</span><input class="finput" type="text" id="f_longitud" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="Ej. 23"></div>
+        <div class="field"><span class="flabel">Diámetro (cm)</span><input class="finput" type="text" id="f_diametro" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="Ej. 8"></div>
+        <div class="field"><span class="flabel">Grados °Brix</span><input class="finput" type="text" id="f_brix" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="Ej. 6"></div>
         <div class="field"><span class="flabel">Color</span>
           <div class="chips" id="cg_color">
             <div class="chip" data-val="Blanco" data-c="b">⬜ Blanco</div>
@@ -351,7 +351,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         </div>
         <div class="card">
           <div class="row3">
-            <div class="field"><span class="flabel">Total KG Pelados en el Día</span><input class="finput" type="number" id="p1_totalKg" inputmode="decimal" placeholder="0" readonly style="background:#e6f7ee;color:#0d6e3a;font-weight:800;font-size:20px;text-align:center"></div>
+            <div class="field"><span class="flabel">Total KG Pelados en el Día</span><input class="finput" type="text" id="p1_totalKg" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0" readonly style="background:#e6f7ee;color:#0d6e3a;font-weight:800;font-size:20px;text-align:center"></div>
             <div class="field"><span class="flabel">Firma Líder de Producción</span><input class="finput" type="text" id="p1_lider" placeholder="Nombre"></div>
             <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p1_resp" placeholder="Nombre"></div>
           </div>
@@ -493,7 +493,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           <button class="btn btn-s" style="margin-top:8px" onclick="addFilaCanastillas()">+ Agregar hora</button>
         </div>
         <div class="card">
-          <div class="field"><span class="flabel">Total KG / día</span><input class="finput" type="number" id="p7_totalKg" inputmode="decimal" placeholder="0"></div>
+          <div class="field"><span class="flabel">Total KG / día</span><input class="finput" type="text" id="p7_totalKg" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
         </div>
         <button class="btn btn-g" onclick="guardarProd('canastillas')">💾 Guardar Registro</button>
       </div>
@@ -550,23 +550,23 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
       <div class="card">
         <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:14px">🍌 Plátano</div>
         <div class="rgrid">
-          <div class="field"><span class="flabel">Long. Mín cm</span><input class="finput" type="number" id="rPlaLongMin" inputmode="decimal"></div>
-          <div class="field"><span class="flabel">Long. Máx cm</span><input class="finput" type="number" id="rPlaLongMax" inputmode="decimal"></div>
-          <div class="field"><span class="flabel">Diám. Mín cm</span><input class="finput" type="number" id="rPlaDiamMin" inputmode="decimal"></div>
-          <div class="field"><span class="flabel">Diám. Máx cm</span><input class="finput" type="number" id="rPlaDiamMax" inputmode="decimal"></div>
-          <div class="field"><span class="flabel">°Brix Mín</span><input class="finput" type="number" id="rPlaBrixMin" inputmode="decimal"></div>
-          <div class="field"><span class="flabel">°Brix Máx</span><input class="finput" type="number" id="rPlaBrixMax" inputmode="decimal"></div>
+          <div class="field"><span class="flabel">Long. Mín cm</span><input class="finput" type="text" id="rPlaLongMin" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
+          <div class="field"><span class="flabel">Long. Máx cm</span><input class="finput" type="text" id="rPlaLongMax" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
+          <div class="field"><span class="flabel">Diám. Mín cm</span><input class="finput" type="text" id="rPlaDiamMin" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
+          <div class="field"><span class="flabel">Diám. Máx cm</span><input class="finput" type="text" id="rPlaDiamMax" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
+          <div class="field"><span class="flabel">°Brix Mín</span><input class="finput" type="text" id="rPlaBrixMin" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
+          <div class="field"><span class="flabel">°Brix Máx</span><input class="finput" type="text" id="rPlaBrixMax" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
         </div>
       </div>
       <div class="card">
         <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:14px">🫚 Ñame / Yuca / Raíces</div>
         <div class="rgrid">
-          <div class="field"><span class="flabel">Long. Mín cm</span><input class="finput" type="number" id="rNamLongMin" inputmode="decimal"></div>
-          <div class="field"><span class="flabel">Long. Máx cm</span><input class="finput" type="number" id="rNamLongMax" inputmode="decimal"></div>
-          <div class="field"><span class="flabel">Diám. Mín cm</span><input class="finput" type="number" id="rNamDiamMin" inputmode="decimal"></div>
-          <div class="field"><span class="flabel">Diám. Máx cm</span><input class="finput" type="number" id="rNamDiamMax" inputmode="decimal"></div>
-          <div class="field"><span class="flabel">°Brix Mín</span><input class="finput" type="number" id="rNamBrixMin" inputmode="decimal"></div>
-          <div class="field"><span class="flabel">°Brix Máx</span><input class="finput" type="number" id="rNamBrixMax" inputmode="decimal"></div>
+          <div class="field"><span class="flabel">Long. Mín cm</span><input class="finput" type="text" id="rNamLongMin" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
+          <div class="field"><span class="flabel">Long. Máx cm</span><input class="finput" type="text" id="rNamLongMax" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
+          <div class="field"><span class="flabel">Diám. Mín cm</span><input class="finput" type="text" id="rNamDiamMin" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
+          <div class="field"><span class="flabel">Diám. Máx cm</span><input class="finput" type="text" id="rNamDiamMax" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
+          <div class="field"><span class="flabel">°Brix Mín</span><input class="finput" type="text" id="rNamBrixMin" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
+          <div class="field"><span class="flabel">°Brix Máx</span><input class="finput" type="text" id="rNamBrixMax" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
         </div>
       </div>
       <button class="btn btn-p" onclick="guardarRangos()">💾 Guardar Rangos</button>
@@ -615,7 +615,7 @@ let me=null,regs=lg('fc_reg5',[]),cfg=lg('fc_cfg5',DEF),prodRegs=lg('fc_prod6',[
 function lg(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch{return d;}}
 function ls(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}}
 function today(){return new Date().toISOString().slice(0,10);}
-function tsLegible(){const n=new Date();const d=String(n.getDate()).padStart(2,'0');const m=String(n.getMonth()+1).padStart(2,'0');const y=n.getFullYear();const h=String(n.getHours()).padStart(2,'0');const mi=String(n.getMinutes()).padStart(2,'0');return `${d}/${m}/${y} ${h}:${mi}`;}
+function tsLegible(){const n=new Date();const d=String(n.getDate()).padStart(2,'0');const m=String(n.getMonth()+1).padStart(2,'0');const y=n.getFullYear();let h=n.getHours();const mi=String(n.getMinutes()).padStart(2,'0');const ampm=h>=12?'PM':'AM';h=h%12||12;return `${d}/${m}/${y} ${String(h).padStart(2,'0')}:${mi} ${ampm}`;}
 function nowTime(){const n=new Date();return n.toTimeString().slice(0,5);}
 
 function previewFoto(input, prevId){
@@ -748,7 +748,7 @@ function limpiarFormProd(tipo){
 function calcTotalPelado(){
   let total=0;
   document.querySelectorAll('#p1_filas .card').forEach(card=>{
-    const inputs=card.querySelectorAll('input[type="number"]');
+    const inputs=card.querySelectorAll('input[type="number"], input[type="text"][inputmode="decimal"]');
     // First number input is Peso KG Pelados por Hora
     const kg=parseFloat(inputs[0]?.value)||0;
     total+=kg;
@@ -768,9 +768,9 @@ function addFilaPelado(){
       <div class="field"><span class="flabel">Hora Finalal</span><input class="finput" type="time"></div>
     </div>
     <div class="row3">
-      <div class="field"><span class="flabel">Peso KG Pelados por Hora</span><input class="finput" type="number" inputmode="decimal" placeholder="0" oninput="calcTotalPelado()"></div>
-      <div class="field"><span class="flabel">Acumulado</span><input class="finput" type="number" inputmode="decimal" placeholder="0" readonly style="background:#e8eef8;color:#2952b3;font-weight:700"></div>
-      <div class="field"><span class="flabel">KG de Cáscara por Hora</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Peso KG Pelados por Hora</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0" oninput="calcTotalPelado()"></div>
+      <div class="field"><span class="flabel">Acumulado</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0" readonly style="background:#e8eef8;color:#2952b3;font-weight:700"></div>
+      <div class="field"><span class="flabel">KG de Cáscara por Hora</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
     </div>
     <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
   </div>`);
@@ -785,26 +785,26 @@ function addFilaHumedad(){
   c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
     <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">MEDICIÓN #${i}</div>
     <div class="row2">
-      <div class="field"><span class="flabel">Recepción MP un Día Antes</span><input class="finput" type="number" inputmode="decimal" placeholder="0.00"></div>
+      <div class="field"><span class="flabel">Recepción MP un Día Antes</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0.00"></div>
     </div>
     <div class="row2">
-      <div class="field"><span class="flabel">Humedad Antes de Freír (%)</span><input class="finput" type="number" inputmode="decimal" placeholder="0.00"></div>
-      <div class="field"><span class="flabel">Humedad Después de Freír (%)</span><input class="finput" type="number" inputmode="decimal" placeholder="0.00"></div>
+      <div class="field"><span class="flabel">Humedad Antes de Freír (%)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0.00"></div>
+      <div class="field"><span class="flabel">Humedad Después de Freír (%)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0.00"></div>
     </div>
     <div class="row2">
-      <div class="field"><span class="flabel">Humedad Después de Horneado (%)</span><input class="finput" type="number" inputmode="decimal" placeholder="0.00"></div>
-      <div class="field"><span class="flabel">Hum. Temp. Ambiente al Atemperar (%)</span><input class="finput" type="number" inputmode="decimal" placeholder="0.00"></div>
+      <div class="field"><span class="flabel">Humedad Después de Horneado (%)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0.00"></div>
+      <div class="field"><span class="flabel">Hum. Temp. Ambiente al Atemperar (%)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0.00"></div>
     </div>
     <div class="row2">
-      <div class="field"><span class="flabel">Hum. Temp. Ambiente Minuto 15</span><input class="finput" type="number" inputmode="decimal" placeholder="0.00"></div>
-      <div class="field"><span class="flabel">Hum. Temp. Ambiente Minuto 30</span><input class="finput" type="number" inputmode="decimal" placeholder="0.00"></div>
+      <div class="field"><span class="flabel">Hum. Temp. Ambiente Minuto 15</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0.00"></div>
+      <div class="field"><span class="flabel">Hum. Temp. Ambiente Minuto 30</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0.00"></div>
     </div>
     <div class="row2">
-      <div class="field"><span class="flabel">Hum. Temp. Ambiente Minuto 45</span><input class="finput" type="number" inputmode="decimal" placeholder="0.00"></div>
-      <div class="field"><span class="flabel">Hum. Temp. Ambiente Minuto 60</span><input class="finput" type="number" inputmode="decimal" placeholder="0.00"></div>
+      <div class="field"><span class="flabel">Hum. Temp. Ambiente Minuto 45</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0.00"></div>
+      <div class="field"><span class="flabel">Hum. Temp. Ambiente Minuto 60</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0.00"></div>
     </div>
     <div class="row2">
-      <div class="field"><span class="flabel">Humedad Relativa del Ambiente (%)</span><input class="finput" type="number" inputmode="decimal" placeholder="0.00"></div>
+      <div class="field"><span class="flabel">Humedad Relativa del Ambiente (%)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0.00"></div>
       <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
     </div>
     <div class="field">
@@ -830,8 +830,8 @@ function addFilaChips(){
       <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" placeholder="Ej. L-001-2026"></div>
     </div>
     <div class="row2">
-      <div class="field"><span class="flabel">Ancho Medido (mm)</span><input class="finput" type="number" inputmode="decimal" placeholder="0.0"></div>
-      <div class="field"><span class="flabel">Calibre Medido (mm)</span><input class="finput" type="number" inputmode="decimal" placeholder="0.0"></div>
+      <div class="field"><span class="flabel">Ancho Medido (mm)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0.0"></div>
+      <div class="field"><span class="flabel">Calibre Medido (mm)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0.0"></div>
     </div>
     <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
   </div>`);
@@ -845,16 +845,16 @@ function addFilaFreidor(){
     <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
     <div class="row2">
       <div class="field"><span class="flabel">Hora</span><input class="finput" type="time" value="${nowTime()}"></div>
-      <div class="field"><span class="flabel">Temperatura Zona 1 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 1 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
     </div>
     <div class="row3">
-      <div class="field"><span class="flabel">Temperatura Zona 2 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">Temperatura Zona 3 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">Temperatura Zona 4 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 2 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 3 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 4 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
     </div>
     <div class="row3">
-      <div class="field"><span class="flabel">Temperatura Zona 5 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">Tiempo de Fritura (min)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 5 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
+      <div class="field"><span class="flabel">Tiempo de Fritura (min)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
       <div class="field"><span class="flabel">Velocidad de Malla (Hz)</span><input class="finput" type="text" placeholder="0"></div>
     </div>
     <div class="row2">
@@ -872,11 +872,11 @@ function addFilaHorno(){
     <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
     <div class="row2">
       <div class="field"><span class="flabel">Hora</span><input class="finput" type="time" value="${nowTime()}"></div>
-      <div class="field"><span class="flabel">Temperatura Zona 1 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 1 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
     </div>
     <div class="row3">
-      <div class="field"><span class="flabel">Temperatura Zona 2 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">Temperatura Zona 3 (°C)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 2 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 3 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
       <div class="field"><span class="flabel">Tiempo en Horno (min)</span><input class="finput" type="text" placeholder="0"></div>
     </div>
     <div class="row2">
@@ -899,7 +899,7 @@ function addFilaBrix(){
     </div>
     <div class="row3">
       <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" placeholder="Ej. L-001-2026"></div>
-      <div class="field"><span class="flabel">Resultado en °Brix</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Resultado en °Brix</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
       <div class="field"><span class="flabel">Hora de Toma de Muestra</span><input class="finput" type="time" value="${nowTime()}"></div>
     </div>
     <div class="field">
@@ -923,14 +923,14 @@ function addFilaCanastillas(){
     <div class="row3">
       <div class="field"><span class="flabel">Hora Inicio</span><input class="finput" type="time" value="${nowTime()}"></div>
       <div class="field"><span class="flabel">Hora Final</span><input class="finput" type="time"></div>
-      <div class="field"><span class="flabel">Número de Canastillas Formadas</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Número de Canastillas Formadas</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
     </div>
     <div class="row3">
       <div class="field"><span class="flabel">Nº de Personas en Turno</span><input class="finput" type="number" inputmode="numeric" placeholder="0"></div>
-      <div class="field"><span class="flabel">KG Producto Quemado</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">KG Producto No Conforme</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">KG Producto Quemado</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
+      <div class="field"><span class="flabel">KG Producto No Conforme</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
     </div>
-      <div class="field"><span class="flabel">KG Caídos al Piso</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">KG Caídos al Piso</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
     </div>
     <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
   </div>`);
@@ -948,11 +948,11 @@ function addFilaTostones(){
     </div>
     <div class="row2">
       <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" placeholder="Ej. L-001-2026"></div>
-      <div class="field"><span class="flabel">Diámetro Tostón Grande (cm)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Diámetro Tostón Grande (cm)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
     </div>
     <div class="row2">
-      <div class="field"><span class="flabel">Espesor Tostón Grande (mm)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">Espesor Tostón Pequeña (mm)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Espesor Tostón Grande (mm)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
+      <div class="field"><span class="flabel">Espesor Tostón Pequeña (mm)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
     </div>
     <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
   </div>`);
@@ -965,13 +965,13 @@ function addFilaDesperdicio(){
   c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
     <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
     <div class="row2">
-      <div class="field"><span class="flabel">Peso KG Fresco</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">Peso KG Pelado</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Peso KG Fresco</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
+      <div class="field"><span class="flabel">Peso KG Pelado</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
     </div>
     <div class="row3">
-      <div class="field"><span class="flabel">Desperdicios Cáscara (KG)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">Desperdicios Crudo (KG)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
-      <div class="field"><span class="flabel">Desperdicios Frito (KG)</span><input class="finput" type="number" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Desperdicios Cáscara (KG)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
+      <div class="field"><span class="flabel">Desperdicios Crudo (KG)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
+      <div class="field"><span class="flabel">Desperdicios Frito (KG)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
     </div>
     <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
   </div>`);
@@ -1185,6 +1185,7 @@ function registrar(){
   const r={
     id:Date.now(),
     fecha:document.getElementById('f_fecha').value,
+    hora:tsLegible().split(' ').slice(1).join(' '),
     materia:document.getElementById('f_materia').value,
     lote:document.getElementById('f_lote').value,
     kg:document.getElementById('f_kg').value,
@@ -1254,7 +1255,7 @@ function renderHistorial(){
       r.brix&&['°Brix',r.brix+'°'],r.color&&['Color',r.color],
       r.olor&&['Olor',r.olor],r.textura&&['Textura',r.textura],
     ].filter(Boolean);
-    return `<div class="rc ${dc[r.decision]||''}"><div class="rchead"><div><div class="rctitle">${r.materia}</div><div class="rcdate">${r.fecha} · ${r.responsable||'—'}</div></div><div style="display:flex;align-items:center;gap:8px"><span class="badge ${bc[r.decision]||'bwarn'}">${r.decision}</span><button onclick="eliminarRec(${r.id})" style="background:none;border:none;cursor:pointer;font-size:16px;color:#b91c1c;padding:2px 6px;border-radius:6px;line-height:1" title="Eliminar">🗑️</button></div></div><div class="rcbody">${items.map(([k,v])=>`<div class="rci"><span class="rckey">${k}</span>${v}</div>`).join('')}${r.obs?`<div class="rci rcfull"><span class="rckey">Obs</span>${r.obs}</div>`:''}</div></div>`;
+    return `<div class="rc ${dc[r.decision]||''}"><div class="rchead"><div><div class="rctitle">${r.materia}</div><div class="rcdate">${r.fecha}${r.hora?" · "+r.hora:""} · ${r.responsable||"—"}</div></div><div style="display:flex;align-items:center;gap:8px"><span class="badge ${bc[r.decision]||'bwarn'}">${r.decision}</span><button onclick="eliminarRec(${r.id})" style="background:none;border:none;cursor:pointer;font-size:16px;color:#b91c1c;padding:2px 6px;border-radius:6px;line-height:1" title="Eliminar">🗑️</button></div></div><div class="rcbody">${items.map(([k,v])=>`<div class="rci"><span class="rckey">${k}</span>${v}</div>`).join('')}${r.obs?`<div class="rci rcfull"><span class="rckey">Obs</span>${r.obs}</div>`:''}</div></div>`;
   }).join('');
 }
 
