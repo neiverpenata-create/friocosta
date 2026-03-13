@@ -314,12 +314,6 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         <button class="btn btn-s" style="width:auto;padding:9px 14px;font-size:11px;margin-bottom:0" onclick="document.getElementById('filtroFecha').value='';renderHistorial()">Ver todos</button>
       </div>
       <div id="recordList"></div>
-      <div class="stitle" style="margin-top:16px">🏭 Registros de Producción</div>
-      <div class="filterrow">
-        <input type="date" id="filtroProdFecha" onchange="renderProdHist()">
-        <button class="btn btn-s" style="width:auto;padding:9px 14px;font-size:11px;margin-bottom:0" onclick="document.getElementById('filtroProdFecha').value='';renderProdHist()">Ver todos</button>
-      </div>
-      <div id="prodHistList"></div>
       <div id="adminBtns" style="margin-top:8px;display:none">
         <button class="btn btn-d" onclick="confirmAction('¿Borrar TODOS los registros?','Esta acción no se puede deshacer.',borrarTodo)">🗑️ Borrar todos los registros</button>
       </div>
@@ -357,6 +351,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           </div>
         </div>
         <button class="btn btn-g" onclick="guardarProd('pelado')">💾 Guardar Registro</button>
+        <div id="hist-pelado" style="margin-top:16px"></div>
       </div>
 
       <!-- F2: HUMEDAD -->
@@ -376,6 +371,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           <button class="btn btn-s" style="margin-top:8px" onclick="addFilaHumedad()">+ Agregar medición</button>
         </div>
         <button class="btn btn-g" onclick="guardarProd('humedad')">💾 Guardar Registro</button>
+        <div id="hist-humedad" style="margin-top:16px"></div>
       </div>
 
       <!-- F3: CHIPS -->
@@ -398,6 +394,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           <button class="btn btn-s" style="margin-top:8px" onclick="addFilaChips()">+ Agregar medición</button>
         </div>
         <button class="btn btn-g" onclick="guardarProd('chips')">💾 Guardar Registro</button>
+        <div id="hist-chips" style="margin-top:16px"></div>
       </div>
 
       <!-- F4: FREIDOR -->
@@ -424,6 +421,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           <button class="btn btn-s" style="margin-top:8px" onclick="addFilaFreidor()">+ Agregar registro</button>
         </div>
         <button class="btn btn-g" onclick="guardarProd('freidor')">💾 Guardar Registro</button>
+        <div id="hist-freidor" style="margin-top:16px"></div>
       </div>
 
       <!-- F5: HORNO -->
@@ -450,6 +448,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           <button class="btn btn-s" style="margin-top:8px" onclick="addFilaHorno()">+ Agregar registro</button>
         </div>
         <button class="btn btn-g" onclick="guardarProd('horno')">💾 Guardar Registro</button>
+        <div id="hist-horno" style="margin-top:16px"></div>
       </div>
 
       <!-- F6: BRIX -->
@@ -467,6 +466,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           <button class="btn btn-s" style="margin-top:8px" onclick="addFilaBrix()">+ Agregar muestra</button>
         </div>
         <button class="btn btn-g" onclick="guardarProd('brix')">💾 Guardar Registro</button>
+        <div id="hist-brix" style="margin-top:16px"></div>
       </div>
 
       <!-- F7: CANASTILLAS -->
@@ -496,6 +496,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           <div class="field"><span class="flabel">Total KG / día</span><input class="finput" type="text" id="p7_totalKg" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
         </div>
         <button class="btn btn-g" onclick="guardarProd('canastillas')">💾 Guardar Registro</button>
+        <div id="hist-canastillas" style="margin-top:16px"></div>
       </div>
 
       <!-- F8: TOSTONES -->
@@ -513,6 +514,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           <button class="btn btn-s" style="margin-top:8px" onclick="addFilaTostones()">+ Agregar medición</button>
         </div>
         <button class="btn btn-g" onclick="guardarProd('tostones')">💾 Guardar Registro</button>
+        <div id="hist-tostones" style="margin-top:16px"></div>
       </div>
 
       <!-- F9: DESPERDICIOS -->
@@ -540,6 +542,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           <button class="btn btn-s" style="margin-top:8px" onclick="addFilaDesperdicio()">+ Agregar registro</button>
         </div>
         <button class="btn btn-g" onclick="guardarProd('desperdicios')">💾 Guardar Registro</button>
+        <div id="hist-desperdicios" style="margin-top:16px"></div>
       </div>
 
     <!-- /panel-prod -->
@@ -1078,6 +1081,7 @@ function guardarProd(tipo){
     tipo:tipo,
     nombre:PROD_NAMES[tipo],
     fecha:fechaEl.value,
+    hora:tsLegible().split(' ').slice(1).join(' '),
     usuario:me?me.name:'—',
     datos:{}
   };
@@ -1102,31 +1106,45 @@ function guardarProd(tipo){
 
   // Limpiar formulario y quedarse en la misma pantalla
   limpiarFormProd(tipo);
-  renderProdHist();
+  renderHistTipo(tipo);
 }
 
-// HISTORIAL PRODUCCION
-function renderProdHist(){
-  const f=document.getElementById('filtroProdFecha').value;
-  const lista=f?prodRegs.filter(r=>r.fecha===f):[...prodRegs];
-  const con=document.getElementById('prodHistList');
-  if(!lista.length){
-    con.innerHTML=`<div class="empty"><div style="font-size:48px;margin-bottom:12px">🏭</div><div style="font-size:14px;font-weight:600">Sin registros de producción</div></div>`;
-    return;
-  }
-  const colors={pelado:'#2952b3',humedad:'#0891b2',chips:'#d97706',freidor:'#dc2626',horno:'#ea580c',brix:'#7c3aed',canastillas:'#0d6e3a',tostones:'#be185d',desperdicios:'#374151'};
-  con.innerHTML=[...lista].reverse().map(r=>`
-    <div class="rc" style="border-left-color:${colors[r.tipo]||'#ccd6ef'}">
+// HISTORIAL POR FORMULARIO
+const COLORS_PROD={pelado:'#2952b3',humedad:'#0891b2',chips:'#d97706',freidor:'#dc2626',horno:'#ea580c',brix:'#7c3aed',canastillas:'#0d6e3a',tostones:'#be185d',desperdicios:'#374151'};
+
+function renderHistTipo(tipo){
+  const con=document.getElementById('hist-'+tipo);
+  if(!con)return;
+  const lista=prodRegs.filter(r=>r.tipo===tipo).reverse();
+  if(!lista.length){con.innerHTML='';return;}
+  const color=COLORS_PROD[tipo]||'#ccd6ef';
+  con.innerHTML='<div style="font-size:12px;font-weight:700;color:'+color+';margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">📋 Registros guardados</div>'+
+  lista.map(r=>`
+    <div class="rc" style="border-left-color:${color};margin-bottom:10px">
       <div class="rchead">
-        <div><div class="rctitle">${r.nombre}</div><div class="rcdate">${r.fecha} · ${r.usuario}</div></div>
-        <div style="display:flex;align-items:center;gap:8px">
-          <span class="badge binfo">${r.tipo}</span>
-          <button onclick="eliminarProd(${r.id})" style="background:none;border:none;cursor:pointer;font-size:16px;color:#b91c1c;padding:2px 6px;border-radius:6px;line-height:1" title="Eliminar">🗑️</button>
-        </div>
+        <div><div class="rctitle">${r.nombre}</div><div class="rcdate">${r.fecha}${r.hora?' · '+r.hora:''} · ${r.usuario}</div></div>
+        <button onclick="eliminarProd(${r.id})" style="background:none;border:none;cursor:pointer;font-size:16px;color:#b91c1c;padding:2px 6px;border-radius:6px;line-height:1" title="Eliminar">🗑️</button>
       </div>
-      ${r.datos.lote?`<div style="font-size:12px;color:#6b7280">Lote: ${r.datos.lote}</div>`:''}
-      ${r.datos.filas?`<div style="font-size:11px;color:#6b7280;margin-top:4px">${r.datos.filas.length} registro(s)</div>`:''}
+      <div class="rcbody" style="margin-top:8px">
+        ${r.datos.lote?`<div class="rci"><span class="rckey">Lote</span>${r.datos.lote}</div>`:''}
+        ${r.datos.resp?`<div class="rci"><span class="rckey">Responsable</span>${r.datos.resp}</div>`:''}
+        ${r.datos.operario?`<div class="rci"><span class="rckey">Operario</span>${r.datos.operario}</div>`:''}
+        ${r.datos.producto?`<div class="rci"><span class="rckey">Producto</span>${r.datos.producto}</div>`:''}
+        ${r.datos.cliente?`<div class="rci"><span class="rckey">Cliente</span>${r.datos.cliente}</div>`:''}
+        ${r.datos.proveedor?`<div class="rci"><span class="rckey">Proveedor</span>${r.datos.proveedor}</div>`:''}
+        ${r.datos.inicio1?`<div class="rci"><span class="rckey">Inicio</span>${r.datos.inicio1}</div>`:''}
+        ${r.datos.final1?`<div class="rci"><span class="rckey">Final</span>${r.datos.final1}</div>`:''}
+        ${r.datos.totalKg?`<div class="rci"><span class="rckey">Total KG</span>${r.datos.totalKg}</div>`:''}
+        ${r.datos.lider?`<div class="rci"><span class="rckey">Líder</span>${r.datos.lider}</div>`:''}
+        ${r.datos.calibre?`<div class="rci"><span class="rckey">Calibre</span>${r.datos.calibre}</div>`:''}
+        ${r.datos.obs?`<div class="rci rcfull"><span class="rckey">Obs</span>${r.datos.obs}</div>`:''}
+        ${r.datos.filas&&r.datos.filas.length?`<div class="rci"><span class="rckey">Mediciones</span>${r.datos.filas.length} fila(s)</div>`:''}
+      </div>
     </div>`).join('');
+}
+
+function renderProdHist(){
+  ['pelado','humedad','chips','freidor','horno','brix','canastillas','tostones','desperdicios'].forEach(t=>renderHistTipo(t));
 }
 
 // CHIPS RECEPCION
@@ -1303,7 +1321,7 @@ function eliminarProd(id){
   const r=prodRegs[idx];
   prodRegs.splice(idx,1);
   ls('fc_prod6',prodRegs);
-  renderProdHist();
+  renderHistTipo(r.tipo);
   showToast('🗑️ Registro eliminado','#b91c1c');
   // Borrar en Sheets
   fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},
@@ -1332,6 +1350,7 @@ function confirmAction(title,body,cb){
 function closeModal(){document.getElementById('modal').classList.remove('show');}
 
 document.getElementById('f_fecha').value=today();
+renderProdHist();
 setTimeout(()=>document.getElementById('loginInput').focus(),300);
 </script>
 </body>
