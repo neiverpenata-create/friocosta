@@ -1449,7 +1449,7 @@ function openDetail(tipo, id){
 
   html+=`<div style="display:flex;gap:8px;margin-top:16px">
     <button onclick="closeDetail()" style="flex:1;padding:12px;background:#f1f5f9;border:none;border-radius:10px;font-weight:600;cursor:pointer">Cerrar</button>
-    <button onclick="(tipo==='recepcion'?eliminarRec:eliminarProd)(${id});closeDetail();" style="padding:12px 16px;background:#fee2e2;border:none;border-radius:10px;color:#dc2626;font-weight:600;cursor:pointer">🗑️ Eliminar</button>
+    <button onclick="${isRec?'eliminarRec':'eliminarProd'}(${id});closeDetail();" style="padding:12px 16px;background:#fee2e2;border:none;border-radius:10px;color:#dc2626;font-weight:600;cursor:pointer">🗑️ Eliminar</button>
   </div>`;
 
   document.getElementById('detailContent').innerHTML=html;
