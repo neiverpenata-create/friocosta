@@ -389,8 +389,6 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           <button class="btn btn-s" style="margin-top:8px" onclick="addFilaChips()">+ Agregar medición</button>
         </div>
         <button class="btn btn-g" onclick="guardarProd('chips')">💾 Guardar Registro</button>
-        <div id="diag-chips" class="diagbox" style="margin-bottom:8px">Complete los campos para ver el diagnóstico.</div>
-        <div id="diagdetail-chips" style="margin-bottom:8px"></div>
         <div id="hist-chips" style="margin-top:16px"></div>
       </div>
 
@@ -418,8 +416,6 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           <button class="btn btn-s" style="margin-top:8px" onclick="addFilaFreidor()">+ Agregar registro</button>
         </div>
         <button class="btn btn-g" onclick="guardarProd('freidor')">💾 Guardar Registro</button>
-        <div id="diag-freidor" class="diagbox" style="margin-bottom:8px">Complete los campos para ver el diagnóstico.</div>
-        <div id="diagdetail-freidor" style="margin-bottom:8px"></div>
         <div id="hist-freidor" style="margin-top:16px"></div>
       </div>
 
@@ -447,8 +443,6 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           <button class="btn btn-s" style="margin-top:8px" onclick="addFilaHorno()">+ Agregar registro</button>
         </div>
         <button class="btn btn-g" onclick="guardarProd('horno')">💾 Guardar Registro</button>
-        <div id="diag-horno" class="diagbox" style="margin-bottom:8px">Complete los campos para ver el diagnóstico.</div>
-        <div id="diagdetail-horno" style="margin-bottom:8px"></div>
         <div id="hist-horno" style="margin-top:16px"></div>
       </div>
 
@@ -467,8 +461,6 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           <button class="btn btn-s" style="margin-top:8px" onclick="addFilaBrix()">+ Agregar muestra</button>
         </div>
         <button class="btn btn-g" onclick="guardarProd('brix')">💾 Guardar Registro</button>
-        <div id="diag-brix" class="diagbox" style="margin-bottom:8px">Complete los campos para ver el diagnóstico.</div>
-        <div id="diagdetail-brix" style="margin-bottom:8px"></div>
         <div id="hist-brix" style="margin-top:16px"></div>
       </div>
 
@@ -499,8 +491,6 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           <div class="field"><span class="flabel">Total KG / día</span><input class="finput" type="text" id="p7_totalKg" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
         </div>
         <button class="btn btn-g" onclick="guardarProd('canastillas')">💾 Guardar Registro</button>
-        <div id="diag-canastillas" class="diagbox" style="margin-bottom:8px">Complete los campos para ver el diagnóstico.</div>
-        <div id="diagdetail-canastillas" style="margin-bottom:8px"></div>
         <div id="hist-canastillas" style="margin-top:16px"></div>
       </div>
 
@@ -519,8 +509,6 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           <button class="btn btn-s" style="margin-top:8px" onclick="addFilaTostones()">+ Agregar medición</button>
         </div>
         <button class="btn btn-g" onclick="guardarProd('tostones')">💾 Guardar Registro</button>
-        <div id="diag-tostones" class="diagbox" style="margin-bottom:8px">Complete los campos para ver el diagnóstico.</div>
-        <div id="diagdetail-tostones" style="margin-bottom:8px"></div>
         <div id="hist-tostones" style="margin-top:16px"></div>
       </div>
 
@@ -549,8 +537,6 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           <button class="btn btn-s" style="margin-top:8px" onclick="addFilaDesperdicio()">+ Agregar registro</button>
         </div>
         <button class="btn btn-g" onclick="guardarProd('desperdicios')">💾 Guardar Registro</button>
-        <div id="diag-desperdicios" class="diagbox" style="margin-bottom:8px">Complete los campos para ver el diagnóstico.</div>
-        <div id="diagdetail-desperdicios" style="margin-bottom:8px"></div>
         <div id="hist-desperdicios" style="margin-top:16px"></div>
       </div>
 
@@ -582,70 +568,6 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         </div>
       </div>
       <button class="btn btn-p" onclick="guardarRangos()">💾 Guardar Rangos</button>
-
-      <!-- PRODUCCION RANGOS -->
-      <div class="card" style="margin-top:12px">
-        <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:14px">🍟 Espec. Chips</div>
-        <div class="rgrid">
-          <div class="field"><span class="flabel">Ancho Mín (mm)</span><input class="finput" type="text" id="rChipsAnchoMin" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-          <div class="field"><span class="flabel">Ancho Máx (mm)</span><input class="finput" type="text" id="rChipsAnchoMax" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-          <div class="field"><span class="flabel">Calibre Mín (mm)</span><input class="finput" type="text" id="rChipsCalibreMin" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-          <div class="field"><span class="flabel">Calibre Máx (mm)</span><input class="finput" type="text" id="rChipsCalibreMax" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-        </div>
-      </div>
-      <div class="card" style="margin-top:12px">
-        <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:14px">🌡️ Control Freidor</div>
-        <div class="rgrid">
-          <div class="field"><span class="flabel">Temp. Mín (°C)</span><input class="finput" type="text" id="rFreidorTempMin" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-          <div class="field"><span class="flabel">Temp. Máx (°C)</span><input class="finput" type="text" id="rFreidorTempMax" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-          <div class="field"><span class="flabel">Tiempo Mín (min)</span><input class="finput" type="text" id="rFreidorTiempoMin" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-          <div class="field"><span class="flabel">Tiempo Máx (min)</span><input class="finput" type="text" id="rFreidorTiempoMax" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-        </div>
-      </div>
-      <div class="card" style="margin-top:12px">
-        <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:14px">🔥 Control Horno</div>
-        <div class="rgrid">
-          <div class="field"><span class="flabel">Temp. Mín (°C)</span><input class="finput" type="text" id="rHornoTempMin" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-          <div class="field"><span class="flabel">Temp. Máx (°C)</span><input class="finput" type="text" id="rHornoTempMax" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-          <div class="field"><span class="flabel">Tiempo Mín (min)</span><input class="finput" type="text" id="rHornoTiempoMin" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-          <div class="field"><span class="flabel">Tiempo Máx (min)</span><input class="finput" type="text" id="rHornoTiempoMax" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-        </div>
-      </div>
-      <div class="card" style="margin-top:12px">
-        <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:14px">🍬 Control Brix</div>
-        <div class="rgrid">
-          <div class="field"><span class="flabel">°Brix Mín</span><input class="finput" type="text" id="rBrixMin" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-          <div class="field"><span class="flabel">°Brix Máx</span><input class="finput" type="text" id="rBrixMax" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-        </div>
-      </div>
-      <div class="card" style="margin-top:12px">
-        <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:14px">🧺 Canastillas/Hora</div>
-        <div class="rgrid">
-          <div class="field"><span class="flabel">Canastillas Mín</span><input class="finput" type="text" id="rCanastillasMin" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-          <div class="field"><span class="flabel">Canastillas Máx</span><input class="finput" type="text" id="rCanastillasMax" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-          <div class="field"><span class="flabel">KG Quemado Máx</span><input class="finput" type="text" id="rCanastillasQuemadoMax" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-          <div class="field"><span class="flabel">KG No Conforme Máx</span><input class="finput" type="text" id="rCanastillasNoConformeMax" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-        </div>
-      </div>
-      <div class="card" style="margin-top:12px">
-        <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:14px">🫓 Espec. Tostones</div>
-        <div class="rgrid">
-          <div class="field"><span class="flabel">Diám. Grande Mín (cm)</span><input class="finput" type="text" id="rTostonesDiamMin" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-          <div class="field"><span class="flabel">Diám. Grande Máx (cm)</span><input class="finput" type="text" id="rTostonesDiamMax" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-          <div class="field"><span class="flabel">Espesor Mín (mm)</span><input class="finput" type="text" id="rTostonesEspesorMin" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-          <div class="field"><span class="flabel">Espesor Máx (mm)</span><input class="finput" type="text" id="rTostonesEspesorMax" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-        </div>
-      </div>
-      <div class="card" style="margin-top:12px">
-        <div style="font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#6b7280;margin-bottom:14px">♻️ MP Desperdicios</div>
-        <div class="rgrid">
-          <div class="field"><span class="flabel">% Cáscara Máx</span><input class="finput" type="text" id="rDespCascaraMax" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-          <div class="field"><span class="flabel">% Crudo Máx</span><input class="finput" type="text" id="rDespCrudoMax" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-          <div class="field"><span class="flabel">% Frito Máx</span><input class="finput" type="text" id="rDespFritoMax" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*"></div>
-        </div>
-      </div>
-
-      <button class="btn btn-p" style="margin-top:12px" onclick="guardarRangos()">💾 Guardar Todos los Rangos</button>
     </div>
 
   </div><!-- /app-body -->
@@ -692,17 +614,7 @@ const USERS=[
   {code:'OPR2265',name:'Operario 8',rol:'operario'},
   {code:'OPR7043',name:'Operario 9',rol:'operario'},
 ];
-const DEF={
-  pla:{longMin:15,longMax:35,diamMin:5,diamMax:12,brixMin:3,brixMax:10},
-  nam:{longMin:20,longMax:50,diamMin:6,diamMax:15,brixMin:3,brixMax:12},
-  chips:{anchoMin:1.5,anchoMax:2.2,calibreMin:1.5,calibreMax:2.2},
-  freidor:{tempMin:160,tempMax:185,tiempoMin:3,tiempoMax:6},
-  horno:{tempMin:120,tempMax:160,tiempoMin:8,tiempoMax:15},
-  brix:{brixMin:18,brixMax:26},
-  canastillas:{canastillasMin:50,canastillasMax:200,quemadoMax:2,noConformeMax:3},
-  tostones:{diametroMin:7,diametroMax:12,espesorMin:5,espesorMax:12},
-  desperdicios:{cascaraPct:15,crudoPct:5,fritoPct:3}
-};
+const DEF={pla:{longMin:15,longMax:35,diamMin:5,diamMax:12,brixMin:3,brixMax:10},nam:{longMin:20,longMax:50,diamMin:6,diamMax:15,brixMin:3,brixMax:12}};
 let me=null,regs=lg('fc_reg5',[]),cfg=lg('fc_cfg5',DEF),prodRegs=lg('fc_prod6',[]);
 
 function lg(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch{return d;}}
@@ -938,16 +850,16 @@ function addFilaFreidor(){
     <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
     <div class="row2">
       <div class="field"><span class="flabel">Hora</span><input class="finput" type="time" value="${nowTime()}"></div>
-      <div class="field"><span class="flabel">Temperatura Zona 1 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0" oninput="diagProd('freidor')"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 1 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
     </div>
     <div class="row3">
-      <div class="field"><span class="flabel">Temperatura Zona 2 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0" oninput="diagProd('freidor')"></div>
-      <div class="field"><span class="flabel">Temperatura Zona 3 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0" oninput="diagProd('freidor')"></div>
-      <div class="field"><span class="flabel">Temperatura Zona 4 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0" oninput="diagProd('freidor')"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 2 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 3 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 4 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
     </div>
     <div class="row3">
-      <div class="field"><span class="flabel">Temperatura Zona 5 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0" oninput="diagProd('freidor')"></div>
-      <div class="field"><span class="flabel">Tiempo de Fritura (min)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0" oninput="diagProd('freidor')"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 5 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
+      <div class="field"><span class="flabel">Tiempo de Fritura (min)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
       <div class="field"><span class="flabel">Velocidad de Malla (Hz)</span><input class="finput" type="text" placeholder="0"></div>
     </div>
     <div class="row2">
@@ -992,7 +904,7 @@ function addFilaBrix(){
     </div>
     <div class="row3">
       <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" placeholder="Ej. L-001-2026"></div>
-      <div class="field"><span class="flabel">Resultado en °Brix</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0" oninput="diagProd('brix')"></div>
+      <div class="field"><span class="flabel">Resultado en °Brix</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
       <div class="field"><span class="flabel">Hora de Toma de Muestra</span><input class="finput" type="time" value="${nowTime()}"></div>
     </div>
     <div class="field">
@@ -1070,104 +982,6 @@ function addFilaDesperdicio(){
   </div>`);
 }
 
-
-// =================== DIAGNÓSTICO PRODUCCIÓN ===================
-function pv(v){return parseFloat(String(v).replace(',','.'))||0;}
-
-function diagProd(tipo){
-  const box=document.getElementById('diag-'+tipo);
-  const det=document.getElementById('diagdetail-'+tipo);
-  if(!box||!det) return;
-  const r=cfg[tipo]||DEF[tipo];
-  if(!r) return;
-  const items=[];
-
-  if(tipo==='chips'){
-    document.getElementById('p3_filas').querySelectorAll('.card').forEach((card,i)=>{
-      const inputs=card.querySelectorAll('input[type="text"]');
-      const ancho=pv(inputs[1]?inputs[1].value:0);
-      const calibre=pv(inputs[2]?inputs[2].value:0);
-      if(ancho) items.push({lbl:`Med ${i+1}: Ancho ${ancho}mm (rango ${r.anchoMin}-${r.anchoMax}mm)`,ok:ancho>=r.anchoMin&&ancho<=r.anchoMax});
-      if(calibre) items.push({lbl:`Med ${i+1}: Calibre ${calibre}mm (rango ${r.calibreMin}-${r.calibreMax}mm)`,ok:calibre>=r.calibreMin&&calibre<=r.calibreMax});
-    });
-  }
-  if(tipo==='freidor'){
-    document.getElementById('p4_filas').querySelectorAll('.card').forEach((card,i)=>{
-      const inputs=card.querySelectorAll('input[type="text"]');
-      [1,2,3,4,5].forEach(z=>{
-        const t=pv(inputs[z]?inputs[z].value:0);
-        if(t) items.push({lbl:`Reg ${i+1}: Zona ${z} ${t}°C (rango ${r.tempMin}-${r.tempMax}°C)`,ok:t>=r.tempMin&&t<=r.tempMax});
-      });
-      const tiempo=pv(inputs[6]?inputs[6].value:0);
-      if(tiempo) items.push({lbl:`Reg ${i+1}: Tiempo ${tiempo}min (rango ${r.tiempoMin}-${r.tiempoMax}min)`,ok:tiempo>=r.tiempoMin&&tiempo<=r.tiempoMax});
-    });
-  }
-  if(tipo==='horno'){
-    document.getElementById('p5_filas').querySelectorAll('.card').forEach((card,i)=>{
-      const inputs=card.querySelectorAll('input[type="text"]');
-      [1,2,3].forEach(z=>{
-        const t=pv(inputs[z]?inputs[z].value:0);
-        if(t) items.push({lbl:`Reg ${i+1}: Zona ${z} ${t}°C (rango ${r.tempMin}-${r.tempMax}°C)`,ok:t>=r.tempMin&&t<=r.tempMax});
-      });
-      const tiempo=pv(inputs[4]?inputs[4].value:0);
-      if(tiempo) items.push({lbl:`Reg ${i+1}: Tiempo ${tiempo}min (rango ${r.tiempoMin}-${r.tiempoMax}min)`,ok:tiempo>=r.tiempoMin&&tiempo<=r.tiempoMax});
-    });
-  }
-  if(tipo==='brix'){
-    document.getElementById('p6_filas').querySelectorAll('.card').forEach((card,i)=>{
-      const inputs=card.querySelectorAll('input[type="text"]');
-      const brix=pv(inputs[1]?inputs[1].value:0);
-      if(brix) items.push({lbl:`Muestra ${i+1}: ${brix}°Brix (rango ${r.brixMin}-${r.brixMax})`,ok:brix>=r.brixMin&&brix<=r.brixMax});
-    });
-  }
-  if(tipo==='canastillas'){
-    document.getElementById('p7_filas').querySelectorAll('.card').forEach((card,i)=>{
-      const inputs=card.querySelectorAll('input[type="text"],input[type="number"]');
-      const cant=pv(inputs[2]?inputs[2].value:0);
-      const quemado=pv(inputs[4]?inputs[4].value:0);
-      const noConf=pv(inputs[5]?inputs[5].value:0);
-      if(cant) items.push({lbl:`Reg ${i+1}: ${cant} canastillas (rango ${r.canastillasMin}-${r.canastillasMax})`,ok:cant>=r.canastillasMin&&cant<=r.canastillasMax});
-      if(quemado) items.push({lbl:`Reg ${i+1}: KG quemado ${quemado}kg (máx ${r.quemadoMax}kg)`,ok:quemado<=r.quemadoMax});
-      if(noConf) items.push({lbl:`Reg ${i+1}: KG no conforme ${noConf}kg (máx ${r.noConformeMax}kg)`,ok:noConf<=r.noConformeMax});
-    });
-  }
-  if(tipo==='tostones'){
-    document.getElementById('p8_filas').querySelectorAll('.card').forEach((card,i)=>{
-      const inputs=card.querySelectorAll('input[type="text"]');
-      const diam=pv(inputs[3]?inputs[3].value:0);
-      const esp=pv(inputs[4]?inputs[4].value:0);
-      if(diam) items.push({lbl:`Med ${i+1}: Diámetro ${diam}cm (rango ${r.diametroMin}-${r.diametroMax}cm)`,ok:diam>=r.diametroMin&&diam<=r.diametroMax});
-      if(esp) items.push({lbl:`Med ${i+1}: Espesor ${esp}mm (rango ${r.espesorMin}-${r.espesorMax}mm)`,ok:esp>=r.espesorMin&&esp<=r.espesorMax});
-    });
-  }
-  if(tipo==='desperdicios'){
-    document.getElementById('p9_filas').querySelectorAll('.card').forEach((card,i)=>{
-      const inputs=card.querySelectorAll('input[type="text"]');
-      const fresco=pv(inputs[0]?inputs[0].value:0);
-      const cascara=pv(inputs[2]?inputs[2].value:0);
-      const crudo=pv(inputs[3]?inputs[3].value:0);
-      const frito=pv(inputs[4]?inputs[4].value:0);
-      if(fresco>0){
-        const pc=(cascara/fresco*100),pr=(crudo/fresco*100),pf=(frito/fresco*100);
-        if(cascara) items.push({lbl:`Reg ${i+1}: Cáscara ${pc.toFixed(1)}% (máx ${r.cascaraPct}%)`,ok:pc<=r.cascaraPct});
-        if(crudo) items.push({lbl:`Reg ${i+1}: Crudo ${pr.toFixed(1)}% (máx ${r.crudoPct}%)`,ok:pr<=r.crudoPct});
-        if(frito) items.push({lbl:`Reg ${i+1}: Frito ${pf.toFixed(1)}% (máx ${r.fritoPct}%)`,ok:pf<=r.fritoPct});
-      }
-    });
-  }
-
-  if(!items.length){
-    box.className='diagbox';
-    box.textContent='Complete los campos para ver el diagnóstico.';
-    det.innerHTML='';
-    return;
-  }
-  const hasFail=items.some(it=>!it.ok);
-  box.className='diagbox '+(hasFail?'fail':'ok');
-  box.textContent=hasFail?'🚫 Parámetros fuera de rango':'✅ Todo dentro del rango aceptable';
-  det.innerHTML=items.map(it=>`<div class="drow"><div class="ddot" style="background:${it.ok?'#0d6e3a':'#b91c1c'}"></div><span style="color:${it.ok?'#0d6e3a':'#b91c1c'}">${it.lbl}</span></div>`).join('');
-}
-
 // =================== GUARDAR PRODUCCIÓN ===================
 const PROD_NAMES={pelado:'Control Pelado',humedad:'Control Humedad',chips:'Espec. Chips',freidor:'Control Freidor',horno:'Control Horno',brix:'Control Brix',canastillas:'Canastillas/Hora',tostones:'Espec. Tostones',desperdicios:'MP Desperdicios'};
 
@@ -1207,58 +1021,58 @@ function buildFila(tipo, prefix){
   if(tipo==='pelado'){
     return [ts,usuario,lote,gv(prefix+'_operario'),
       gv(prefix+'_inicio'),gv(prefix+'_final'),
-      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',
+      fdVals[0]||'—',fdVals[1]||'—',fdVals[2]||'—',fdVals[3]||'—',
       gv(prefix+'_totalKg'),gv(prefix+'_lider')];
   }
   // HUMEDAD fila dinámica orden (sin HoraFecha): [RecepcionMP, HumAntes, HumDespFreir, HumDespHorno, TempAmb, Min15, Min30, Min45, Min60, HumRelativa, Obs]
   if(tipo==='humedad'){
     return [ts,usuario,lote,gv(prefix+'_producto'),resp,
-      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',
-      fdVals[4]||'',fdVals[5]||'',fdVals[6]||'',fdVals[7]||'',fdVals[8]||'',
-      fdVals[9]||'',fdVals[10]||''];
+      fdVals[0]||'—',fdVals[1]||'—',fdVals[2]||'—',fdVals[3]||'—',
+      fdVals[4]||'—',fdVals[5]||'—',fdVals[6]||'—',fdVals[7]||'—',fdVals[8]||'—',
+      fdVals[9]||'—',fdVals[10]||'—'];
   }
   // CHIPS fila dinámica orden: [Hora, Lote, AnchoMedido, CalibreMedido, Obs]
   if(tipo==='chips'){
     return [ts,usuario,lote,gv(prefix+'_cliente'),gv(prefix+'_calibre'),resp,
-      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',fdVals[4]||''];
+      fdVals[0]||'—',fdVals[1]||'—',fdVals[2]||'—',fdVals[3]||'—',fdVals[4]||'—'];
   }
   // FREIDOR fila dinámica orden: [Hora, T1, T2, T3, T4, T5, Tiempo, Velocidad, Aceite, Obs]
   if(tipo==='freidor'){
     return [ts,usuario,lote,resp,
       gv(prefix+'_inicio1'),gv(prefix+'_final1'),gv(prefix+'_inicio2'),gv(prefix+'_final2'),
-      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',fdVals[4]||'',
-      fdVals[5]||'',fdVals[6]||'',fdVals[7]||'',fdVals[8]||'',fdVals[9]||''];
+      fdVals[0]||'—',fdVals[1]||'—',fdVals[2]||'—',fdVals[3]||'—',fdVals[4]||'—',
+      fdVals[5]||'—',fdVals[6]||'—',fdVals[7]||'—',fdVals[8]||'—',fdVals[9]||'—'];
   }
   // HORNO fila dinámica orden: [Hora, T1, T2, T3, Tiempo, Velocidad, Obs]
   if(tipo==='horno'){
     return [ts,usuario,lote,resp,
       gv(prefix+'_inicio1'),gv(prefix+'_final1'),gv(prefix+'_inicio2'),gv(prefix+'_final2'),
-      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',
-      fdVals[4]||'',fdVals[5]||'',fdVals[6]||''];
+      fdVals[0]||'—',fdVals[1]||'—',fdVals[2]||'—',fdVals[3]||'—',
+      fdVals[4]||'—',fdVals[5]||'—',fdVals[6]||'—'];
   }
   // BRIX fila dinámica orden: [ProductoTerminado, Proveedor, Lote, ResultadoBrix, HoraMuestra]
   if(tipo==='brix'){
     return [ts,usuario,resp,
-      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',fdVals[4]||''];
+      fdVals[0]||'—',fdVals[1]||'—',fdVals[2]||'—',fdVals[3]||'—',fdVals[4]||'—'];
   }
   // CANASTILLAS fila dinámica orden: [HoraInicio, HoraFinal, Canastillas, Personas, KGQuemado, KGNoConforme, KGCaido, Obs]
   if(tipo==='canastillas'){
     return [ts,usuario,lote,resp,
       gv(prefix+'_inicio1'),gv(prefix+'_final1'),gv(prefix+'_inicio2'),gv(prefix+'_final2'),
-      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',
-      fdVals[4]||'',fdVals[5]||'',fdVals[6]||'',fdVals[7]||'',
+      fdVals[0]||'—',fdVals[1]||'—',fdVals[2]||'—',fdVals[3]||'—',
+      fdVals[4]||'—',fdVals[5]||'—',fdVals[6]||'—',fdVals[7]||'—',
       gv(prefix+'_totalKg')];
   }
   // TOSTONES fila dinámica orden: [Hora, Cliente, Lote, DiamGrande, EspGrande, EspPequena, Obs]
   if(tipo==='tostones'){
     return [ts,usuario,resp,
-      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',
-      fdVals[4]||'',fdVals[5]||'',fdVals[6]||''];
+      fdVals[0]||'—',fdVals[1]||'—',fdVals[2]||'—',fdVals[3]||'—',
+      fdVals[4]||'—',fdVals[5]||'—',fdVals[6]||'—'];
   }
   // DESPERDICIOS fila dinámica orden: [KGFresco, KGPelado, Cascara, Crudo, Frito, Obs]
   if(tipo==='desperdicios'){
     return [ts,usuario,lote,gv(prefix+'_materia'),resp,
-      fdVals[0]||'',fdVals[1]||'',fdVals[2]||'',fdVals[3]||'',fdVals[4]||'',fdVals[5]||''];
+      fdVals[0]||'—',fdVals[1]||'—',fdVals[2]||'—',fdVals[3]||'—',fdVals[4]||'—',fdVals[5]||'—'];
   }
   return [ts,usuario,lote,resp];
 }
@@ -1288,12 +1102,15 @@ function guardarProd(tipo){
 
   prodRegs.push(rec);
   ls('fc_prod6',prodRegs);
-  diagProd(tipo);
   showToast('✅ '+rec.nombre+' guardado','#16a34a');
 
   const fila=buildFila(tipo,prefix);
   // Eliminar fotos antes de enviar a Sheets (solo quedan en la app)
-  const filaSinFotos=fila.map(v=>(typeof v==='string'&&v.startsWith('data:image'))?'[foto]':v);
+  const filaSinFotos=fila.map(v=>{
+    if(typeof v==='string'&&v.startsWith('data:image')) return '[foto]';
+    if(v===null||v===undefined||String(v).trim()==='') return '—';
+    return v;
+  });
   const payload={hoja:rec.nombre, fila:filaSinFotos};
   fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)})
     .then(()=>showToast('☁️ Guardado en Sheets','#0d6e3a'))
@@ -1419,7 +1236,8 @@ function registrar(){
   regs.push(r);ls('fc_reg5',regs);
   showToast('✅ Recepción registrada','#16a34a');
   limpiar();
-  const payload={hoja:'RECEPCIONES',fila:[tsLegible(),r.materia,r.kg,r.proveedor,r.codProv,r.zona,r.origen,r.longitud,r.diametro,r.brix,r.color,r.olor,r.textura,r.apariencia,r.decision,r.obs,r.responsable]};
+  const ns=v=>(!v||String(v).trim()==='')?'—':v;
+  const payload={hoja:'RECEPCIONES',fila:[tsLegible(),ns(r.materia),ns(r.kg),ns(r.proveedor),ns(r.codProv),ns(r.zona),ns(r.origen),ns(r.longitud),ns(r.diametro),ns(r.brix),ns(r.color),ns(r.olor),ns(r.textura),ns(r.apariencia),ns(r.decision),ns(r.obs),ns(r.responsable)]};
   fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)})
     .then(()=>showToast('☁️ Guardado en Google Sheets','#0d6e3a'))
     .catch(()=>showToast('⚠️ Sin conexión - guardado local','#d97706'));
@@ -1484,39 +1302,20 @@ function renderHistorialGeneral(){
 }
 
 function loadRangos(){
-  // Recepcion
   document.getElementById('rPlaLongMin').value=cfg.pla.longMin;document.getElementById('rPlaLongMax').value=cfg.pla.longMax;
   document.getElementById('rPlaDiamMin').value=cfg.pla.diamMin;document.getElementById('rPlaDiamMax').value=cfg.pla.diamMax;
   document.getElementById('rPlaBrixMin').value=cfg.pla.brixMin;document.getElementById('rPlaBrixMax').value=cfg.pla.brixMax;
   document.getElementById('rNamLongMin').value=cfg.nam.longMin;document.getElementById('rNamLongMax').value=cfg.nam.longMax;
   document.getElementById('rNamDiamMin').value=cfg.nam.diamMin;document.getElementById('rNamDiamMax').value=cfg.nam.diamMax;
   document.getElementById('rNamBrixMin').value=cfg.nam.brixMin;document.getElementById('rNamBrixMax').value=cfg.nam.brixMax;
-  // Produccion
-  const p=cfg.chips||DEF.chips; document.getElementById('rChipsAnchoMin').value=p.anchoMin;document.getElementById('rChipsAnchoMax').value=p.anchoMax;document.getElementById('rChipsCalibreMin').value=p.calibreMin;document.getElementById('rChipsCalibreMax').value=p.calibreMax;
-  const f=cfg.freidor||DEF.freidor; document.getElementById('rFreidorTempMin').value=f.tempMin;document.getElementById('rFreidorTempMax').value=f.tempMax;document.getElementById('rFreidorTiempoMin').value=f.tiempoMin;document.getElementById('rFreidorTiempoMax').value=f.tiempoMax;
-  const h=cfg.horno||DEF.horno; document.getElementById('rHornoTempMin').value=h.tempMin;document.getElementById('rHornoTempMax').value=h.tempMax;document.getElementById('rHornoTiempoMin').value=h.tiempoMin;document.getElementById('rHornoTiempoMax').value=h.tiempoMax;
-  const b=cfg.brix||DEF.brix; document.getElementById('rBrixMin').value=b.brixMin;document.getElementById('rBrixMax').value=b.brixMax;
-  const ca=cfg.canastillas||DEF.canastillas; document.getElementById('rCanastillasMin').value=ca.canastillasMin;document.getElementById('rCanastillasMax').value=ca.canastillasMax;document.getElementById('rCanastillasQuemadoMax').value=ca.quemadoMax;document.getElementById('rCanastillasNoConformeMax').value=ca.noConformeMax;
-  const t=cfg.tostones||DEF.tostones; document.getElementById('rTostonesDiamMin').value=t.diametroMin;document.getElementById('rTostonesDiamMax').value=t.diametroMax;document.getElementById('rTostonesEspesorMin').value=t.espesorMin;document.getElementById('rTostonesEspesorMax').value=t.espesorMax;
-  const d=cfg.desperdicios||DEF.desperdicios; document.getElementById('rDespCascaraMax').value=d.cascaraPct;document.getElementById('rDespCrudoMax').value=d.crudoPct;document.getElementById('rDespFritoMax').value=d.fritoPct;
 }
 function guardarRangos(){
-  if(!me||me.rol!=='admin'){showToast('⚠️ Solo el Administrador puede cambiar rangos','#b91c1c');return;}
-  // Recepcion
   cfg.pla.longMin=+document.getElementById('rPlaLongMin').value;cfg.pla.longMax=+document.getElementById('rPlaLongMax').value;
   cfg.pla.diamMin=+document.getElementById('rPlaDiamMin').value;cfg.pla.diamMax=+document.getElementById('rPlaDiamMax').value;
   cfg.pla.brixMin=+document.getElementById('rPlaBrixMin').value;cfg.pla.brixMax=+document.getElementById('rPlaBrixMax').value;
   cfg.nam.longMin=+document.getElementById('rNamLongMin').value;cfg.nam.longMax=+document.getElementById('rNamLongMax').value;
   cfg.nam.diamMin=+document.getElementById('rNamDiamMin').value;cfg.nam.diamMax=+document.getElementById('rNamDiamMax').value;
   cfg.nam.brixMin=+document.getElementById('rNamBrixMin').value;cfg.nam.brixMax=+document.getElementById('rNamBrixMax').value;
-  // Produccion
-  cfg.chips={anchoMin:+document.getElementById('rChipsAnchoMin').value,anchoMax:+document.getElementById('rChipsAnchoMax').value,calibreMin:+document.getElementById('rChipsCalibreMin').value,calibreMax:+document.getElementById('rChipsCalibreMax').value};
-  cfg.freidor={tempMin:+document.getElementById('rFreidorTempMin').value,tempMax:+document.getElementById('rFreidorTempMax').value,tiempoMin:+document.getElementById('rFreidorTiempoMin').value,tiempoMax:+document.getElementById('rFreidorTiempoMax').value};
-  cfg.horno={tempMin:+document.getElementById('rHornoTempMin').value,tempMax:+document.getElementById('rHornoTempMax').value,tiempoMin:+document.getElementById('rHornoTiempoMin').value,tiempoMax:+document.getElementById('rHornoTiempoMax').value};
-  cfg.brix={brixMin:+document.getElementById('rBrixMin').value,brixMax:+document.getElementById('rBrixMax').value};
-  cfg.canastillas={canastillasMin:+document.getElementById('rCanastillasMin').value,canastillasMax:+document.getElementById('rCanastillasMax').value,quemadoMax:+document.getElementById('rCanastillasQuemadoMax').value,noConformeMax:+document.getElementById('rCanastillasNoConformeMax').value};
-  cfg.tostones={diametroMin:+document.getElementById('rTostonesDiamMin').value,diametroMax:+document.getElementById('rTostonesDiamMax').value,espesorMin:+document.getElementById('rTostonesEspesorMin').value,espesorMax:+document.getElementById('rTostonesEspesorMax').value};
-  cfg.desperdicios={cascaraPct:+document.getElementById('rDespCascaraMax').value,crudoPct:+document.getElementById('rDespCrudoMax').value,fritoPct:+document.getElementById('rDespFritoMax').value};
   ls('fc_cfg5',cfg);showToast('✅ Rangos guardados','#16a34a');
 }
 
