@@ -380,7 +380,6 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           <div class="field"><span class="flabel">Cliente</span><input class="finput" type="text" id="p3_cliente" placeholder="Nombre cliente"></div>
           <div class="row2">
             <div class="field"><span class="flabel">Calibre Medido (mm)</span><input class="finput" type="text" id="p3_calibre" placeholder="Ej. 1.7-2.0"></div>
-            <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p3_resp" placeholder="Nombre"></div>
           </div>
         </div>
         <div class="card">
@@ -401,14 +400,8 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
             <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" id="p4_lote" placeholder="Ej. L-001-2026"></div>
           </div>
           <div class="row2">
-            <div class="field"><span class="flabel">Hora Inicio Proceso 1</span><input class="finput" type="time" id="p4_inicio1"></div>
-            <div class="field"><span class="flabel">Hora Final Proceso 1</span><input class="finput" type="time" id="p4_final1"></div>
+            <div class="field"><span class="flabel">Realizó</span><input class="finput" type="text" id="p4_realizo" placeholder="Nombre"></div>
           </div>
-          <div class="row2">
-            <div class="field"><span class="flabel">Hora Inicio Proceso 2</span><input class="finput" type="time" id="p4_inicio2"></div>
-            <div class="field"><span class="flabel">Hora Final Proceso 2</span><input class="finput" type="time" id="p4_final2"></div>
-          </div>
-          <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p4_resp" placeholder="Nombre"></div>
         </div>
         <div class="card">
           <div class="stitle" style="margin-top:0">Registros por Hora</div>
@@ -428,14 +421,8 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
             <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" id="p5_lote" placeholder="Ej. L-001-2026"></div>
           </div>
           <div class="row2">
-            <div class="field"><span class="flabel">Hora Inicio Proceso 1</span><input class="finput" type="time" id="p5_inicio1"></div>
-            <div class="field"><span class="flabel">Hora Final Proceso 1</span><input class="finput" type="time" id="p5_final1"></div>
+            <div class="field"><span class="flabel">Realizó</span><input class="finput" type="text" id="p5_realizo" placeholder="Nombre"></div>
           </div>
-          <div class="row2">
-            <div class="field"><span class="flabel">Hora Inicio Proceso 2</span><input class="finput" type="time" id="p5_inicio2"></div>
-            <div class="field"><span class="flabel">Hora Final Proceso 2</span><input class="finput" type="time" id="p5_final2"></div>
-          </div>
-          <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p5_resp" placeholder="Nombre"></div>
         </div>
         <div class="card">
           <div class="stitle" style="margin-top:0">Registros por Hora</div>
@@ -450,10 +437,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
     <div class="panel" id="panel-brix">
         <div class="stitle">🍬 Control Brix Producto Terminado</div>
         <div class="card">
-          <div class="row2">
-            <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p6_fecha"></div>
-            <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p6_resp" placeholder="Nombre"></div>
-          </div>
+          <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p6_fecha"></div>
         </div>
         <div class="card">
           <div class="stitle" style="margin-top:0">Muestras</div>
@@ -473,14 +457,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
             <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" id="p7_lote" placeholder="Ej. L-001-2026"></div>
           </div>
           <div class="row2">
-            <div class="field"><span class="flabel">Hora Inicio Proceso 1</span><input class="finput" type="time" id="p7_inicio1"></div>
-            <div class="field"><span class="flabel">Hora Final Proceso 1</span><input class="finput" type="time" id="p7_final1"></div>
           </div>
-          <div class="row2">
-            <div class="field"><span class="flabel">Hora Inicio Proceso 2</span><input class="finput" type="time" id="p7_inicio2"></div>
-            <div class="field"><span class="flabel">Hora Final Proceso 2</span><input class="finput" type="time" id="p7_final2"></div>
-          </div>
-          <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p7_resp" placeholder="Nombre"></div>
         </div>
         <div class="card">
           <div class="stitle" style="margin-top:0">Registros por Hora</div>
@@ -500,7 +477,6 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         <div class="card">
           <div class="row2">
             <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p8_fecha"></div>
-            <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p8_resp" placeholder="Nombre"></div>
           </div>
         </div>
         <div class="card">
@@ -600,7 +576,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
 </div>
 
 <script>
-const SCRIPT_URL='https://script.google.com/macros/s/AKfycbwM7a682-l5SzG-aSFKzk2xgk9CEQ6hqsiUV6YM53UaFUmjaQxVuJp7xfoiJuJcFdM/exec';
+const SCRIPT_URL='https://script.google.com/macros/s/AKfycbwXFs3WTwvgXm68zaEhFlY25nJXevC0byGnWV6vy2pCOSE-QCclBDuQ1xMd0QOm017OVw/exec';
 
 const USERS=[
   {code:'ADMIN001',name:'Administrador',rol:'admin'},
@@ -622,6 +598,8 @@ function ls(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}}
 function today(){return new Date().toISOString().slice(0,10);}
 function tsLegible(){const n=new Date();const d=String(n.getDate()).padStart(2,'0');const m=String(n.getMonth()+1).padStart(2,'0');const y=n.getFullYear();let h=n.getHours();const mi=String(n.getMinutes()).padStart(2,'0');const ampm=h>=12?'PM':'AM';h=h%12||12;return `${d}/${m}/${y} ${String(h).padStart(2,'0')}:${mi} ${ampm}`;}
 function nowTime(){const n=new Date();return n.toTimeString().slice(0,5);}
+function nowTimeAMPM(){const n=new Date();let h=n.getHours();const mi=String(n.getMinutes()).padStart(2,'0');const ap=h>=12?'PM':'AM';h=h%12||12;return String(h).padStart(2,'0')+':'+mi+' '+ap;}
+function addOneHourAMPM(t){const[hm,ap]=t.split(' ');const[hh,mm]=hm.split(':').map(Number);const d=new Date();d.setHours(hh+(ap==='PM'&&hh!==12?12:ap==='AM'&&hh===12?-12:0)+1,mm);let h=d.getHours();const mi=String(d.getMinutes()).padStart(2,'0');const a=h>=12?'PM':'AM';h=h%12||12;return String(h).padStart(2,'0')+':'+mi+' '+a;}
 
 function previewFoto(input, prevId){
   const prev=document.getElementById(prevId);
@@ -766,11 +744,12 @@ function calcTotalPelado(){
 function addFilaPelado(){
   const c=document.getElementById('p1_filas');
   const i=c.children.length+1;
+  const hIni=nowTimeAMPM();
   c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
     <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
     <div class="row2">
-      <div class="field"><span class="flabel">Hora Iniciocio</span><input class="finput" type="time" value="${nowTime()}"></div>
-      <div class="field"><span class="flabel">Hora Finalal</span><input class="finput" type="time"></div>
+      <div class="field"><span class="flabel">Hora Inicio</span><input class="finput" type="text" value="${hIni}" placeholder="HH:MM AM/PM"></div>
+      <div class="field"><span class="flabel">Hora Final</span><input class="finput" type="text" placeholder="HH:MM AM/PM"></div>
     </div>
     <div class="row3">
       <div class="field"><span class="flabel">Peso KG Pelados por Hora</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0" oninput="calcTotalPelado()"></div>
@@ -846,26 +825,29 @@ function addFilaChips(){
 function addFilaFreidor(){
   const c=document.getElementById('p4_filas');
   const i=c.children.length+1;
+  const hIni=nowTimeAMPM();
+  const hFin=addOneHourAMPM(hIni);
   c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
-    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">PROCESO #${i}</div>
     <div class="row2">
-      <div class="field"><span class="flabel">Hora</span><input class="finput" type="time" value="${nowTime()}"></div>
+      <div class="field"><span class="flabel">Hora Inicio Proceso</span><input class="finput" type="text" value="${hIni}" placeholder="HH:MM AM/PM"></div>
+      <div class="field"><span class="flabel">Hora Final Proceso</span><input class="finput" type="text" value="${hFin}" placeholder="HH:MM AM/PM"></div>
+    </div>
+    <div class="row2">
       <div class="field"><span class="flabel">Temperatura Zona 1 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 2 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
     </div>
     <div class="row3">
-      <div class="field"><span class="flabel">Temperatura Zona 2 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
       <div class="field"><span class="flabel">Temperatura Zona 3 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
       <div class="field"><span class="flabel">Temperatura Zona 4 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temperatura Zona 5 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
     </div>
     <div class="row3">
-      <div class="field"><span class="flabel">Temperatura Zona 5 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
       <div class="field"><span class="flabel">Tiempo de Fritura (min)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
       <div class="field"><span class="flabel">Velocidad de Malla (Hz)</span><input class="finput" type="text" placeholder="0"></div>
-    </div>
-    <div class="row2">
       <div class="field"><span class="flabel">Alimentación de Aceite (L/T)</span><input class="finput" type="text" placeholder="0"></div>
-      <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
     </div>
+    <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
   </div>`);
 }
 
@@ -873,18 +855,21 @@ function addFilaFreidor(){
 function addFilaHorno(){
   const c=document.getElementById('p5_filas');
   const i=c.children.length+1;
+  const hIni=nowTimeAMPM();
+  const hFin=addOneHourAMPM(hIni);
   c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
-    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">PROCESO #${i}</div>
     <div class="row2">
-      <div class="field"><span class="flabel">Hora</span><input class="finput" type="time" value="${nowTime()}"></div>
-      <div class="field"><span class="flabel">Temperatura Zona 1 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
+      <div class="field"><span class="flabel">Hora Inicio Proceso</span><input class="finput" type="text" value="${hIni}" placeholder="HH:MM AM/PM"></div>
+      <div class="field"><span class="flabel">Hora Final Proceso</span><input class="finput" type="text" value="${hFin}" placeholder="HH:MM AM/PM"></div>
     </div>
     <div class="row3">
+      <div class="field"><span class="flabel">Temperatura Zona 1 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
       <div class="field"><span class="flabel">Temperatura Zona 2 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
       <div class="field"><span class="flabel">Temperatura Zona 3 (°C)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
-      <div class="field"><span class="flabel">Tiempo en Horno (min)</span><input class="finput" type="text" placeholder="0"></div>
     </div>
-    <div class="row2">
+    <div class="row3">
+      <div class="field"><span class="flabel">Tiempo en Horno (min)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
       <div class="field"><span class="flabel">Velocidad de Malla (Hz)</span><input class="finput" type="text" placeholder="0"></div>
       <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
     </div>
@@ -905,7 +890,7 @@ function addFilaBrix(){
     <div class="row3">
       <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" placeholder="Ej. L-001-2026"></div>
       <div class="field"><span class="flabel">Resultado en °Brix</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
-      <div class="field"><span class="flabel">Hora de Toma de Muestra</span><input class="finput" type="time" value="${nowTime()}"></div>
+      <div class="field"><span class="flabel">Hora de Toma de Muestra</span><input class="finput" type="text" value="${nowTimeAMPM()}" placeholder="HH:MM AM/PM"></div>
     </div>
     <div class="field">
       <span class="flabel">📷 Foto de Evidencia</span>
@@ -923,18 +908,21 @@ function addFilaBrix(){
 function addFilaCanastillas(){
   const c=document.getElementById('p7_filas');
   const i=c.children.length+1;
+  const hIni=nowTimeAMPM();
+  const hFin=addOneHourAMPM(hIni);
   c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
-    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
-    <div class="row3">
-      <div class="field"><span class="flabel">Hora Inicio</span><input class="finput" type="time" value="${nowTime()}"></div>
-      <div class="field"><span class="flabel">Hora Final</span><input class="finput" type="time"></div>
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">PROCESO #${i}</div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Hora Inicio Proceso</span><input class="finput" type="text" value="${hIni}" placeholder="HH:MM AM/PM"></div>
+      <div class="field"><span class="flabel">Hora Final Proceso</span><input class="finput" type="text" value="${hFin}" placeholder="HH:MM AM/PM"></div>
+    </div>
+    <div class="row2">
       <div class="field"><span class="flabel">Número de Canastillas Formadas</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
+      <div class="field"><span class="flabel">Nº de Personas en Turno</span><input class="finput" type="number" inputmode="numeric" placeholder="0"></div>
     </div>
     <div class="row3">
-      <div class="field"><span class="flabel">Nº de Personas en Turno</span><input class="finput" type="number" inputmode="numeric" placeholder="0"></div>
       <div class="field"><span class="flabel">KG Producto Quemado</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
       <div class="field"><span class="flabel">KG Producto No Conforme</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
-    </div>
       <div class="field"><span class="flabel">KG Caídos al Piso</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
     </div>
     <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
@@ -948,16 +936,17 @@ function addFilaTostones(){
   c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
     <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">MEDICIÓN #${i}</div>
     <div class="row2">
-      <div class="field"><span class="flabel">Hora</span><input class="finput" type="time" value="${nowTime()}"></div>
+      <div class="field"><span class="flabel">Hora</span><input class="finput" type="text" value="${nowTimeAMPM()}" placeholder="HH:MM AM/PM"></div>
       <div class="field"><span class="flabel">Cliente</span><input class="finput" type="text" placeholder="Cliente"></div>
     </div>
     <div class="row2">
       <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" placeholder="Ej. L-001-2026"></div>
       <div class="field"><span class="flabel">Diámetro Tostón Grande (cm)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
     </div>
-    <div class="row2">
+    <div class="row3">
+      <div class="field"><span class="flabel">Diámetro Tostón Pequeño (cm)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
       <div class="field"><span class="flabel">Espesor Tostón Grande (mm)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
-      <div class="field"><span class="flabel">Espesor Tostón Pequeña (mm)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
+      <div class="field"><span class="flabel">Espesor Tostón Pequeño (mm)</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
     </div>
     <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
   </div>`);
@@ -1006,76 +995,84 @@ function recopilarFilas(containerId){
 
 function gv(id){const el=document.getElementById(id);return el?el.value:'';}
 
-function buildFila(tipo, prefix){
+function buildFilas(tipo, prefix){
   const ts=tsLegible();
   const usuario=me?me.name:'—';
   const lote=gv(prefix+'_lote');
   const resp=gv(prefix+'_resp');
-
   const filasEl=document.getElementById(prefix+'_filas');
   const filasData=filasEl?recopilarFilas(prefix+'_filas'):[];
-  const fd=filasData[0]||{};
-  const fdVals=Object.values(fd);
 
-  // PELADO fila dinámica orden: [HoraInicio, HoraFinal, KGPelados, Acumulado, KGCascara, Obs]
+  // Función auxiliar: construye una fila base + valores de un registro dinámico
+  const ns=v=>(!v||String(v).trim()==='')?'—':v;
+  const fv=(fd,keys)=>keys.map(k=>ns(fd[k]||''));
+
   if(tipo==='pelado'){
-    return [ts,usuario,lote,gv(prefix+'_operario'),
-      gv(prefix+'_inicio'),gv(prefix+'_final'),
-      fdVals[0]||'—',fdVals[1]||'—',fdVals[2]||'—',fdVals[3]||'—',
-      gv(prefix+'_totalKg'),gv(prefix+'_lider')];
+    if(!filasData.length) return [[ts,usuario,lote,gv(prefix+'_operario'),'—','—','—','—','—','—',gv(prefix+'_totalKg'),gv(prefix+'_lider')]];
+    return filasData.map(fd=>{
+      const v=Object.values(fd);
+      return [ts,usuario,lote,gv(prefix+'_operario'),ns(v[0]),ns(v[1]),ns(v[2]),ns(v[3]),ns(v[4]),ns(v[5]),gv(prefix+'_totalKg'),gv(prefix+'_lider')];
+    });
   }
-  // HUMEDAD fila dinámica orden (sin HoraFecha): [RecepcionMP, HumAntes, HumDespFreir, HumDespHorno, TempAmb, Min15, Min30, Min45, Min60, HumRelativa, Obs]
   if(tipo==='humedad'){
-    return [ts,usuario,lote,gv(prefix+'_producto'),resp,
-      fdVals[0]||'—',fdVals[1]||'—',fdVals[2]||'—',fdVals[3]||'—',
-      fdVals[4]||'—',fdVals[5]||'—',fdVals[6]||'—',fdVals[7]||'—',fdVals[8]||'—',
-      fdVals[9]||'—',fdVals[10]||'—'];
+    if(!filasData.length) return [[ts,usuario,lote,gv(prefix+'_produto'),resp,'—','—','—','—','—','—','—','—','—','—','—']];
+    return filasData.map(fd=>{
+      const v=Object.values(fd);
+      return [ts,usuario,lote,gv(prefix+'_produto'),resp,ns(v[0]),ns(v[1]),ns(v[2]),ns(v[3]),ns(v[4]),ns(v[5]),ns(v[6]),ns(v[7]),ns(v[8]),ns(v[9]),ns(v[10])];
+    });
   }
-  // CHIPS fila dinámica orden: [Hora, Lote, AnchoMedido, CalibreMedido, Obs]
   if(tipo==='chips'){
-    return [ts,usuario,lote,gv(prefix+'_cliente'),gv(prefix+'_calibre'),resp,
-      fdVals[0]||'—',fdVals[1]||'—',fdVals[2]||'—',fdVals[3]||'—',fdVals[4]||'—'];
+    if(!filasData.length) return [[ts,usuario,lote,gv(prefix+'_cliente'),gv(prefix+'_calibre'),'—','—','—','—','—']];
+    return filasData.map(fd=>{
+      const v=Object.values(fd);
+      return [ts,usuario,lote,gv(prefix+'_cliente'),gv(prefix+'_calibre'),ns(v[0]),ns(v[1]),ns(v[2]),ns(v[3]),ns(v[4])];
+    });
   }
-  // FREIDOR fila dinámica orden: [Hora, T1, T2, T3, T4, T5, Tiempo, Velocidad, Aceite, Obs]
   if(tipo==='freidor'){
-    return [ts,usuario,lote,resp,
-      gv(prefix+'_inicio1'),gv(prefix+'_final1'),gv(prefix+'_inicio2'),gv(prefix+'_final2'),
-      fdVals[0]||'—',fdVals[1]||'—',fdVals[2]||'—',fdVals[3]||'—',fdVals[4]||'—',
-      fdVals[5]||'—',fdVals[6]||'—',fdVals[7]||'—',fdVals[8]||'—',fdVals[9]||'—'];
+    if(!filasData.length) return [[ts,usuario,lote,gv(prefix+'_realizo'),'—','—','—','—','—','—','—','—','—','—','—']];
+    return filasData.map(fd=>{
+      const v=Object.values(fd);
+      return [ts,usuario,lote,gv(prefix+'_realizo'),ns(v[0]),ns(v[1]),ns(v[2]),ns(v[3]),ns(v[4]),ns(v[5]),ns(v[6]),ns(v[7]),ns(v[8]),ns(v[9]),ns(v[10])];
+    });
   }
-  // HORNO fila dinámica orden: [Hora, T1, T2, T3, Tiempo, Velocidad, Obs]
   if(tipo==='horno'){
-    return [ts,usuario,lote,resp,
-      gv(prefix+'_inicio1'),gv(prefix+'_final1'),gv(prefix+'_inicio2'),gv(prefix+'_final2'),
-      fdVals[0]||'—',fdVals[1]||'—',fdVals[2]||'—',fdVals[3]||'—',
-      fdVals[4]||'—',fdVals[5]||'—',fdVals[6]||'—'];
+    if(!filasData.length) return [[ts,usuario,lote,gv(prefix+'_realizo'),'—','—','—','—','—','—','—','—']];
+    return filasData.map(fd=>{
+      const v=Object.values(fd);
+      return [ts,usuario,lote,gv(prefix+'_realizo'),ns(v[0]),ns(v[1]),ns(v[2]),ns(v[3]),ns(v[4]),ns(v[5]),ns(v[6]),ns(v[7])];
+    });
   }
-  // BRIX fila dinámica orden: [ProductoTerminado, Proveedor, Lote, ResultadoBrix, HoraMuestra]
   if(tipo==='brix'){
-    return [ts,usuario,resp,
-      fdVals[0]||'—',fdVals[1]||'—',fdVals[2]||'—',fdVals[3]||'—',fdVals[4]||'—'];
+    if(!filasData.length) return [[ts,usuario,'—','—','—','—','—']];
+    return filasData.map(fd=>{
+      const v=Object.values(fd);
+      return [ts,usuario,ns(v[0]),ns(v[1]),ns(v[2]),ns(v[3]),ns(v[4])];
+    });
   }
-  // CANASTILLAS fila dinámica orden: [HoraInicio, HoraFinal, Canastillas, Personas, KGQuemado, KGNoConforme, KGCaido, Obs]
   if(tipo==='canastillas'){
-    return [ts,usuario,lote,resp,
-      gv(prefix+'_inicio1'),gv(prefix+'_final1'),gv(prefix+'_inicio2'),gv(prefix+'_final2'),
-      fdVals[0]||'—',fdVals[1]||'—',fdVals[2]||'—',fdVals[3]||'—',
-      fdVals[4]||'—',fdVals[5]||'—',fdVals[6]||'—',fdVals[7]||'—',
-      gv(prefix+'_totalKg')];
+    if(!filasData.length) return [[ts,usuario,lote,gv(prefix+'_realizo'),'—','—','—','—','—','—','—','—',gv(prefix+'_totalKg')]];
+    return filasData.map(fd=>{
+      const v=Object.values(fd);
+      return [ts,usuario,lote,gv(prefix+'_realizo'),ns(v[0]),ns(v[1]),ns(v[2]),ns(v[3]),ns(v[4]),ns(v[5]),ns(v[6]),ns(v[7]),gv(prefix+'_totalKg')];
+    });
   }
-  // TOSTONES fila dinámica orden: [Hora, Cliente, Lote, DiamGrande, EspGrande, EspPequena, Obs]
   if(tipo==='tostones'){
-    return [ts,usuario,resp,
-      fdVals[0]||'—',fdVals[1]||'—',fdVals[2]||'—',fdVals[3]||'—',
-      fdVals[4]||'—',fdVals[5]||'—',fdVals[6]||'—'];
+    if(!filasData.length) return [[ts,usuario,'—','—','—','—','—','—','—','—']];
+    return filasData.map(fd=>{
+      const v=Object.values(fd);
+      return [ts,usuario,ns(v[0]),ns(v[1]),ns(v[2]),ns(v[3]),ns(v[4]),ns(v[5]),ns(v[6]),ns(v[7])];
+    });
   }
-  // DESPERDICIOS fila dinámica orden: [KGFresco, KGPelado, Cascara, Crudo, Frito, Obs]
   if(tipo==='desperdicios'){
-    return [ts,usuario,lote,gv(prefix+'_materia'),resp,
-      fdVals[0]||'—',fdVals[1]||'—',fdVals[2]||'—',fdVals[3]||'—',fdVals[4]||'—',fdVals[5]||'—'];
+    if(!filasData.length) return [[ts,usuario,lote,gv(prefix+'_materia'),resp,'—','—','—','—','—','—']];
+    return filasData.map(fd=>{
+      const v=Object.values(fd);
+      return [ts,usuario,lote,gv(prefix+'_materia'),resp,ns(v[0]),ns(v[1]),ns(v[2]),ns(v[3]),ns(v[4]),ns(v[5])];
+    });
   }
-  return [ts,usuario,lote,resp];
+  return [[ts,usuario,lote,resp]];
 }
+
 
 function guardarProd(tipo){
   const prefix='p'+{pelado:1,humedad:2,chips:3,freidor:4,horno:5,brix:6,canastillas:7,tostones:8,desperdicios:9}[tipo];
@@ -1104,17 +1101,19 @@ function guardarProd(tipo){
   ls('fc_prod6',prodRegs);
   showToast('✅ '+rec.nombre+' guardado','#16a34a');
 
-  const fila=buildFila(tipo,prefix);
-  // Eliminar fotos antes de enviar a Sheets (solo quedan en la app)
-  const filaSinFotos=fila.map(v=>{
+  const filas=buildFilas(tipo,prefix);
+  const limpiar=v=>{
     if(typeof v==='string'&&v.startsWith('data:image')) return '[foto]';
     if(v===null||v===undefined||String(v).trim()==='') return '—';
     return v;
+  };
+  filas.forEach(fila=>{
+    const filaSinFotos=fila.map(limpiar);
+    const payload={hoja:rec.nombre, fila:filaSinFotos};
+    fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)})
+      .then(()=>showToast('☁️ Guardado en Sheets','#0d6e3a'))
+      .catch(()=>showToast('⚠️ Sin conexión - guardado local','#d97706'));
   });
-  const payload={hoja:rec.nombre, fila:filaSinFotos};
-  fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)})
-    .then(()=>showToast('☁️ Guardado en Sheets','#0d6e3a'))
-    .catch(()=>showToast('⚠️ Sin conexión - guardado local','#d97706'));
 
   // Limpiar formulario y quedarse en la misma pantalla
   limpiarFormProd(tipo);
