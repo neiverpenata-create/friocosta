@@ -1379,7 +1379,7 @@ function registrar(){
   showToast('✅ Recepción registrada','#16a34a');
   limpiar();
   const nsr=v=>(!v||String(v).trim()==='')?'—':v;
-  const payload={hoja:'RECEPCIONES',fila:[tsLegible(),nsr(r.materia),nsr(r.variedad),nsr(r.kg),nsr(r.proveedor),nsr(r.codProv),nsr(r.zona),nsr(r.origen),nsr(r.longitud),nsr(r.diametro),nsr(r.brix),nsr(r.densidad),nsr(r.acidez),nsr(r.color),nsr(r.color_pulpa),nsr(r.olor),nsr(r.textura),nsr(r.apariencia),nsr(r.decision),nsr(r.obs),nsr(r.responsable)]};
+  const payload={hoja:'RECEPCIONES',fila:[tsLegible(),nsr(r.materia),nsr(r.variedad),nsr(r.kg),nsr(r.proveedor),nsr(r.codProv),nsr(r.zona),nsr(r.origen),nsr(r.finca),nsr(r.longitud),nsr(r.diametro),nsr(r.brix),nsr(r.densidad),nsr(r.acidez),nsr(r.color),nsr(r.color_pulpa),nsr(r.olor),nsr(r.textura),nsr(r.apariencia),nsr(r.decision),nsr(r.obs),nsr(r.responsable),nsr(r.supervisor),nsr(r.usuario)]};
   fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)})
     .then(()=>showToast('☁️ Guardado en Google Sheets','#0d6e3a'))
     .catch(()=>showToast('⚠️ Sin conexión - guardado local','#d97706'));
