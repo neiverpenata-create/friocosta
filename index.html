@@ -42,6 +42,34 @@ html,body{height:100%;font-family:'Outfit',sans-serif;background:#f0f4fc;color:#
 .nbtn{flex:1;padding:8px 2px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;font-family:inherit;font-size:9px;font-weight:600;letter-spacing:.3px;color:#6b7280;transition:color .15s;white-space:nowrap}
 .nbtn .ni{font-size:20px;line-height:1}
 .nbtn.active{color:#2952b3}
+/* LOTE DROPDOWN */
+.lote-drop{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#fff;border:1.5px solid #ccd6ef;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.13);z-index:300;max-height:240px;overflow-y:auto}
+.lote-drop-item{padding:10px 14px;cursor:pointer;border-bottom:1px solid #f3f4f6;display:flex;flex-direction:column;gap:2px}
+.lote-drop-item:last-child{border-bottom:none}
+.lote-drop-item:hover{background:#f0f7ff}
+.lote-drop-code{font-weight:800;font-size:14px;color:#0d1f4e;font-family:monospace;letter-spacing:.5px}
+.lote-drop-meta{font-size:11px;color:#6b7280}
+.lote-drop-empty{padding:14px;color:#9ca3af;font-size:13px;text-align:center}
+/* TRAZABILIDAD / BUSQUEDA LOTE */
+.traza-empty{text-align:center;padding:40px 20px;color:#9ca3af;font-size:14px;line-height:1.7}
+.traza-header{background:linear-gradient(135deg,#0d1f4e,#1a3a7c);border-radius:14px;padding:18px;margin-bottom:14px;color:#fff}
+.traza-lote-code{font-size:20px;font-weight:900;letter-spacing:1px;color:#4ade80;font-family:monospace}
+.traza-lote-meta{font-size:12px;color:rgba(255,255,255,.6);margin-top:4px}
+.traza-badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:700;margin:2px}
+.tl-wrap{display:flex;flex-direction:column}
+.tl-item{display:flex;gap:12px}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:24px;flex-shrink:0}
+.tl-dot{width:14px;height:14px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 2.5px currentColor;flex-shrink:0;margin-top:3px}
+.tl-line{width:2px;background:#e5e7eb;flex:1;min-height:20px;margin:3px 0}
+.tl-content{flex:1;background:#fff;border-radius:12px;padding:12px;margin-bottom:10px;border:1px solid #e5e7eb;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.tl-date{font-size:11px;color:#9ca3af;margin-bottom:4px}
+.tl-title{font-size:13px;font-weight:800;margin-bottom:6px}
+.tl-row{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;border-bottom:1px solid #f3f4f6}
+.tl-row:last-child{border:none}
+.tl-key{color:#9ca3af;flex-shrink:0;margin-right:8px}
+.tl-val{font-weight:600;color:#1e293b;text-align:right}
+.sug-chip{padding:5px 12px;background:#f0f7ff;border:1px solid #bfdbfe;border-radius:20px;font-size:12px;font-weight:700;color:#1e40af;cursor:pointer;font-family:monospace}
+.sug-chip:hover{background:#dbeafe}
 
 .card{background:#fff;border:1px solid #ccd6ef;border-radius:14px;padding:16px;margin-bottom:12px}
 .stitle{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#6b7280;margin:20px 0 12px;padding-bottom:8px;border-bottom:2px solid #2952b3}
@@ -162,8 +190,16 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
 
 <div id="app">
   <div class="topbar">
-    <div class="topbar-left">
-      <div class="topbar-brand"><img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCACHAIEDASIAAhEBAxEB/8QAHQABAAEEAwEAAAAAAAAAAAAAAAgFBgcJAQIEA//EAE4QAAEDAwIBCAQICQcNAAAAAAECAwQABQYHESEIEhMxQVFhgSIycZEUFSNCUmJyoRgzQ2OCkrHB0RckJVaUlcI2RFRVZHN0hJOistLh/8QAGwEAAgMBAQEAAAAAAAAAAAAAAAUDBAYBAgf/xAAyEQABBAAFAgQEBAcAAAAAAAAAAQIDBAUREiExE0EGIlFhFDJx0RUWgaEzQlKxwfDx/9oADAMBAAIRAxEAPwCZdKUoAUpSgDrSrYzXOcWw2EJWSXuLACvUbWrd1z7KB6R91YMy/lXW9hTkfFcafm7cEyZznRIHjzBuT7xVqvQsWf4bMyCSxHF8ykmqcKg3eOUrqbOK0xpVttyT1CPD3I81k1QXNc9V1rJOYyh4Bhof4KaN8O2nJuqJ+pWXEokNge4NdVeyoH23lDaqwjzl31iWO6TEbP7NqvrGeVbe2VobyTGIUtr57sJ4tL9vNXuD7xUUuAW2cIinWYjEvJLYVzWMsA1vwDMnW4kS7iBOX1RZw6Jaj3JJ9FfkayYCNtwd6VSwyRLpemSlxkjHpminelKVGexSlKAFKUoAUpXnlyGYkZyTIcQ0w0guOLUdgkDiSaE3A6S5TEOK5LlPNsMNIK3HXF81KQOsknqFRf1o5SaulfsenhASN0uXdad9/wDdIP8A5nyHbVkcozWiZnNwdsNgkOxsbjrKVbcDNI+er6ncPM+GGK1uF4G1ESWfn0+4mt31Xyxnouc+bdJ659zmyJktz13pDhcWfM156UrTta1qZNFXJyw24862yy0tx1w8xCEDcrPcBV3x9LdR5DSXmsHv3NWNxvEKPuNZa5EGNQLjkl7yCZHS87bG2mopUn1FuFZJHiAgfrVLw771m8Sxx9edYo2psM61BsrNTlNdn8k+pn9Rr5/ZjT+SfUz+o18/sxrYptTaqH5ksf0p+/3LH4ZH6muo6Ualbf5D33h/spq89OtZM90xuCbHk0S4zLegjnwLkFtyGB3trWN9vA8PZU4Nz31hPlg41b7vpY/enGUCdaXEOsPbbHmk7LRv3EH3gV2PF0uyJFYjTJTy6n0EV8btzJOAZrj+cWRN1x6ciQ11OI6nGV/QWOw1cnCtbmnma37BMhavNilFtY4PMKPyb6PoLH7+yp6aWZ3Z9QMXZvdrXzV+rKjqPpx3O1J/ce0VSxPCn03am7tUsVLaTJkvJeVKUpUXRSlKAOg66ivyyNTVKeOndlf2TzQ5dnEnr7UM/vPlUgtTMojYZg10yWTsRDYKm0H57h4IR5qIrXNdZ0q6XSVcpzhely3lvvuH561ncmn+AUEmkWV/Cf3FuIT6GaE7nwpSlbYRilXFgWE5HnN5+LMdt65KxxedX6LTQ71K7P21KXTvkyYlaENSspfevs0cSzv0cZB8Ej0j5nypdcxSvU2eua+hYgqyS/KePkLROjwm+zSBu/cQ3v4IbT/7VIOfKYgwZE2SvmMR21OuHuSBua81hslpsVvECzW6Nb4o4hphoITv38KqJG42PEVg7lj4id0uXJoII+nGjTDCOUzpSoApuNyP/IOV2/CW0s/0+5/3e5/Cr1yvTTBcoaWi9Yzb33FflkNBt0fpo2NR51X5Mk22R3bpgkp24NJ3Uu3SFDpQPza+APsPHxNMKseGyrpkVzf1T7FeZ1lm7clMn/hL6Wcf59cyf+AcrCnKE10YzyzjGschyo1qU4HJL8lIS4/txSgAE7J349/oisGOtracU26haHEKKFoWNigjrBritJWwOrDIkiZqLJL8r00ir70P1Bm6d5nHuCVrNsfIansjqcb+l7R1j/7ViUpnNCydixv4UqserHakNnltmxblbo9whPIfjSW0utOJPBSSNwa9dR35F+bruuMS8PnO7yLVs5F37WFnq8j9yxUiN+NfOLdd1aV0S9jTQydViOQ52pXG31qVWzJiMfLnyQs2qx4oy5sqS4uY+PqI9FG/mT7qipWYuWLcVTta5DPPJTBgx44HvWfvcrDtfQsHh6VRvvuZq6/VKoq59LsJuuoGXx8ftnyfPHSSHyjdEdodaj/DtNWuebtU5OSjgyMT05YuctgIut6SJT5I4oa/JN/q8fao0Yte+Eg1JyvAVIOtJkvBkHAcPseE4+zY7FFQxHQN1K2+UeX2rUe01ce1KtnUHNsfwSwKvOQTEsM+q22OLjy/oIHaawPnlf6qpodmJ7FzbU3ryWyV8OtsaZ0S2unaQ70a+tO432NYx5T+cXnA8BiXPH5LUec/cW2AXGwsFPMWtQ2PgiuxROlkSNvKhI9GNVymWeyuPm91Rg055UzDqhDzq0mMeydABUj9Ns8R5E+yrrzDlL4JbLOtywuSL3cCg9EyGVtIB+utQ4D2bmrjsKttfo6akCW4lbnmR+5VEC32/Wy8ot4ShL6GpDyE9QdWj0/fwPnWLqqGT3q45HkM6/XR7pps14uvL7N+wDwA2A8BVPrfVI3RQsjdyiGemejnq5BSlKnPBkHk7ZKrGNXLJKKyI8t8Qn/sOcN/IkHyrYL21q+gyFxZrEls7KacDifaDvWzSwyvh9kgzd9+njtu/rAGsd4khRsrZPUc4Y/yK09no91K5499KzuaDLc1+8pdxbmuWT847lD6Ej2dGisdbVlblZwvgWuV4VtsJLTD48d2wP8ABWKq+kYe7OrH9EM1PtK76lXwe1fH2aWSzbbibcGGF/YW4Afu3rZVHZQyw2y0OY2hISkdwFa/eTklDmuOKBzq+Fk+YaXtWwgcBWX8SPXrtb2yGuGJkxVOrighJWo7ADc1AbWLMZWpOryU9ITbWZ4gQGt+Ab6TmFftWePuqbeospyHgd8lNeu1b3lJ9vMNQD0WhfGOquKxCCefcmCfYFhZ/ZXMCiajZJ3dkDEHuVzWJ3Ni0VoMxmmvoISn3Co4cu+UBjONQd/xk5x7b7DZH+OpKiolcu+Xz7/jUIK4Ijvuke0oH7qo4O3Xdb/vYsXV0wKRtpSlfQjOClKUAKUpQBwK2SaXLUvTfG1q6zbI+/8A0xWt1tClOJQOJJArZdhcT4DiFnhEbdBCab29iBWW8Sr5Y0+o1wr5nFX4Urp0ae40rJbDjJCJvLnx9TOR2LKG0fJyY5hOH67ZK0fctfuqN1T95R2HKzLSu5wozfPnxObMibDiVt9af0k85PnUASNuHVW6wCwktbR3b/0QYjDolz9S49MrsLFqLjd3Urmtxrmwpw/m+eAv/sJrZGkgjnDiDWrn6tT65OGbIzfTKA++4lVygj4JOSDx56OCV/pp2V76o+JK6qjZk+n+ULGGScsMg3qC3crRMt7vqSWFtH2EbVAnTJ+DpxrdGcy3p47NjlPof5rZcPPCFoQQB2HcGtgXZWDOUZogM6IyLHlNRr+0jmONL4NzEDqBPYsdhpRhNtkSuhl+V3cuXInOyc3lD3/hK6Wf6yuP93ufwqNvKXzuzZ7nsa52B512AxBQyC62Wz0nPWTwPgRWP8isV5xy4qt99tkq3SUK26OQ3zd/YeojxFU7fv6q1FLCq0D0micqiqe1I9NDjmlXxphpZluf3Ftu1QHI8Df5W4SGyGGx4H558BUqse5OWm1ttSI1xtr10lczZyU88tKlHvAB2FS3MXr1XaXbr7HiGlJLuhB2lZj5R+jqdO3o95sjr79imOdFzXeKoznWEE9oPHY+FYcq7Wsx2o0kj4IZI3xP0uFKUqcjLl0psbmSaj2CzNo5wkTm+k8Gwd1n3A1sfSlKEhIGwHVUTeRDiC5F5uWZSmfkIyPgsQkdbh9cj2DYedS0JrDY/Y6tnQnDR7h0eiPP1O9KUpFmMMjpsCKgtyotOFYRnLlzt7Ck2S8LU8wQn0Gnd91teHePD2VOg9VW5qHiVqzjFZePXdvdiQn0XE+uy4PVcT4g0wwy8tOfX27la1B1mZdzW7V9aJaizdN8xbubYcftsgdFcIoP4xvsI+uOzzHbVJ1Kwq84HlD9ivTeyh6UeQgfJyG+xaf4dlW3W+ckdyHLlqiBNcL/AHQ2ZY5fLVkNmjXezzG5kKQjntutq4Hw8D4VVD6ta8NJ9UMm05uJes7wfgOr58iA9+Kd8fqL8R99S30515wPLm0MvzviW4nYGNcFBAJ+q56ivuPhWHv4RPVdm3do8r3mS7Lspki82e1XqIYl3tsOeweBbkspcR7jVvQ9L9O4coSY2FWBt4cUqEBv0fZw4VdzLzb7SXWXEuIUNwpJ3Br6cO+lqSPbsiltWtXdT5MNNMtJaZaQ2hPAJSnYDyr6mqXfr9ZrBCMy9XWJb44/KSHggffWAdUeU7aYLT9vwWMu4zNihM+Qnmx0HvSOtf3Cp69Oey7KNuZHJOyL5lPvy2cpt0bDIeJIWly4TpCHy2Otpps7849252A86iHXtv8Ad7nfrvIu13mOzZz6+c686eJ/gPAV4q3eG0vg4EYpnrM/Wk1Cqli1iuGS5DCsNqZL0yY8G2x3d5PgOs+AqnxmXn5DTEdpbzzqwhttA3KyeoAVNfk0aRpwSz/Ht8ZQrIJiPSSePwVs/kx9Y9vurxid9lSL3Xg9Va6zPyMk6dYtCwvDrdjsHYtxGwFubbFxzrWs+071ctKddfPnPV66ncmja1Gpkh2pSlcO5ClKUHSz9S8FsGf46u0XyNuOKo8hA2djufTQf3dRqEurmlGUacz1mfHVMtK17R7i0Pk1dwX9Bft8q2EGvNPixpsRyLMYakMOp5rjbqAtKx3EHrpjh+KTUnZJu1exUsVGTfU1g1wfs1MXUfkx45elrm4nMVYZZ4/BijpIqj9nrR5cPCsB5dodqXjbiy9jrtxjo/ziAemQR9gemPdWwq4tVsfzZL7iaWpLH2LFs99vdmP9EXi424HrEaUtoH3Gqq9n2dPNdG7mN/Wju+MHP41Qp8KZAcLU+HIiODhzJDZbP315QpH0hV5YYXrmqFfXImx9pUh+VIMiXIekvHrcdWVrPma61w3u4vmNpK1nqCOJq68a02z3IXEi0YpdXwfyjjPRNj9NewodLFC3zLkCMc/gtWqni+P3vJrw3abDb358xzqbaHUO8nqA8TUgsC5K9xfW1JzW8oiNdaocDZSz4Fw8B5A1JDCcPxzDrULdjlqYgs/PUhO7jh71q6yfbSS7j8MW0PmX9i/Bh8jt37GNNBNDLbgoavl8LdxyJSeChxai79jfj9b3Vm1I4U86Vj7E8liTXIuajmONsaZNO1KUqMkFKUoAUpSgBSlKAFKUoA8kqDClp5smHHkD860F/tqkPYXh7rnSO4pYnF/SXb2if2UpXOo5OFOK1CoQ7HZYCf5nZ7fGH5qOhH7BVQAA4AcKUrupXchkh2pSlB0UpSgBSlKAFKUoA//Z" style="width:22px;height:22px;border-radius:50%;vertical-align:middle;margin-right:6px"> Friocosta</div>
+    <div class="topbar-left" style="flex-direction:row;align-items:center;gap:10px">
+      <svg width="34" height="34" viewBox="0 0 88 88" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
+        <defs><linearGradient id="lgB" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#1a3a7c"/><stop offset="100%" style="stop-color:#2952b3"/>
+        </linearGradient></defs>
+        <circle cx="44" cy="44" r="42" fill="url(#lgB)" stroke="rgba(255,255,255,0.3)" stroke-width="3"/>
+        <text x="44" y="54" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="30" fill="#ffffff" letter-spacing="-1">FC</text>
+      </svg>
+      <div><div class="topbar-brand">FRIOCOSTA</div><div class="topbar-sub">Alimentos Delhi</div></div>
+    </div>
       <div class="topbar-sub">Sistema de Gestión</div>
     </div>
     <div class="topbar-right">
@@ -195,7 +231,13 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
       <div class="stitle">📌 Datos Generales</div>
       <div class="card">
         <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="f_fecha"></div>
-        <div class="field"><span class="flabel">Lote / Destino</span><input class="finput" type="text" id="f_lote" placeholder="Ej. L-001-2026"></div>
+        <div class="field"><span class="flabel">Código de Lote</span>
+          <div style="display:flex;gap:8px;align-items:center">
+            <input class="finput" type="text" id="f_lote" placeholder="Elige la MP ↓ para generar" readonly style="flex:1;background:#e6f7ee;color:#0d6e3a;font-weight:800;letter-spacing:.5px;font-family:monospace;font-size:14px;min-width:0">
+            <button class="btn btn-s" onclick="generarLote()" style="white-space:nowrap;flex-shrink:0;padding:8px 12px;font-size:12px">🔄 Nuevo</button>
+          </div>
+          <div style="font-size:11px;color:#6b7280;margin-top:4px">Se genera automático al elegir la materia prima · 🔄 para generar otro</div>
+        </div>
         <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="f_responsable" placeholder="Nombre"></div>
         <div class="field"><span class="flabel">Supervisor</span><input class="finput" type="text" id="f_supervisor" placeholder="Nombre del supervisor"></div>
       </div>
@@ -328,7 +370,15 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         <div class="card">
           <div class="row2">
             <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p1_fecha"></div>
-            <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" id="p1_lote" placeholder="Ej. L-001-2026"></div>
+            <div class="field"><span class="flabel">Número de Lote</span>
+              <div style="position:relative">
+                <input class="finput" type="text" id="p1_lote" placeholder="Selecciona o escribe el lote" autocomplete="off"
+                  oninput="filtrarLotesSel('p1_lote','p1_drop')"
+                  onfocus="mostrarLotesSel('p1_lote','p1_drop')"
+                  onblur="setTimeout(()=>{const d=document.getElementById('p1_drop');if(d)d.style.display='none'},200)">
+                <div id="p1_drop" class="lote-drop" style="display:none"></div>
+              </div>
+            </div>
           </div>
           <div class="field"><span class="flabel">Operario</span><input class="finput" type="text" id="p1_operario" placeholder="Nombre del operario"></div>
           <div class="row2">
@@ -358,7 +408,15 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         <div class="card">
           <div class="row2">
             <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p2_fecha"></div>
-            <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" id="p2_lote" placeholder="Ej. L-001-2026"></div>
+            <div class="field"><span class="flabel">Número de Lote</span>
+              <div style="position:relative">
+                <input class="finput" type="text" id="p2_lote" placeholder="Selecciona o escribe el lote" autocomplete="off"
+                  oninput="filtrarLotesSel('p2_lote','p2_drop')"
+                  onfocus="mostrarLotesSel('p2_lote','p2_drop')"
+                  onblur="setTimeout(()=>{const d=document.getElementById('p2_drop');if(d)d.style.display='none'},200)">
+                <div id="p2_drop" class="lote-drop" style="display:none"></div>
+              </div>
+            </div>
           </div>
           <div class="field"><span class="flabel">Producto</span><input class="finput" type="text" id="p2_producto" placeholder="Ej. Chips de plátano"></div>
           <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p2_resp" placeholder="Nombre"></div>
@@ -378,7 +436,15 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         <div class="card">
           <div class="row2">
             <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p3_fecha"></div>
-            <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" id="p3_lote" placeholder="Ej. L-001-2026"></div>
+            <div class="field"><span class="flabel">Número de Lote</span>
+              <div style="position:relative">
+                <input class="finput" type="text" id="p3_lote" placeholder="Selecciona o escribe el lote" autocomplete="off"
+                  oninput="filtrarLotesSel('p3_lote','p3_drop')"
+                  onfocus="mostrarLotesSel('p3_lote','p3_drop')"
+                  onblur="setTimeout(()=>{const d=document.getElementById('p3_drop');if(d)d.style.display='none'},200)">
+                <div id="p3_drop" class="lote-drop" style="display:none"></div>
+              </div>
+            </div>
           </div>
           <div class="field"><span class="flabel">Cliente</span><input class="finput" type="text" id="p3_cliente" placeholder="Nombre cliente"></div>
           <div class="row2">
@@ -401,7 +467,15 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         <div class="card">
           <div class="row2">
             <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p4_fecha"></div>
-            <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" id="p4_lote" placeholder="Ej. L-001-2026"></div>
+            <div class="field"><span class="flabel">Número de Lote</span>
+              <div style="position:relative">
+                <input class="finput" type="text" id="p4_lote" placeholder="Selecciona o escribe el lote" autocomplete="off"
+                  oninput="filtrarLotesSel('p4_lote','p4_drop')"
+                  onfocus="mostrarLotesSel('p4_lote','p4_drop')"
+                  onblur="setTimeout(()=>{const d=document.getElementById('p4_drop');if(d)d.style.display='none'},200)">
+                <div id="p4_drop" class="lote-drop" style="display:none"></div>
+              </div>
+            </div>
           </div>
           <div class="row2">
             <div class="field"><span class="flabel">Hora Inicio Proceso 1</span><input class="finput" type="text" id="p4_inicio1"></div>
@@ -428,7 +502,15 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         <div class="card">
           <div class="row2">
             <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p5_fecha"></div>
-            <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" id="p5_lote" placeholder="Ej. L-001-2026"></div>
+            <div class="field"><span class="flabel">Número de Lote</span>
+              <div style="position:relative">
+                <input class="finput" type="text" id="p5_lote" placeholder="Selecciona o escribe el lote" autocomplete="off"
+                  oninput="filtrarLotesSel('p5_lote','p5_drop')"
+                  onfocus="mostrarLotesSel('p5_lote','p5_drop')"
+                  onblur="setTimeout(()=>{const d=document.getElementById('p5_drop');if(d)d.style.display='none'},200)">
+                <div id="p5_drop" class="lote-drop" style="display:none"></div>
+              </div>
+            </div>
           </div>
           <div class="row2">
             <div class="field"><span class="flabel">Hora Inicio Proceso 1</span><input class="finput" type="text" id="p5_inicio1"></div>
@@ -457,6 +539,15 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
             <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p6_fecha"></div>
             <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p6_resp" placeholder="Nombre"></div>
           </div>
+          <div class="field"><span class="flabel">Número de Lote</span>
+            <div style="position:relative">
+              <input class="finput" type="text" id="p6_lote" placeholder="Selecciona o escribe el lote" autocomplete="off"
+                oninput="filtrarLotesSel('p6_lote','p6_drop')"
+                onfocus="mostrarLotesSel('p6_lote','p6_drop')"
+                onblur="setTimeout(()=>{const d=document.getElementById('p6_drop');if(d)d.style.display='none'},200)">
+              <div id="p6_drop" class="lote-drop" style="display:none"></div>
+            </div>
+          </div>
         </div>
         <div class="card">
           <div class="stitle" style="margin-top:0">Muestras</div>
@@ -473,7 +564,15 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         <div class="card">
           <div class="row2">
             <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p7_fecha"></div>
-            <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" id="p7_lote" placeholder="Ej. L-001-2026"></div>
+            <div class="field"><span class="flabel">Número de Lote</span>
+              <div style="position:relative">
+                <input class="finput" type="text" id="p7_lote" placeholder="Selecciona o escribe el lote" autocomplete="off"
+                  oninput="filtrarLotesSel('p7_lote','p7_drop')"
+                  onfocus="mostrarLotesSel('p7_lote','p7_drop')"
+                  onblur="setTimeout(()=>{const d=document.getElementById('p7_drop');if(d)d.style.display='none'},200)">
+                <div id="p7_drop" class="lote-drop" style="display:none"></div>
+              </div>
+            </div>
           </div>
           <div class="row2">
             <div class="field"><span class="flabel">Hora Inicio Proceso 1</span><input class="finput" type="text" id="p7_inicio1"></div>
@@ -505,6 +604,15 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
             <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p8_fecha"></div>
             <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p8_resp" placeholder="Nombre"></div>
           </div>
+          <div class="field"><span class="flabel">Número de Lote</span>
+            <div style="position:relative">
+              <input class="finput" type="text" id="p8_lote" placeholder="Selecciona o escribe el lote" autocomplete="off"
+                oninput="filtrarLotesSel('p8_lote','p8_drop')"
+                onfocus="mostrarLotesSel('p8_lote','p8_drop')"
+                onblur="setTimeout(()=>{const d=document.getElementById('p8_drop');if(d)d.style.display='none'},200)">
+              <div id="p8_drop" class="lote-drop" style="display:none"></div>
+            </div>
+          </div>
         </div>
         <div class="card">
           <div class="stitle" style="margin-top:0">Mediciones</div>
@@ -521,7 +629,15 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         <div class="card">
           <div class="row2">
             <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="p9_fecha"></div>
-            <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" id="p9_lote" placeholder="Ej. L-001-2026"></div>
+            <div class="field"><span class="flabel">Número de Lote</span>
+              <div style="position:relative">
+                <input class="finput" type="text" id="p9_lote" placeholder="Selecciona o escribe el lote" autocomplete="off"
+                  oninput="filtrarLotesSel('p9_lote','p9_drop')"
+                  onfocus="mostrarLotesSel('p9_lote','p9_drop')"
+                  onblur="setTimeout(()=>{const d=document.getElementById('p9_drop');if(d)d.style.display='none'},200)">
+                <div id="p9_drop" class="lote-drop" style="display:none"></div>
+              </div>
+            </div>
           </div>
           <div class="field"><span class="flabel">Materia Prima</span>
             <select class="finput" id="p9_materia">
@@ -543,6 +659,21 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
       </div>
 
     <!-- /panel-prod -->
+
+    <!-- BUSQUEDA POR LOTE -->
+    <div class="panel" id="panel-trazabilidad">
+      <div class="stitle">🔍 Búsqueda por Lote</div>
+      <div class="card" style="margin-bottom:14px">
+        <div style="font-size:11px;font-weight:700;letter-spacing:1.2px;color:#6b7280;margin-bottom:8px">CÓDIGO DEL LOTE</div>
+        <div style="position:relative">
+          <input class="finput" id="traza-input" placeholder="Ej. PLV-20260422-001" style="font-size:15px;font-weight:700;font-family:monospace" oninput="buscarLote()" autocomplete="off">
+        </div>
+        <div style="font-size:11px;color:#9ca3af;margin-top:6px">Escribe o toca un lote para ver toda su historia</div>
+        <div id="traza-sugerencias" style="margin-top:10px;display:flex;flex-wrap:wrap;gap:6px"></div>
+      </div>
+      <div id="traza-resultado"><div class="traza-empty">🔍 Selecciona un lote para ver su línea de tiempo</div></div>
+    </div>
+    <!-- /BUSQUEDA POR LOTE -->
 
     <!-- RANGOS -->
     <div class="panel" id="panel-rangos">
@@ -577,6 +708,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
   <!-- NAV -->
   <nav class="bottom-nav">
     <button class="nbtn active" id="nav-historial" onclick="goPanel('historial',this)"><span class="ni">📋</span>Registros</button>
+    <button class="nbtn" id="nav-lote" onclick="goPanel('trazabilidad',this)"><span class="ni">🔍</span>Buscar Lote</button>
     <button class="nbtn" id="nav-rangos" onclick="goPanel('rangos',this)" style="display:none"><span class="ni">⚙️</span>Rangos</button>
   </nav>
 </div>
@@ -729,6 +861,7 @@ function goPanel(id,btn){
   document.querySelector('.app-body').scrollTop=0;
   if(id==='historial'){renderHistorialGeneral();}
   if(id==='rangos')loadRangos();
+  if(id==='trazabilidad')iniciarPanelLote();
 }
 
 function openProd(tipo){ goTab(tipo, document.getElementById('tab-'+tipo)); }
@@ -1282,6 +1415,11 @@ document.querySelectorAll('.chips').forEach(function(g){
     const hidEl=document.getElementById('f_'+field);
     if(hidEl) hidEl.value=chip.dataset.val;
     if(g.id==='cg_materia'&&chip.dataset.val!=='__otro_mat__') actualizarColores(chip.dataset.val);
+    // Auto-generar código de lote al seleccionar materia prima
+    if(g.id==='cg_materia' && chip.dataset.val && chip.dataset.val!=='__otro_mat__'){
+      const loteEl=document.getElementById('f_lote');
+      if(loteEl && !loteEl.value) loteEl.value=generarCodigoLote(chip.dataset.val);
+    }
     evalDiag();
   });
 });
@@ -1575,6 +1713,226 @@ function openDetail(tipo, id){
 document.getElementById('f_fecha').value=today();
 renderProdHist();
 setTimeout(()=>document.getElementById('loginInput').focus(),300);
+
+// ═══════════════════════════════════════════════════
+// SISTEMA DE CODIFICACIÓN Y BÚSQUEDA DE LOTES
+// ═══════════════════════════════════════════════════
+const LOTE_PREFIJOS={
+  'Plátano Verde':'PLV','Plátano Hartón':'PLH','Plátano Hawaiano':'PLW',
+  'Plátano Maduro':'PLM','Yuca':'YUC','Ñame':'NAM',
+  'Papa':'PAP','Batata':'BAT','Marañón':'MAR'
+};
+const TRAZA_INFO={
+  recepcion:  {label:'Recepción MP',     icon:'🌾',color:'#059669'},
+  pelado:     {label:'Control Pelado',   icon:'✂️',color:'#2952b3'},
+  humedad:    {label:'Control Humedad',  icon:'💧',color:'#0891b2'},
+  chips:      {label:'Espec. Chips',     icon:'🍟',color:'#d97706'},
+  freidor:    {label:'Control Freidor',  icon:'🌡️',color:'#dc2626'},
+  horno:      {label:'Control Horno',    icon:'🔥',color:'#ea580c'},
+  brix:       {label:'Control Brix',     icon:'🍬',color:'#7c3aed'},
+  canastillas:{label:'Canastillas/Hora', icon:'🧺',color:'#0d6e3a'},
+  tostones:   {label:'Espec. Tostones',  icon:'🫓',color:'#be185d'},
+  desperdicios:{label:'MP Desperdicios', icon:'♻️',color:'#374151'},
+};
+
+// Genera código: PLV-20260428-001
+function generarCodigoLote(materia){
+  const prefix=LOTE_PREFIJOS[materia]||'LOT';
+  const d=new Date();
+  const fecha=d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');
+  const todos=todosLosLotes();
+  const hoy=todos.filter(l=>l.startsWith(prefix+'-'+fecha));
+  return `${prefix}-${fecha}-${String(hoy.length+1).padStart(3,'0')}`;
+}
+
+// Botón 🔄 Nuevo lote
+function generarLote(){
+  const mat=document.getElementById('f_materia').value;
+  if(!mat||mat==='__otro_mat__'){showToast('⚠️ Selecciona primero la materia prima','#d97706');return;}
+  document.getElementById('f_lote').value=generarCodigoLote(mat);
+  showToast('🔑 Nuevo código generado','#2952b3');
+}
+
+// Todos los lotes únicos registrados (más recientes primero)
+function todosLosLotes(){
+  const set=new Set();
+  regs.forEach(r=>{if(r.lote)set.add(r.lote.trim().toUpperCase());});
+  prodRegs.forEach(r=>{const l=r.datos&&r.datos.lote;if(l)set.add(l.trim().toUpperCase());});
+  return [...set].sort((a,b)=>b.localeCompare(a));
+}
+
+function getLoteMeta(codigo){
+  const rec=regs.find(r=>(r.lote||'').trim().toUpperCase()===codigo);
+  if(rec)return `${rec.materia} · ${rec.fecha}`;
+  const prod=prodRegs.find(r=>((r.datos&&r.datos.lote)||'').trim().toUpperCase()===codigo);
+  if(prod)return prod.fecha;
+  return '';
+}
+
+// ── SELECTOR DROPDOWN ──
+function mostrarLotesSel(inputId,dropId){
+  const drop=document.getElementById(dropId);
+  if(!drop)return;
+  const todos=todosLosLotes();
+  if(!todos.length){
+    drop.innerHTML='<div class="lote-drop-empty">No hay lotes registrados aún</div>';
+  } else {
+    renderDropItems(todos,dropId,inputId);
+  }
+  drop.style.display='block';
+}
+
+function filtrarLotesSel(inputId,dropId){
+  const input=document.getElementById(inputId);
+  const drop=document.getElementById(dropId);
+  if(!input||!drop)return;
+  const q=(input.value||'').trim().toUpperCase();
+  const todos=todosLosLotes();
+  const lista=q?todos.filter(l=>l.includes(q)):todos;
+  if(!lista.length){
+    drop.innerHTML=`<div class="lote-drop-empty">Sin resultados para "${q}"</div>`;
+  } else {
+    renderDropItems(lista,dropId,inputId);
+  }
+  drop.style.display='block';
+}
+
+function renderDropItems(lista,dropId,inputId){
+  document.getElementById(dropId).innerHTML=lista.slice(0,10).map(l=>{
+    const meta=getLoteMeta(l);
+    return `<div class="lote-drop-item" onmousedown="selLote('${inputId}','${dropId}','${l}')">
+      <span class="lote-drop-code">${l}</span>
+      ${meta?`<span class="lote-drop-meta">${meta}</span>`:''}
+    </div>`;
+  }).join('');
+}
+
+function selLote(inputId,dropId,codigo){
+  const input=document.getElementById(inputId);
+  const drop=document.getElementById(dropId);
+  if(input)input.value=codigo;
+  if(drop)drop.style.display='none';
+}
+
+// ── PANEL BÚSQUEDA POR LOTE ──
+function iniciarPanelLote(){
+  const todos=todosLosLotes();
+  const sug=document.getElementById('traza-sugerencias');
+  const res=document.getElementById('traza-resultado');
+  const inp=document.getElementById('traza-input');
+  if(inp&&!inp.value){
+    if(sug)sug.innerHTML=todos.slice(0,8).map(l=>
+      `<span class="sug-chip" onclick="seleccionarLote('${l}')">${l}</span>`
+    ).join('');
+    if(res)res.innerHTML=todos.length
+      ?'<div class="traza-empty">👆 Toca un lote o escríbelo para ver su historia completa</div>'
+      :'<div class="traza-empty">📭 Aún no hay lotes.<br>Registra una Recepción MP para crear el primer lote.</div>';
+  }
+}
+
+function seleccionarLote(lote){
+  document.getElementById('traza-input').value=lote;
+  document.getElementById('traza-sugerencias').innerHTML='';
+  buscarLote();
+}
+
+function buscarLote(){
+  const q=(document.getElementById('traza-input').value||'').trim().toUpperCase();
+  const sug=document.getElementById('traza-sugerencias');
+  const res=document.getElementById('traza-resultado');
+  const todos=todosLosLotes();
+  // Sugerencias mientras escribe
+  if(sug){
+    const matches=q?todos.filter(l=>l.includes(q)):todos.slice(0,8);
+    sug.innerHTML=matches.filter(l=>l!==q).map(l=>
+      `<span class="sug-chip" onclick="seleccionarLote('${l}')">${l}</span>`
+    ).join('');
+  }
+  if(!q){res.innerHTML='<div class="traza-empty">🔍 Escribe o selecciona un código de lote</div>';return;}
+  const recsMp=regs.filter(r=>(r.lote||'').trim().toUpperCase()===q);
+  const recsProd=prodRegs.filter(r=>((r.datos&&r.datos.lote)||'').trim().toUpperCase()===q);
+  if(!recsMp.length&&!recsProd.length){
+    res.innerHTML=`<div class="traza-empty">😕 No se encontraron registros para<br><b style="font-family:monospace;font-size:16px;color:#0d1f4e">${q}</b></div>`;
+    return;
+  }
+  renderLineaTiempo(q,recsMp,recsProd);
+}
+
+function renderLineaTiempo(lote,recsMp,recsProd){
+  const res=document.getElementById('traza-resultado');
+  let eventos=[];
+
+  recsMp.forEach(r=>eventos.push({
+    fecha:r.fecha,hora:r.hora||'',tipo:'recepcion',usuario:r.usuario||'—',
+    campos:[
+      ['Materia Prima',r.materia||'—'],['KG Recibidos',r.kg?r.kg+' kg':'—'],
+      ['Proveedor',r.proveedor||'—'],['Zona',r.zona||'—'],
+      ['Brix Entrada',r.brix||'—'],['Variedad',r.variedad||'—'],
+      ['Decisión',r.decision||'—'],['Observaciones',r.obs||'—'],
+    ].filter(([,v])=>v&&v!=='—'),
+    filasTxt:''
+  }));
+
+  recsProd.forEach(r=>{
+    const d=r.datos||{};
+    let filasTxt='';
+    if(d.filas&&d.filas.length){
+      filasTxt=d.filas.map((f,i)=>{
+        const vals=Object.entries(f).filter(([,v])=>v&&v!=='—').map(([k,v])=>`<b>${k}:</b> ${v}`).join(' · ');
+        return vals?`<div style="font-size:11px;color:#374151;padding:3px 0;border-bottom:1px solid #f3f4f6">${i+1}. ${vals}</div>`:'';
+      }).filter(Boolean).join('');
+    }
+    eventos.push({
+      fecha:r.fecha,hora:r.hora||'',tipo:r.tipo,usuario:r.usuario||'—',
+      campos:[
+        ['Responsable',d.resp||'—'],['Operario',d.operario||'—'],
+        ['Hora Inicio',d.inicio1||'—'],['Hora Final',d.final1||'—'],
+        ['KG Fresco',d.kgFresco?d.kgFresco+' kg':'—'],
+        ['KG Pelado',d.kgPelado?d.kgPelado+' kg':'—'],
+        ['Total KG',d.totalKg?d.totalKg+' kg':'—'],
+        ['Observaciones',d.obs||'—'],
+      ].filter(([,v])=>v&&v!=='—'),
+      filasTxt
+    });
+  });
+
+  eventos.sort((a,b)=>(a.fecha+a.hora).localeCompare(b.fecha+b.hora));
+
+  const totalDias=new Set(eventos.map(e=>e.fecha)).size;
+  const f0=eventos[0].fecha, fN=eventos[eventos.length-1].fecha;
+
+  let html=`<div class="traza-header">
+    <div class="traza-lote-code">📦 ${lote}</div>
+    <div class="traza-lote-meta">${eventos.length} registro${eventos.length!==1?'s':''} · ${totalDias} día${totalDias!==1?'s':''}${f0!==fN?' · Del '+f0+' al '+fN:' · '+f0}</div>
+    <div style="margin-top:10px;display:flex;flex-wrap:wrap">
+      ${[...new Set(eventos.map(e=>e.tipo))].map(t=>{
+        const info=TRAZA_INFO[t]||{icon:'📋',label:t};
+        const cnt=eventos.filter(e=>e.tipo===t).length;
+        return `<span class="traza-badge" style="background:rgba(255,255,255,.15);color:#fff">${info.icon} ${info.label} ×${cnt}</span>`;
+      }).join('')}
+    </div>
+  </div><div class="tl-wrap">`;
+
+  eventos.forEach((ev,idx)=>{
+    const info=TRAZA_INFO[ev.tipo]||{icon:'📋',label:ev.tipo,color:'#6b7280'};
+    const isLast=idx===eventos.length-1;
+    html+=`<div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-dot" style="color:${info.color}"></div>
+        ${!isLast?'<div class="tl-line"></div>':''}
+      </div>
+      <div class="tl-content">
+        <div class="tl-date">${ev.fecha} ${ev.hora}${ev.usuario&&ev.usuario!=='—'?' · 👤 '+ev.usuario:''}</div>
+        <div class="tl-title" style="color:${info.color}">${info.icon} ${info.label}</div>
+        ${ev.campos.map(([k,v])=>`<div class="tl-row"><span class="tl-key">${k}</span><span class="tl-val">${v}</span></div>`).join('')}
+        ${ev.filasTxt?`<div style="margin-top:6px;font-size:11px;font-weight:700;color:#6b7280;letter-spacing:.5px;margin-bottom:4px">REGISTROS DETALLADOS</div>${ev.filasTxt}`:''}
+      </div>
+    </div>`;
+  });
+
+  html+='</div>';
+  res.innerHTML=html;
+}
 </script>
 </body>
 </html>
