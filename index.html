@@ -1549,14 +1549,40 @@ function registrar(){
     usuario:me?me.name:'—'
   };
   regs.push(r);ls('fc_reg5',regs);
-  showToast('✅ Recepción registrada','#16a34a');
-  limpiar();
-  volverModoSel();
   const nsr=v=>(!v||String(v).trim()==='')?'—':v;
-  const payload={hoja:'RECEPCIONES',fila:[tsLegible(),nsr(r.materia),nsr(r.variedad),nsr(r.kg),nsr(r.proveedor),nsr(r.codProv),nsr(r.zona),nsr(r.origen),nsr(r.longitud),nsr(r.diametro),nsr(r.brix),nsr(r.densidad),nsr(r.acidez),nsr(r.color),nsr(r.acidez),nsr(r.color_pulpa),nsr(r.olor),nsr(r.textura),nsr(r.apariencia),nsr(r.decision),nsr(r.obs),nsr(r.responsable)]};
+  const payload={hoja:'RECEPCIONES',fila:[
+    tsLegible(),         // A: Fecha y Hora
+    nsr(r.lote),         // B: Código Lote
+    nsr(r.materia),      // C: Materia Prima
+    nsr(r.variedad),     // D: Variedad
+    nsr(r.kg),           // E: KG
+    nsr(r.proveedor),    // F: Proveedor
+    nsr(r.codProv),      // G: Cod Prov
+    nsr(r.zona),         // H: Zona
+    nsr(r.origen),       // I: Origen
+    nsr(r.finca),        // J: Finca
+    nsr(r.longitud),     // K: Longitud (cm)
+    nsr(r.diametro),     // L: Diámetro (cm)
+    nsr(r.brix),         // M: Brix
+    nsr(r.densidad),     // N: Densidad
+    nsr(r.acidez),       // O: Acidez
+    nsr(r.color),        // P: Color Cáscara
+    nsr(r.color_pulpa),  // Q: Color Pulpa
+    nsr(r.olor),         // R: Olor
+    nsr(r.textura),      // S: Textura
+    nsr(r.apariencia),   // T: Apariencia
+    nsr(r.decision),     // U: Decisión
+    nsr(r.obs),          // V: Observaciones
+    nsr(r.responsable),  // W: Responsable
+    nsr(r.supervisor),   // X: Supervisor
+    nsr(r.usuario)       // Y: Usuario
+  ]};
   fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)})
     .then(()=>showToast('☁️ Guardado en Google Sheets','#0d6e3a'))
     .catch(()=>showToast('⚠️ Sin conexión - guardado local','#d97706'));
+  showToast('✅ Recepción registrada','#16a34a');
+  limpiar();
+  volverModoSel();
 }
 
 function limpiar(){
