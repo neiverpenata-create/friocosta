@@ -170,6 +170,25 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
 
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+
+/* Selector modo recepción */
+.modo-sel{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:4px}
+.modo-card{background:#fff;border:2px solid #ccd6ef;border-radius:14px;padding:18px 12px;text-align:center;cursor:pointer;transition:all .15s;-webkit-user-select:none}
+.modo-card:active{transform:scale(.97)}
+.modo-card .mc-icon{font-size:30px;margin-bottom:6px}
+.modo-card .mc-title{font-size:13px;font-weight:800;color:#111827;letter-spacing:.3px}
+.modo-card .mc-sub{font-size:11px;color:#6b7280;margin-top:3px}
+.modo-card.sel-nueva{border-color:#2952b3;background:#e8eef8}
+.modo-card.sel-revisar{border-color:#0d6e3a;background:#e6f7ee}
+
+/* Lote revisar */
+.revisar-lote-wrap{background:#fff;border:1.5px solid #ccd6ef;border-radius:14px;padding:16px;margin-bottom:4px}
+.lote-guardado-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:10px;border:1.5px solid #e5e7eb;margin-bottom:8px;cursor:pointer;transition:all .15s}
+.lote-guardado-item:hover{border-color:#2952b3;background:#f0f7ff}
+.lote-guardado-item:last-child{margin-bottom:0}
+.lgi-code{font-family:monospace;font-weight:800;font-size:14px;color:#0d1f4e}
+.lgi-meta{font-size:11px;color:#6b7280;margin-top:2px}
+.lgi-badge{font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px}
 </style>
 </head>
 <body>
@@ -191,17 +210,10 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
 <div id="app">
   <div class="topbar">
     <div class="topbar-left" style="flex-direction:row;align-items:center;gap:10px">
-      <svg width="34" height="34" viewBox="0 0 88 88" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-        <defs><linearGradient id="lgB" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" style="stop-color:#1a3a7c"/><stop offset="100%" style="stop-color:#2952b3"/>
-        </linearGradient></defs>
-        <circle cx="44" cy="44" r="42" fill="url(#lgB)" stroke="rgba(255,255,255,0.3)" stroke-width="3"/>
-        <text x="44" y="54" text-anchor="middle" font-family="Arial Black,Arial,sans-serif" font-weight="900" font-size="30" fill="#ffffff" letter-spacing="-1">FC</text>
-      </svg>
+      <img id="logoTopbar" style="width:36px;height:36px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);flex-shrink:0" alt="FC">
       <div><div class="topbar-brand">FRIOCOSTA</div><div class="topbar-sub">Alimentos Delhi</div></div>
     </div>
-      <div class="topbar-sub">Sistema de Gestión</div>
-    </div>
+    <div class="topbar-sub">Sistema de Gestión</div>
     <div class="topbar-right">
       <div>
         <div id="reloj">00:00:00</div>
@@ -228,125 +240,162 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
 
     <!-- RECEPCION (panel-nuevo) -->
     <div class="panel active" id="panel-nuevo">
-      <div class="stitle">📌 Datos Generales</div>
-      <div class="card">
-        <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="f_fecha"></div>
-        <div class="field"><span class="flabel">Código de Lote</span>
-          <div style="display:flex;gap:8px;align-items:center">
-            <input class="finput" type="text" id="f_lote" placeholder="Elige la MP ↓ para generar" readonly style="flex:1;background:#e6f7ee;color:#0d6e3a;font-weight:800;letter-spacing:.5px;font-family:monospace;font-size:14px;min-width:0">
-            <button class="btn btn-s" onclick="generarLote()" style="white-space:nowrap;flex-shrink:0;padding:8px 12px;font-size:12px">🔄 Nuevo</button>
-          </div>
-          <div style="font-size:11px;color:#6b7280;margin-top:4px">Se genera automático al elegir la materia prima · 🔄 para generar otro</div>
-        </div>
-        <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="f_responsable" placeholder="Nombre"></div>
-        <div class="field"><span class="flabel">Supervisor</span><input class="finput" type="text" id="f_supervisor" placeholder="Nombre del supervisor"></div>
-      </div>
 
-      <div class="stitle">🌾 Materia Prima</div>
-      <div class="card">
-        <div class="field"><span class="flabel">Tipo</span>
-          <div class="chips" id="cg_materia">
-            <div class="chip" data-val="Plátano Verde" data-c="b">🍃 Plátano Verde</div>
-            <div class="chip" data-val="Yuca" data-c="b">🌿 Yuca</div>
-            <div class="chip" data-val="Ñame" data-c="b">🫚 Ñame</div>
-            <div class="chip" data-val="Papa" data-c="b">🥔 Papa</div>
-            <div class="chip" data-val="Batata" data-c="b">🍠 Batata</div>
-            <div class="chip" data-val="Marañón" data-c="b">🥭 Marañón</div>
-            <div class="chip" data-val="__otro_mat__" data-c="b" onclick="toggleMatOtro(this)">✏️ Otro</div>
+      <!-- SELECTOR DE MODO -->
+      <div id="rec-modo-sel" style="padding:4px 0 8px">
+        <div class="stitle" style="margin-top:0">¿Qué deseas hacer?</div>
+        <div class="modo-sel">
+          <div class="modo-card" id="mc-nueva" onclick="selModoRecepcion('nueva')">
+            <div class="mc-icon">📥</div>
+            <div class="mc-title">Nueva Recepción</div>
+            <div class="mc-sub">Registrar MP nueva</div>
           </div>
-          <input type="hidden" id="f_materia">
-          <input class="finput" type="text" id="f_materia_otro" placeholder="Escribe la materia prima..." style="display:none;margin-top:8px" oninput="document.getElementById('f_materia').value=this.value">
-        </div>
-        <div class="field"><span class="flabel">Variedad</span><input class="finput" type="text" id="f_variedad" placeholder="Ej. Dominico, ICA Palo Alto, Pastusa..."></div>
-        <div class="field"><span class="flabel">KG Recibidos</span><input class="finput" type="text" id="f_kg" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="Ej. 8860"></div>
-        <div class="field"><span class="flabel">Proveedor</span><input class="finput" type="text" id="f_proveedor" placeholder="Nombre o razón social"></div>
-        <div class="field"><span class="flabel">Código Proveedor</span><input class="finput" type="text" id="f_codProv" placeholder="Ej. IBA606"></div>
-      </div>
-
-      <div class="stitle">📍 Origen</div>
-      <div class="card">
-        <div class="field"><span class="flabel">Zona / Departamento</span>
-          <div class="chips" id="cg_zona">
-            <div class="chip" data-val="Bolívar" data-c="b">Bolívar</div>
-            <div class="chip" data-val="Tolima" data-c="b">Tolima</div>
-            <div class="chip" data-val="Córdoba" data-c="b">Córdoba</div>
-            <div class="chip" data-val="Sucre" data-c="b">Sucre</div>
-            <div class="chip" data-val="Magdalena" data-c="b">Magdalena</div>
-            <div class="chip" data-val="Antioquia / Medellín" data-c="b">Medellín</div>
-            <div class="chip" data-val="Bogotá" data-c="b">Bogotá</div>
-            <div class="chip" data-val="__otro__" data-c="b" onclick="toggleZonaOtro(this)">✏️ Otro</div>
+          <div class="modo-card" id="mc-revisar" onclick="selModoRecepcion('revisar')">
+            <div class="mc-icon">🔎</div>
+            <div class="mc-title">Revisar Recepción</div>
+            <div class="mc-sub">Ver lotes guardados</div>
           </div>
-          <input type="hidden" id="f_zona">
-          <input class="finput" type="text" id="f_zona_otro" placeholder="Escribe el departamento..." style="display:none;margin-top:8px" oninput="document.getElementById('f_zona').value=this.value">
-        </div>
-        <div class="field"><span class="flabel">Municipio / Procedencia</span><input class="finput" type="text" id="f_origen" placeholder="Ej. Carmen de Bolívar"></div>
-        <div class="field"><span class="flabel">Finca</span><input class="finput" type="text" id="f_finca" placeholder="Nombre o N/A"></div>
-      </div>
-
-      <div class="stitle">📐 Especificaciones</div>
-      <div class="card">
-        <div class="field"><span class="flabel">Longitud (cm)</span><input class="finput" type="text" id="f_longitud" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="Ej. 23"></div>
-        <div class="field"><span class="flabel">Diámetro (cm)</span><input class="finput" type="text" id="f_diametro" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="Ej. 8"></div>
-        <div class="field"><span class="flabel">Grados °Brix</span><input class="finput" type="text" id="f_brix" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="Ej. 6"></div>
-        <div class="field"><span class="flabel">Densidad (g/cm³)</span><input class="finput" type="text" id="f_densidad" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="Ej. 1.05"></div>
-        <div class="field"><span class="flabel">Acidez (%)</span><input class="finput" type="text" id="f_acidez" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="Ej. 0.15"></div>
-        <div class="field"><span class="flabel">Color Cáscara</span>
-          <div class="chips" id="cg_color_cascara"></div>
-          <input type="hidden" id="f_color">
-        </div>
-        <div class="field"><span class="flabel">Color Pulpa</span>
-          <div class="chips" id="cg_color_pulpa"></div>
-          <input type="hidden" id="f_color_pulpa">
         </div>
       </div>
 
-      <div class="stitle">👃 Organolépticos</div>
-      <div class="card">
-        <div class="field"><span class="flabel">Olor</span>
-          <div class="chips" id="cg_olor">
-            <div class="chip" data-val="Característico" data-c="g">✅ Característico</div>
-            <div class="chip" data-val="Leve anormal" data-c="a">⚠️ Leve anormal</div>
-            <div class="chip" data-val="Anormal" data-c="r">❌ Anormal</div>
-          </div>
-          <input type="hidden" id="f_olor">
-        </div>
-        <div class="field"><span class="flabel">Textura</span>
-          <div class="chips" id="cg_textura">
-            <div class="chip" data-val="Firme" data-c="g">✅ Firme</div>
-            <div class="chip" data-val="Semiblanda" data-c="a">⚠️ Semiblanda</div>
-            <div class="chip" data-val="Blanda" data-c="r">❌ Blanda</div>
-          </div>
-          <input type="hidden" id="f_textura">
-        </div>
-        <div class="field"><span class="flabel">Apariencia</span>
-          <div class="chips" id="cg_apariencia">
-            <div class="chip" data-val="Uniforme" data-c="g">✅ Uniforme</div>
-            <div class="chip" data-val="Daños menores" data-c="a">⚠️ Daños menores</div>
-            <div class="chip" data-val="Daños graves" data-c="r">❌ Daños graves</div>
-          </div>
-          <input type="hidden" id="f_apariencia">
-        </div>
+      <!-- PANEL: REVISAR LOTES GUARDADOS -->
+      <div id="rec-revisar-panel" style="display:none">
+        <button class="back-btn" onclick="volverModoSel()">← Volver</button>
+        <div class="stitle" style="margin-top:0">📋 Lotes Recepcionados</div>
+        <div id="lista-lotes-guardados" class="revisar-lote-wrap"></div>
       </div>
 
-      <div class="stitle">⚖️ Decisión</div>
-      <div class="card">
-        <div id="diagbox" class="diagbox">Complete los campos para ver el diagnóstico.</div>
-        <div id="diagdetail"></div>
-        <div class="field" style="margin-top:14px"><span class="flabel">Decisión Final</span>
-          <div class="decgrid">
-            <button class="decbtn" id="dec_ok" onclick="setDec('Aceptado')">✅<br>Aceptado</button>
-            <button class="decbtn" id="dec_fail" onclick="setDec('Rechazado')">❌<br>Rechazado</button>
-            <button class="decbtn" id="dec_warn" onclick="setDec('Condicional')">⚠️<br>Condicional</button>
+      <!-- PANEL: NUEVA RECEPCION -->
+      <div id="rec-nueva-panel" style="display:none">
+        <button class="back-btn" onclick="volverModoSel()">← Volver</button>
+
+        <div class="stitle" style="margin-top:0">📌 Datos Generales</div>
+        <div class="card">
+          <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="f_fecha"></div>
+          <div class="field"><span class="flabel">Hora de Recepción</span><input class="finput" type="text" id="f_hora" readonly style="background:#f0f4fc;font-family:monospace;color:#2952b3;font-weight:700"></div>
+          <div class="field"><span class="flabel">Tipo de Materia Prima</span>
+            <div class="chips" id="cg_materia">
+              <div class="chip" data-val="Plátano Verde" data-c="b">Plátano Verde</div>
+              <div class="chip" data-val="Yuca" data-c="b">Yuca</div>
+              <div class="chip" data-val="Ñame" data-c="b">Ñame</div>
+              <div class="chip" data-val="Papa" data-c="b">Papa</div>
+              <div class="chip" data-val="Batata" data-c="b">Batata</div>
+              <div class="chip" data-val="Marañón" data-c="b">Marañón</div>
+              <div class="chip" data-val="__otro_mat__" data-c="b" onclick="toggleMatOtro(this)">✏️ Otro</div>
+            </div>
+            <input type="hidden" id="f_materia">
+            <input class="finput" type="text" id="f_materia_otro" placeholder="Escribe la materia prima..." style="display:none;margin-top:8px" oninput="document.getElementById('f_materia').value=this.value">
           </div>
-          <input type="hidden" id="f_decision">
+          <div class="field"><span class="flabel">Código de Lote</span>
+            <input class="finput" type="text" id="f_lote" placeholder="Se genera al seleccionar la materia prima ↑" readonly style="background:#e6f7ee;color:#0d6e3a;font-weight:800;letter-spacing:.5px;font-family:monospace;font-size:15px">
+            <div style="font-size:11px;color:#6b7280;margin-top:4px">Se genera automáticamente al elegir el tipo</div>
+          </div>
+          <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="f_responsable" placeholder="Nombre"></div>
+          <div class="field"><span class="flabel">Supervisor</span><input class="finput" type="text" id="f_supervisor" placeholder="Nombre del supervisor"></div>
         </div>
-        <div class="field"><span class="flabel">Observaciones</span>
-          <textarea class="finput" id="f_obs" rows="3" placeholder="Notas adicionales..."></textarea>
+
+        <div class="stitle">🌾 Materia Prima</div>
+        <div class="card">
+          <div class="field"><span class="flabel">Variedad</span><input class="finput" type="text" id="f_variedad" placeholder="Ej. Dominico, ICA Palo Alto, Pastusa..."></div>
+          <div class="field"><span class="flabel">KG Recibidos</span><input class="finput" type="text" id="f_kg" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="Ej. 8860"></div>
+          <div class="field"><span class="flabel">Proveedor</span>
+            <div style="position:relative">
+              <input class="finput" type="text" id="f_proveedor" placeholder="Busca o selecciona el proveedor..." autocomplete="off"
+                oninput="filtrarProveedores()"
+                onfocus="mostrarProveedores()"
+                onblur="setTimeout(()=>{const d=document.getElementById('prov_drop');if(d)d.style.display='none'},200)">
+              <div id="prov_drop" class="lote-drop" style="display:none"></div>
+            </div>
+          </div>
+          <div class="field"><span class="flabel">Código Proveedor</span><input class="finput" type="text" id="f_codProv" placeholder="Se llena automáticamente"></div>
         </div>
+
+        <div class="stitle">📍 Origen</div>
+        <div class="card">
+          <div class="field"><span class="flabel">Zona / Departamento</span>
+            <div class="chips" id="cg_zona">
+              <div class="chip" data-val="Bolívar" data-c="b">Bolívar</div>
+              <div class="chip" data-val="Tolima" data-c="b">Tolima</div>
+              <div class="chip" data-val="Córdoba" data-c="b">Córdoba</div>
+              <div class="chip" data-val="Sucre" data-c="b">Sucre</div>
+              <div class="chip" data-val="Magdalena" data-c="b">Magdalena</div>
+              <div class="chip" data-val="Antioquia / Medellín" data-c="b">Medellín</div>
+              <div class="chip" data-val="Bogotá" data-c="b">Bogotá</div>
+              <div class="chip" data-val="__otro__" data-c="b" onclick="toggleZonaOtro(this)">✏️ Otro</div>
+            </div>
+            <input type="hidden" id="f_zona">
+            <input class="finput" type="text" id="f_zona_otro" placeholder="Escribe el departamento..." style="display:none;margin-top:8px" oninput="document.getElementById('f_zona').value=this.value">
+          </div>
+          <div class="field"><span class="flabel">Municipio / Procedencia</span><input class="finput" type="text" id="f_origen" placeholder="Ej. Carmen de Bolívar"></div>
+          <div class="field"><span class="flabel">Finca</span><input class="finput" type="text" id="f_finca" placeholder="Nombre o N/A"></div>
+        </div>
+
+        <div class="stitle">📐 Especificaciones</div>
+        <div class="card">
+          <div class="field"><span class="flabel">Longitud (cm)</span><input class="finput" type="text" id="f_longitud" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="Ej. 23"></div>
+          <div class="field"><span class="flabel">Diámetro (cm)</span><input class="finput" type="text" id="f_diametro" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="Ej. 8"></div>
+          <div class="field"><span class="flabel">Grados °Brix</span><input class="finput" type="text" id="f_brix" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="Ej. 6"></div>
+          <div class="field"><span class="flabel">Densidad (g/cm³)</span><input class="finput" type="text" id="f_densidad" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="Ej. 1.05"></div>
+          <div class="field"><span class="flabel">Acidez (%)</span><input class="finput" type="text" id="f_acidez" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="Ej. 0.15"></div>
+          <div class="field"><span class="flabel">Color Cáscara</span>
+            <div class="chips" id="cg_color_cascara"></div>
+            <input type="hidden" id="f_color">
+          </div>
+          <div class="field"><span class="flabel">Color Pulpa</span>
+            <div class="chips" id="cg_color_pulpa"></div>
+            <input type="hidden" id="f_color_pulpa">
+          </div>
+        </div>
+
+        <div class="stitle">👃 Organolépticos</div>
+        <div class="card">
+          <div class="field"><span class="flabel">Olor</span>
+            <div class="chips" id="cg_olor">
+              <div class="chip" data-val="Característico" data-c="g">✅ Característico</div>
+              <div class="chip" data-val="Leve anormal" data-c="a">⚠️ Leve anormal</div>
+              <div class="chip" data-val="Anormal" data-c="r">❌ Anormal</div>
+            </div>
+            <input type="hidden" id="f_olor">
+          </div>
+          <div class="field"><span class="flabel">Textura</span>
+            <div class="chips" id="cg_textura">
+              <div class="chip" data-val="Firme" data-c="g">✅ Firme</div>
+              <div class="chip" data-val="Semiblanda" data-c="a">⚠️ Semiblanda</div>
+              <div class="chip" data-val="Blanda" data-c="r">❌ Blanda</div>
+            </div>
+            <input type="hidden" id="f_textura">
+          </div>
+          <div class="field"><span class="flabel">Apariencia</span>
+            <div class="chips" id="cg_apariencia">
+              <div class="chip" data-val="Uniforme" data-c="g">✅ Uniforme</div>
+              <div class="chip" data-val="Daños menores" data-c="a">⚠️ Daños menores</div>
+              <div class="chip" data-val="Daños graves" data-c="r">❌ Daños graves</div>
+            </div>
+            <input type="hidden" id="f_apariencia">
+          </div>
+        </div>
+
+        <div class="stitle">⚖️ Decisión</div>
+        <div class="card">
+          <div id="diagbox" class="diagbox">Complete los campos para ver el diagnóstico.</div>
+          <div id="diagdetail"></div>
+          <div class="field" style="margin-top:14px"><span class="flabel">Decisión Final</span>
+            <div class="decgrid">
+              <button class="decbtn" id="dec_ok" onclick="setDec('Aceptado')">✅<br>Aceptado</button>
+              <button class="decbtn" id="dec_fail" onclick="setDec('Rechazado')">❌<br>Rechazado</button>
+              <button class="decbtn" id="dec_warn" onclick="setDec('Condicional')">⚠️<br>Condicional</button>
+            </div>
+            <input type="hidden" id="f_decision">
+          </div>
+          <div class="field"><span class="flabel">Observaciones</span>
+            <textarea class="finput" id="f_obs" rows="3" placeholder="Notas adicionales..."></textarea>
+          </div>
+        </div>
+
+        <button class="btn btn-p" onclick="registrar()">💾 Registrar Recepción</button>
+        <button class="btn btn-s" onclick="limpiar()">🔄 Limpiar Formulario</button>
       </div>
 
-      <button class="btn btn-p" onclick="registrar()">💾 Registrar Recepción</button>
-      <button class="btn btn-s" onclick="limpiar()">🔄 Limpiar Formulario</button>
     </div>
 
     <!-- HISTORIAL GENERAL -->
@@ -812,6 +861,10 @@ function doLogin(){
   me=u;
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('app').classList.add('show');
+  // Copiar logo del login a la topbar
+  const logoLogin=document.querySelector('#loginScreen img');
+  const logoTop=document.getElementById('logoTopbar');
+  if(logoLogin&&logoTop) logoTop.src=logoLogin.src;
   document.getElementById('topUser').textContent=u.name;
   document.getElementById('f_responsable').value=u.name;
   document.getElementById('f_fecha').value=today();
@@ -1418,7 +1471,7 @@ document.querySelectorAll('.chips').forEach(function(g){
     // Auto-generar código de lote al seleccionar materia prima
     if(g.id==='cg_materia' && chip.dataset.val && chip.dataset.val!=='__otro_mat__'){
       const loteEl=document.getElementById('f_lote');
-      if(loteEl && !loteEl.value) loteEl.value=generarCodigoLote(chip.dataset.val);
+      if(loteEl) loteEl.value=generarCodigoLote(chip.dataset.val);
     }
     evalDiag();
   });
@@ -1462,11 +1515,14 @@ function setDec(val){
 function registrar(){
   if(!document.getElementById('f_fecha').value){showToast('⚠️ Ingrese la fecha','#b91c1c');return;}
   if(!document.getElementById('f_materia').value){showToast('⚠️ Seleccione la materia prima','#b91c1c');return;}
+  if(!document.getElementById('f_lote').value){showToast('⚠️ Falta el código de lote','#b91c1c');return;}
+  if(!document.getElementById('f_kg').value){showToast('⚠️ Ingrese los KG recibidos','#b91c1c');return;}
+  if(!document.getElementById('f_proveedor').value){showToast('⚠️ Seleccione o escriba el proveedor','#b91c1c');return;}
   if(!document.getElementById('f_decision').value){showToast('⚠️ Seleccione una decisión','#b91c1c');return;}
   const r={
     id:Date.now(),
     fecha:document.getElementById('f_fecha').value,
-    hora:tsLegible().split(' ').slice(1).join(' '),
+    hora:document.getElementById('f_hora').value||tsLegible().split(' ').slice(1).join(' '),
     materia:document.getElementById('f_materia').value,
     variedad:document.getElementById('f_variedad').value,
     lote:document.getElementById('f_lote').value,
@@ -1479,7 +1535,7 @@ function registrar(){
     longitud:document.getElementById('f_longitud').value,
     diametro:document.getElementById('f_diametro').value,
     brix:document.getElementById('f_brix').value,
-    densidad:document.getElementById('f_densidad','f_acidez','f_variedad','f_color_pulpa').value,
+    densidad:document.getElementById('f_densidad').value,
     acidez:document.getElementById('f_acidez').value,
     color_pulpa:document.getElementById('f_color_pulpa').value,
     color:document.getElementById('f_color').value,
@@ -1495,6 +1551,7 @@ function registrar(){
   regs.push(r);ls('fc_reg5',regs);
   showToast('✅ Recepción registrada','#16a34a');
   limpiar();
+  volverModoSel();
   const nsr=v=>(!v||String(v).trim()==='')?'—':v;
   const payload={hoja:'RECEPCIONES',fila:[tsLegible(),nsr(r.materia),nsr(r.variedad),nsr(r.kg),nsr(r.proveedor),nsr(r.codProv),nsr(r.zona),nsr(r.origen),nsr(r.longitud),nsr(r.diametro),nsr(r.brix),nsr(r.densidad),nsr(r.acidez),nsr(r.color),nsr(r.acidez),nsr(r.color_pulpa),nsr(r.olor),nsr(r.textura),nsr(r.apariencia),nsr(r.decision),nsr(r.obs),nsr(r.responsable)]};
   fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)})
@@ -1505,7 +1562,12 @@ function registrar(){
 function limpiar(){
   const resp=document.getElementById('f_responsable').value;
   const sup=document.getElementById('f_supervisor').value;
-  ['f_lote','f_kg','f_proveedor','f_codProv','f_origen','f_finca','f_longitud','f_diametro','f_brix','f_obs','f_zona_otro','f_densidad','f_acidez','f_variedad','f_color_pulpa'].forEach(id=>{const el=document.getElementById(id);if(el){el.value='';el.style.display=id==='f_zona_otro'?'none':'';}});
+  ['f_lote','f_kg','f_proveedor','f_codProv','f_origen','f_finca','f_longitud','f_diametro','f_brix','f_obs','f_zona_otro','f_densidad','f_acidez','f_variedad','f_color_pulpa','f_hora'].forEach(id=>{const el=document.getElementById(id);if(el){el.value='';el.style.display=id==='f_zona_otro'?'none':'';}});
+  // Resetear proveedor a modo selector
+  const provInp=document.getElementById('f_proveedor');
+  const codInp=document.getElementById('f_codProv');
+  if(provInp){provInp.placeholder='Busca o selecciona el proveedor...';}
+  if(codInp){codInp.style.background='';codInp.style.color='';codInp.placeholder='Se llena automáticamente';}
   ['f_materia','f_zona','f_color','f_olor','f_textura','f_apariencia','f_decision'].forEach(id=>document.getElementById(id).value='');
   document.querySelectorAll('.chip').forEach(c=>c.className='chip');
   ['dec_ok','dec_fail','dec_warn'].forEach(id=>document.getElementById(id).className='decbtn');
@@ -1735,6 +1797,106 @@ const TRAZA_INFO={
   desperdicios:{label:'MP Desperdicios', icon:'♻️',color:'#374151'},
 };
 
+// ── PROVEEDORES ──
+const PROVEEDORES = [
+  {nombre:'PEDRO TULENA',                                    codigo:'102'},
+  {nombre:'JOSE GALMA MARRIAGA',                             codigo:'12'},
+  {nombre:'LUIS EDUARDO FABRA MENDEZ',                       codigo:'104'},
+  {nombre:'JOHN FABIO HERRERA',                              codigo:'13'},
+  {nombre:'FERNEY BENAVIDES DIAZ',                           codigo:'106'},
+  {nombre:'CARLOS SALGADO',                                  codigo:'14'},
+  {nombre:'ALVARO EMIRO GONZALES PEREZ',                     codigo:'108'},
+  {nombre:'JUAN ARISMENDI',                                  codigo:'109'},
+  {nombre:'DAVID ANTONIO VALDEZ ARRIETA',                    codigo:'110'},
+  {nombre:'YARLIN ALFONSO MAESTRE CASTELLANO',               codigo:'111'},
+  {nombre:'SOLUCIONES HEDUART SAS (PALET MIXTO)',            codigo:'112'},
+  {nombre:'DAVID ARRIETA',                                   codigo:'113'},
+  {nombre:'ANDRES MARTINEZ',                                 codigo:'114'},
+  {nombre:'INDEXCO (CRISTIAN CESPEDES)',                     codigo:'115'},
+  {nombre:'YARLEIS MARTINEZ ALMARIO',                        codigo:'116'},
+  {nombre:'GEOVANNY ROJAS CELIS',                            codigo:'117'},
+  {nombre:'JAIRO GARCIA',                                    codigo:'118'},
+  {nombre:'JHON JAIRO RUIZ FUENTES',                         codigo:'119'},
+  {nombre:'YADIS CAMACHO',                                   codigo:'120'},
+  {nombre:'DIANIS VEGA',                                     codigo:'121'},
+  {nombre:'ESTEFANIA ESCOBAR ARBELAEZ',                      codigo:'122'},
+  {nombre:'GRENDA ARRIETA',                                  codigo:'123'},
+  {nombre:'SILFREDO FUENTES',                                codigo:'124'},
+  {nombre:'WILSON CARRASCAL',                                codigo:'125'},
+  {nombre:'EDWIN GONZALEZ',                                  codigo:'126'},
+  {nombre:'EDGAR GONZALEZ',                                  codigo:'127'},
+  {nombre:'NAFER DURANGO',                                   codigo:'128'},
+  {nombre:'EDGAR INCAPIE',                                   codigo:'129'},
+  {nombre:'JESUS JARAMILLO',                                 codigo:'130'},
+  {nombre:'STELA ANAYA',                                     codigo:'131'},
+  {nombre:'MAURICIO MADRID',                                 codigo:'132'},
+  {nombre:'PABLO DURANGO',                                   codigo:'133'},
+  {nombre:'EDINSON SALINAS (CONFIS ASESORIAS Y SERVICIOS)',  codigo:'134'},
+  {nombre:'EL FRANCES',                                      codigo:'135'},
+  {nombre:'ORLANDO VALDERRAMA',                              codigo:'136'},
+  {nombre:'ISRAEL PERALTA',                                  codigo:'137'},
+  {nombre:'__otro__',                                        codigo:''},
+];
+
+function mostrarProveedores(){
+  const q=document.getElementById('f_proveedor').value.trim().toUpperCase();
+  const lista=q?PROVEEDORES.filter(p=>p.nombre.includes(q)):PROVEEDORES;
+  renderDropProv(lista);
+}
+
+function filtrarProveedores(){
+  const q=document.getElementById('f_proveedor').value.trim().toUpperCase();
+  const lista=q?PROVEEDORES.filter(p=>p.nombre.includes(q)):PROVEEDORES;
+  renderDropProv(lista);
+}
+
+function renderDropProv(lista){
+  const drop=document.getElementById('prov_drop');
+  if(!drop)return;
+  if(!lista.length){
+    drop.innerHTML='<div class="lote-drop-empty">Sin resultados</div>';
+    drop.style.display='block';
+    return;
+  }
+  drop.innerHTML=lista.map(p=>p.nombre==='__otro__'
+    ?`<div class="lote-drop-item" onclick="selProveedor('__otro__','')">
+        <span class="lote-drop-code">✏️ Otro proveedor</span>
+        <span class="lote-drop-meta">Escribir manualmente</span>
+      </div>`
+    :`<div class="lote-drop-item" onclick="selProveedor('${p.nombre}','${p.codigo}')">
+        <span class="lote-drop-code">${p.nombre}</span>
+        <span class="lote-drop-meta">Código: ${p.codigo}</span>
+      </div>`
+  ).join('');
+  drop.style.display='block';
+}
+
+function selProveedor(nombre, codigo){
+  const inp=document.getElementById('f_proveedor');
+  const cod=document.getElementById('f_codProv');
+  document.getElementById('prov_drop').style.display='none';
+  if(nombre==='__otro__'){
+    inp.value='';
+    inp.placeholder='Escribe el nombre del proveedor...';
+    inp.focus();
+    cod.value='';
+    cod.removeAttribute('readonly');
+    cod.style.background='';
+    cod.style.color='';
+    cod.style.fontFamily='';
+    cod.style.fontWeight='';
+    cod.placeholder='Escribe el código...';
+  } else {
+    inp.value=nombre;
+    cod.value=codigo;
+    cod.removeAttribute('readonly');
+    cod.style.background='';
+    cod.style.color='';
+    cod.style.fontFamily='';
+    cod.style.fontWeight='';
+  }
+}
+
 // Genera código: PLV-20260428-001
 function generarCodigoLote(materia){
   const prefix=LOTE_PREFIJOS[materia]||'LOT';
@@ -1753,11 +1915,10 @@ function generarLote(){
   showToast('🔑 Nuevo código generado','#2952b3');
 }
 
-// Todos los lotes únicos registrados (más recientes primero)
+// Todos los lotes únicos guardados en recepciones (más recientes primero)
 function todosLosLotes(){
   const set=new Set();
   regs.forEach(r=>{if(r.lote)set.add(r.lote.trim().toUpperCase());});
-  prodRegs.forEach(r=>{const l=r.datos&&r.datos.lote;if(l)set.add(l.trim().toUpperCase());});
   return [...set].sort((a,b)=>b.localeCompare(a));
 }
 
@@ -1812,6 +1973,66 @@ function selLote(inputId,dropId,codigo){
   const drop=document.getElementById(dropId);
   if(input)input.value=codigo;
   if(drop)drop.style.display='none';
+}
+
+// ── MODO RECEPCIÓN ──
+function selModoRecepcion(modo){
+  document.getElementById('rec-modo-sel').style.display='none';
+  if(modo==='nueva'){
+    document.getElementById('rec-nueva-panel').style.display='block';
+    document.getElementById('rec-revisar-panel').style.display='none';
+    document.getElementById('mc-nueva').classList.add('sel-nueva');
+    document.getElementById('mc-revisar').classList.remove('sel-revisar');
+    // Hora automática
+    const horaEl=document.getElementById('f_hora');
+    if(horaEl) horaEl.value=nowTimeAMPM();
+  } else {
+    document.getElementById('rec-revisar-panel').style.display='block';
+    document.getElementById('rec-nueva-panel').style.display='none';
+    document.getElementById('mc-revisar').classList.add('sel-revisar');
+    document.getElementById('mc-nueva').classList.remove('sel-nueva');
+    renderLotesGuardados();
+  }
+}
+
+function volverModoSel(){
+  document.getElementById('rec-modo-sel').style.display='block';
+  document.getElementById('rec-nueva-panel').style.display='none';
+  document.getElementById('rec-revisar-panel').style.display='none';
+  document.getElementById('mc-nueva').classList.remove('sel-nueva');
+  document.getElementById('mc-revisar').classList.remove('sel-revisar');
+}
+
+function renderLotesGuardados(){
+  const cont=document.getElementById('lista-lotes-guardados');
+  if(!cont) return;
+  // Solo lotes de recepciones ya guardadas (regs)
+  const lotesGuardados=[...regs].sort((a,b)=>(b.fecha||'').localeCompare(a.fecha||''));
+  if(!lotesGuardados.length){
+    cont.innerHTML='<div style="text-align:center;padding:30px 20px;color:#9ca3af;font-size:13px">📭 Aún no hay recepciones guardadas.</div>';
+    return;
+  }
+  const decColor={Aceptado:'#0d6e3a',Rechazado:'#b91c1c',Condicional:'#d97706'};
+  const decBg={Aceptado:'#e6f7ee',Rechazado:'#fef2f2',Condicional:'#fffbeb'};
+  cont.innerHTML=lotesGuardados.map(r=>{
+    const col=decColor[r.decision]||'#6b7280';
+    const bg=decBg[r.decision]||'#f3f4f6';
+    return `<div class="lote-guardado-item" onclick="verDetalleRecepcion('${r.id||r.lote}')">
+      <div>
+        <div class="lgi-code">${r.lote||'—'}</div>
+        <div class="lgi-meta">${r.fecha||'—'} · ${r.materia||'—'} · ${r.kg||'—'} kg · ${r.proveedor||'—'}</div>
+      </div>
+      <span class="lgi-badge" style="background:${bg};color:${col}">${r.decision||'—'}</span>
+    </div>`;
+  }).join('');
+}
+
+function verDetalleRecepcion(idOrLote){
+  const r=regs.find(x=>(x.id&&x.id===idOrLote)||(x.lote&&x.lote===idOrLote));
+  if(!r) return;
+  // Navegar a buscar lote y seleccionarlo
+  goTab('lote', document.getElementById('tab-lote'));
+  setTimeout(()=>seleccionarLote(r.lote||''),100);
 }
 
 // ── PANEL BÚSQUEDA POR LOTE ──
