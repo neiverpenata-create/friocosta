@@ -223,6 +223,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         <div id="reloj">00:00:00</div>
         <div id="relojFecha"></div>
       </div>
+      <button class="userbtn" onclick="sincronizarDesdeSheets()" title="Sincronizar con Google Sheets" style="margin-right:6px">🔄</button>
       <button class="userbtn" onclick="confirmLogout()">👤 <span id="topUser">—</span></button>
     </div>
   </div>
@@ -806,6 +807,61 @@ let me=null,regs=lg('fc_reg5',[]),cfg=lg('fc_cfg5',DEF),prodRegs=lg('fc_prod6',[
 
 function lg(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch{return d;}}
 function ls(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}}
+
+// ── SINCRONIZACIÓN CON GOOGLE SHEETS ──
+async function sincronizarDesdeSheets(){
+  try{
+    showToast('🔄 Sincronizando...','#2952b3');
+    const res=await fetch(SCRIPT_URL+'?hoja=RECEPCIONES',{method:'GET'});
+    if(!res.ok) throw new Error('Sin conexión');
+    const data=await res.json();
+    if(!data.ok||!Array.isArray(data.datos)) throw new Error('Respuesta inválida');
+    
+    // Saltar primera fila (encabezados)
+    const filas=data.datos.slice(1);
+    const sheetsRegs=filas.filter(f=>f[0]).map(f=>({
+      id:f[0]+'_'+f[1],  // identificador único
+      fecha:String(f[0]).split(' ')[0]||'',
+      hora:String(f[0]).split(' ').slice(1).join(' ')||'',
+      lote:f[1]||'',
+      materia:f[2]||'',
+      variedad:f[3]||'',
+      kg:f[4]||'',
+      proveedor:f[5]||'',
+      codProv:f[6]||'',
+      zona:f[7]||'',
+      origen:f[8]||'',
+      finca:f[9]||'',
+      longitud:f[10]||'',
+      diametro:f[11]||'',
+      brix:f[12]||'',
+      densidad:f[13]||'',
+      acidez:f[14]||'',
+      color:f[15]||'',
+      color_pulpa:f[16]||'',
+      olor:f[17]||'',
+      textura:f[18]||'',
+      apariencia:f[19]||'',
+      decision:f[20]||'',
+      obs:f[21]||'',
+      responsable:f[22]||'',
+      supervisor:f[23]||'',
+      usuario:f[24]||''
+    }));
+    
+    // Combinar: mantener registros locales sin duplicar (por código de lote)
+    const lotesEnSheets=new Set(sheetsRegs.map(r=>r.lote));
+    const locales=regs.filter(r=>!lotesEnSheets.has(r.lote));
+    regs=[...sheetsRegs, ...locales];
+    ls('fc_reg5',regs);
+    showToast('☁️ '+sheetsRegs.length+' recepciones sincronizadas','#0d6e3a');
+    return true;
+  } catch(err){
+    showToast('⚠️ Sin sincronización: '+err.message,'#d97706');
+    return false;
+  }
+}
+
 function today(){return new Date().toISOString().slice(0,10);}
 function tsLegible(){const n=new Date();const d=String(n.getDate()).padStart(2,'0');const m=String(n.getMonth()+1).padStart(2,'0');const y=n.getFullYear();let h=n.getHours();const mi=String(n.getMinutes()).padStart(2,'0');const ampm=h>=12?'PM':'AM';h=h%12||12;return `${d}/${m}/${y} ${String(h).padStart(2,'0')}:${mi} ${ampm}`;}
 function nowTime(){const n=new Date();return n.toTimeString().slice(0,5);}
@@ -869,6 +925,8 @@ function doLogin(){
   const logoLogin=document.querySelector('#loginScreen img');
   const logoTop=document.getElementById('logoTopbar');
   if(logoLogin&&logoTop) logoTop.src=logoLogin.src;
+  // Sincronizar con Google Sheets en segundo plano
+  setTimeout(()=>sincronizarDesdeSheets(),500);
   document.getElementById('topUser').textContent=u.name;
   document.getElementById('f_responsable').value=u.name;
   document.getElementById('f_fecha').value=today();
@@ -1344,7 +1402,7 @@ function buildFilas(tipo, prefix){
   if(tipo==='humedad'){
     if(!filasData.length) return [[ts,usuario,lote,ns(gv(prefix+'_producto')),resp,'—','—','—','—','—','—','—','—','—','—','—']];
     return filasData.map(fd=>{const v=Object.values(fd).map(x=>ns(x));
-      return [ts,usuario,lote,ns(gv(prefix+'_produto')),resp,v[0]||'—',v[1]||'—',v[2]||'—',v[3]||'—',v[4]||'—',v[5]||'—',v[6]||'—',v[7]||'—',v[8]||'—',v[9]||'—',v[10]||'—'];});
+      return [ts,usuario,lote,ns(gv(prefix+'_producto')),resp,v[0]||'—',v[1]||'—',v[2]||'—',v[3]||'—',v[4]||'—',v[5]||'—',v[6]||'—',v[7]||'—',v[8]||'—',v[9]||'—',v[10]||'—'];});
   }
   if(tipo==='chips'){
     if(!filasData.length) return [[ts,usuario,lote,ns(gv(prefix+'_cliente')),ns(gv(prefix+'_calibre')),resp,'—','—','—','—','—']];
