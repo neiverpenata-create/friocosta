@@ -7,6 +7,10 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#0f1e42">
 <title>Friocosta · Sistema</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -2181,5 +2185,46 @@ function renderLineaTiempo(lote,recsMp,recsProd){
   res.innerHTML=html;
 }
 </script>
+<!-- PWA: Service Worker e instalación -->
+<script>
+// Registrar Service Worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(reg => console.log('SW registrado:', reg.scope))
+      .catch(err => console.log('Error SW:', err));
+  });
+}
+
+// Botón de instalación PWA
+let deferredPrompt = null;
+const btnInstalar = document.createElement('button');
+btnInstalar.id = 'btn-instalar-pwa';
+btnInstalar.innerHTML = '📱 Instalar App';
+btnInstalar.style.cssText = 'position:fixed;bottom:80px;right:16px;z-index:9999;background:linear-gradient(135deg,#1a3a7c,#2952b3);color:#fff;border:none;border-radius:25px;padding:12px 20px;font-family:Outfit,sans-serif;font-weight:700;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,0.3);cursor:pointer;display:none;letter-spacing:.5px';
+document.body.appendChild(btnInstalar);
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  btnInstalar.style.display = 'block';
+});
+
+btnInstalar.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  const { outcome } = await deferredPrompt.userChoice;
+  if (outcome === 'accepted') {
+    btnInstalar.style.display = 'none';
+  }
+  deferredPrompt = null;
+});
+
+window.addEventListener('appinstalled', () => {
+  btnInstalar.style.display = 'none';
+  deferredPrompt = null;
+});
+</script>
+
 </body>
 </html>
