@@ -277,7 +277,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         <div class="stitle" style="margin-top:0">📌 Datos Generales</div>
         <div class="card">
           <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="f_fecha"></div>
-          <div class="field"><span class="flabel">Hora de Recepción</span><input class="finput" type="text" id="f_hora" readonly style="background:#f0f4fc;font-family:monospace;color:#2952b3;font-weight:700"></div>
+          <div class="field"><span class="flabel">Hora de Recepción</span><input class="finput" type="text" id="f_hora" placeholder="Ej. 09:35 AM" style="font-family:monospace;color:#2952b3;font-weight:700"></div>
           <div class="field"><span class="flabel">Tipo de Materia Prima</span>
             <div class="chips" id="cg_materia">
               <div class="chip" data-val="Plátano Verde" data-c="b">Plátano Verde</div>
@@ -853,6 +853,7 @@ async function sincronizarDesdeSheets(){
     const lotesEnSheets=new Set(sheetsRegs.map(r=>r.lote));
     const locales=regs.filter(r=>!lotesEnSheets.has(r.lote));
     regs=[...sheetsRegs, ...locales];
+    migrarLotesViejos();
     ls('fc_reg5',regs);
     showToast('☁️ '+sheetsRegs.length+' recepciones sincronizadas','#0d6e3a');
     return true;
@@ -925,6 +926,8 @@ function doLogin(){
   const logoLogin=document.querySelector('#loginScreen img');
   const logoTop=document.getElementById('logoTopbar');
   if(logoLogin&&logoTop) logoTop.src=logoLogin.src;
+  // Migrar lotes viejos al nuevo formato
+  migrarLotesViejos();
   // Sincronizar con Google Sheets en segundo plano
   setTimeout(()=>sincronizarDesdeSheets(),500);
   document.getElementById('topUser').textContent=u.name;
@@ -1867,10 +1870,20 @@ setTimeout(()=>document.getElementById('loginInput').focus(),300);
 // ═══════════════════════════════════════════════════
 // SISTEMA DE CODIFICACIÓN Y BÚSQUEDA DE LOTES
 // ═══════════════════════════════════════════════════
+// Código numérico de MP según la empresa (1 dígito)
 const LOTE_PREFIJOS={
-  'Plátano Verde':'PLV','Plátano Hartón':'PLH','Plátano Hawaiano':'PLW',
-  'Plátano Maduro':'PLM','Yuca':'YUC','Ñame':'NAM',
-  'Papa':'PAP','Batata':'BAT','Marañón':'MAR'
+  'Plátano Verde':'1',     // Plátano Verde Hartón
+  'Plátano Hartón':'1',
+  'Plátano Papoche':'2',
+  'Plátano Hawaiano':'3',
+  'Batata':'4',            // Batata Aurora
+  'Ñame':'5',              // Ñame Diamante
+  'Yuca':'6',
+  'Malanga Blanca':'7',
+  'Papa':'8',
+  'Platanocomino':'9',
+  'Plátano Maduro':'1',
+  'Marañón':'9'
 };
 const TRAZA_INFO={
   recepcion:  {label:'Recepción MP',     icon:'🌾',color:'#059669'},
@@ -1887,30 +1900,30 @@ const TRAZA_INFO={
 
 // ── PROVEEDORES ──
 const PROVEEDORES = [
-  {nombre:'PEDRO TULENA',                                    codigo:'102'},
-  {nombre:'JOSE GALMA MARRIAGA',                             codigo:'12'},
-  {nombre:'LUIS EDUARDO FABRA MENDEZ',                       codigo:'104'},
-  {nombre:'JOHN FABIO HERRERA',                              codigo:'13'},
-  {nombre:'FERNEY BENAVIDES DIAZ',                           codigo:'106'},
-  {nombre:'CARLOS SALGADO',                                  codigo:'14'},
-  {nombre:'ALVARO EMIRO GONZALES PEREZ',                     codigo:'108'},
-  {nombre:'JUAN ARISMENDI',                                  codigo:'109'},
-  {nombre:'DAVID ANTONIO VALDEZ ARRIETA',                    codigo:'110'},
-  {nombre:'YARLIN ALFONSO MAESTRE CASTELLANO',               codigo:'111'},
-  {nombre:'SOLUCIONES HEDUART SAS (PALET MIXTO)',            codigo:'112'},
-  {nombre:'DAVID ARRIETA',                                   codigo:'113'},
-  {nombre:'ANDRES MARTINEZ',                                 codigo:'114'},
-  {nombre:'INDEXCO (CRISTIAN CESPEDES)',                     codigo:'115'},
-  {nombre:'YARLEIS MARTINEZ ALMARIO',                        codigo:'116'},
-  {nombre:'GEOVANNY ROJAS CELIS',                            codigo:'117'},
-  {nombre:'JAIRO GARCIA',                                    codigo:'118'},
-  {nombre:'JHON JAIRO RUIZ FUENTES',                         codigo:'119'},
-  {nombre:'YADIS CAMACHO',                                   codigo:'120'},
-  {nombre:'DIANIS VEGA',                                     codigo:'121'},
-  {nombre:'ESTEFANIA ESCOBAR ARBELAEZ',                      codigo:'122'},
-  {nombre:'GRENDA ARRIETA',                                  codigo:'123'},
-  {nombre:'SILFREDO FUENTES',                                codigo:'124'},
-  {nombre:'WILSON CARRASCAL',                                codigo:'125'},
+  {nombre:'PEDRO TULENA',                                    codigo:'101'},
+  {nombre:'JOSE GALMA MARRIAGA',                             codigo:'102'},
+  {nombre:'LUIS EDUARDO FABRA MENDEZ',                       codigo:'103'},
+  {nombre:'JOHN FABIO HERRERA',                              codigo:'104'},
+  {nombre:'FERNEY BENAVIDES DIAZ',                           codigo:'105'},
+  {nombre:'CARLOS SALGADO',                                  codigo:'106'},
+  {nombre:'ALVARO EMIRO GONZALES PEREZ',                     codigo:'107'},
+  {nombre:'JUAN ARISMENDI',                                  codigo:'108'},
+  {nombre:'DAVID ANTONIO VALDEZ ARRIETA',                    codigo:'109'},
+  {nombre:'YARLIN ALFONSO MAESTRE CASTELLANO',               codigo:'110'},
+  {nombre:'SOLUCIONES HEDUART SAS (PALET MIXTO)',            codigo:'111'},
+  {nombre:'DAVID ARRIETA',                                   codigo:'112'},
+  {nombre:'ANDRES MARTINEZ',                                 codigo:'113'},
+  {nombre:'INDEXCO (CRISTIAN CESPEDES)',                     codigo:'114'},
+  {nombre:'YARLEIS MARTINEZ ALMARIO',                        codigo:'115'},
+  {nombre:'GEOVANNY ROJAS CELIS',                            codigo:'116'},
+  {nombre:'JAIRO GARCIA',                                    codigo:'117'},
+  {nombre:'JHON JAIRO RUIZ FUENTES',                         codigo:'118'},
+  {nombre:'YADIS CAMACHO',                                   codigo:'119'},
+  {nombre:'DIANIS VEGA',                                     codigo:'120'},
+  {nombre:'ESTEFANIA ESCOBAR ARBELAEZ',                      codigo:'121'},
+  {nombre:'GRENDA ARRIETA',                                  codigo:'122'},
+  {nombre:'SILFREDO FUENTES',                                codigo:'123'},
+  {nombre:'WILSON CARRASCAL',                                codigo:'124'},
   {nombre:'EDWIN GONZALEZ',                                  codigo:'126'},
   {nombre:'EDGAR GONZALEZ',                                  codigo:'127'},
   {nombre:'NAFER DURANGO',                                   codigo:'128'},
@@ -1982,17 +1995,56 @@ function selProveedor(nombre, codigo){
     cod.style.color='';
     cod.style.fontFamily='';
     cod.style.fontWeight='';
+    // Regenerar código de lote si ya hay materia prima seleccionada
+    const mat=document.getElementById('f_materia').value;
+    if(mat && mat!=='__otro_mat__'){
+      document.getElementById('f_lote').value=generarCodigoLote(mat);
+    }
   }
 }
 
-// Genera código: PLV-20260428-001
+// ── CONVERSIÓN LOTES VIEJOS AL NUEVO FORMATO ──
+// Formato viejo: PLV-20260510-001 → Nuevo: DDMMCCCP/NNN
+function convertirLoteViejo(loteViejo, registro){
+  if(!loteViejo) return loteViejo;
+  // Si ya tiene formato nuevo (contiene "/" y empieza con dígitos), dejar como está
+  if(/^\d{8}\/\d{3}$/.test(loteViejo)) return loteViejo;
+  // Si es formato viejo (XXX-YYYYMMDD-NNN)
+  const m=loteViejo.match(/^([A-Z]+)-(\d{4})(\d{2})(\d{2})-(\d{3})$/);
+  if(!m) return loteViejo;
+  const [_,prefix,yyyy,mm,dd,consec]=m;
+  // Buscar código MP del prefijo
+  const PREF_TO_MP={'PLV':'1','PLH':'1','PLW':'3','PLM':'1','YUC':'6','NAM':'5','PAP':'8','BAT':'4','MAR':'9'};
+  const codMP=PREF_TO_MP[prefix]||'0';
+  // Código proveedor del registro
+  const codProv=String(registro&&registro.codProv||'000').padStart(3,'0').slice(-3);
+  return `${dd}${mm}${codProv}${codMP}/${consec}`;
+}
+
+function migrarLotesViejos(){
+  let migrados=0;
+  regs.forEach(r=>{
+    const nuevo=convertirLoteViejo(r.lote, r);
+    if(nuevo!==r.lote){r.lote=nuevo;migrados++;}
+  });
+  if(migrados>0){
+    ls('fc_reg5',regs);
+    console.log(`✅ ${migrados} lotes convertidos al nuevo formato`);
+  }
+}
+
+// Genera código: DDMMCCCP/NNN (DDMM=fecha, CCC=cod proveedor, P=cod MP, NNN=consecutivo)
 function generarCodigoLote(materia){
-  const prefix=LOTE_PREFIJOS[materia]||'LOT';
+  const codMP=LOTE_PREFIJOS[materia]||'0';
+  const codProv=(document.getElementById('f_codProv')||{}).value||'000';
+  const codProv3=String(codProv).padStart(3,'0').slice(-3);
   const d=new Date();
-  const fecha=d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0');
+  const ddmm=String(d.getDate()).padStart(2,'0')+String(d.getMonth()+1).padStart(2,'0');
+  const prefijo=ddmm+codProv3+codMP;
+  // Buscar consecutivo del día para este prefijo
   const todos=todosLosLotes();
-  const hoy=todos.filter(l=>l.startsWith(prefix+'-'+fecha));
-  return `${prefix}-${fecha}-${String(hoy.length+1).padStart(3,'0')}`;
+  const hoy=todos.filter(l=>l.startsWith(prefijo+'/'));
+  return `${prefijo}/${String(hoy.length+1).padStart(3,'0')}`;
 }
 
 // Botón 🔄 Nuevo lote
