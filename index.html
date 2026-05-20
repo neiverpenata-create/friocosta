@@ -809,6 +809,28 @@ function lg(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}c
 function ls(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}}
 
 // ── SINCRONIZACIÓN CON GOOGLE SHEETS ──
+function parsearFechaHora(v){
+  if(!v) return {fecha:'',hora:''};
+  // Si es objeto Date
+  if(v instanceof Date && !isNaN(v)){
+    const d=String(v.getDate()).padStart(2,'0');
+    const m=String(v.getMonth()+1).padStart(2,'0');
+    const y=v.getFullYear();
+    let h=v.getHours();
+    const mi=String(v.getMinutes()).padStart(2,'0');
+    const ap=h>=12?'PM':'AM';
+    h=h%12||12;
+    return {fecha:`${y}-${m}-${d}`,hora:`${String(h).padStart(2,'0')}:${mi} ${ap}`};
+  }
+  // Si es string como "06/05/2026 10:25 AM"
+  const s=String(v).trim();
+  const partes=s.split(' ');
+  if(partes.length>=2){
+    return {fecha:partes[0],hora:partes.slice(1).join(' ')};
+  }
+  return {fecha:s,hora:''};
+}
+
 async function sincronizarDesdeSheets(){
   try{
     showToast('🔄 Sincronizando...','#2952b3');
@@ -819,39 +841,45 @@ async function sincronizarDesdeSheets(){
     
     // Saltar primera fila (encabezados)
     const filas=data.datos.slice(1);
-    const sheetsRegs=filas.filter(f=>f[0]).map(f=>({
-      id:f[0]+'_'+f[1],  // identificador único
-      fecha:String(f[0]).split(' ')[0]||'',
-      hora:String(f[0]).split(' ').slice(1).join(' ')||'',
-      lote:f[1]||'',
-      materia:f[2]||'',
-      variedad:f[3]||'',
-      kg:f[4]||'',
-      proveedor:f[5]||'',
-      codProv:f[6]||'',
-      zona:f[7]||'',
-      origen:f[8]||'',
-      finca:f[9]||'',
-      longitud:f[10]||'',
-      diametro:f[11]||'',
-      brix:f[12]||'',
-      densidad:f[13]||'',
-      acidez:f[14]||'',
-      color:f[15]||'',
-      color_pulpa:f[16]||'',
-      olor:f[17]||'',
-      textura:f[18]||'',
-      apariencia:f[19]||'',
-      decision:f[20]||'',
-      obs:f[21]||'',
-      responsable:f[22]||'',
-      supervisor:f[23]||'',
-      usuario:f[24]||''
-    }));
+    const sheetsRegs=filas.filter(f=>f[0]||f[1]).map((f,i)=>{
+      const fh=parsearFechaHora(f[0]);
+      return {
+        id:'sheet_'+i+'_'+(f[1]||''),
+        fecha:fh.fecha,
+        hora:fh.hora,
+        lote:String(f[1]||'').trim(),
+        materia:String(f[2]||'').trim(),
+        variedad:String(f[3]||'').trim(),
+        kg:String(f[4]||'').trim(),
+        proveedor:String(f[5]||'').trim(),
+        codProv:String(f[6]||'').trim(),
+        zona:String(f[7]||'').trim(),
+        origen:String(f[8]||'').trim(),
+        finca:String(f[9]||'').trim(),
+        longitud:String(f[10]||'').trim(),
+        diametro:String(f[11]||'').trim(),
+        brix:String(f[12]||'').trim(),
+        densidad:String(f[13]||'').trim(),
+        acidez:String(f[14]||'').trim(),
+        color:String(f[15]||'').trim(),
+        color_pulpa:String(f[16]||'').trim(),
+        olor:String(f[17]||'').trim(),
+        textura:String(f[18]||'').trim(),
+        apariencia:String(f[19]||'').trim(),
+        decision:String(f[20]||'').trim(),
+        obs:String(f[21]||'').trim(),
+        responsable:String(f[22]||'').trim(),
+        supervisor:String(f[23]||'').trim(),
+        usuario:String(f[24]||'').trim()
+      };
+    });
     
-    // Combinar: mantener registros locales sin duplicar (por código de lote)
-    const lotesEnSheets=new Set(sheetsRegs.map(r=>r.lote));
-    const locales=regs.filter(r=>!lotesEnSheets.has(r.lote));
+    // Combinar: mantener registros locales sin duplicar (por código de lote o fecha)
+    const clavesEnSheets=new Set(sheetsRegs.map(r=>(r.lote||r.fecha+'_'+r.materia).toUpperCase()));
+    const locales=regs.filter(r=>{
+      const k=(r.lote||r.fecha+'_'+r.materia||'').toUpperCase();
+      return !clavesEnSheets.has(k);
+    });
     regs=[...sheetsRegs, ...locales];
     migrarLotesViejos();
     ls('fc_reg5',regs);
@@ -1643,11 +1671,22 @@ function registrar(){
     nsr(r.usuario)       // Y: Usuario
   ]};
   fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)})
-    .then(()=>showToast('☁️ Guardado en Google Sheets','#0d6e3a'))
+    .then(()=>{
+      showToast('☁️ Guardado en Google Sheets','#0d6e3a');
+      // Refrescar desde Sheets después de guardar para tener todo actualizado
+      setTimeout(()=>sincronizarDesdeSheets(),1500);
+    })
     .catch(()=>showToast('⚠️ Sin conexión - guardado local','#d97706'));
   showToast('✅ Recepción registrada','#16a34a');
   limpiar();
   volverModoSel();
+  // Refrescar listas en otros panels (Buscar Lote)
+  if(typeof renderSelectorLote==='function'){
+    setTimeout(()=>{
+      const selectorEl=document.getElementById('selector-lote-grid');
+      if(selectorEl) renderSelectorLote();
+    },300);
+  }
 }
 
 function limpiar(){
@@ -2099,11 +2138,11 @@ function filtrarLotesSel(inputId,dropId){
 }
 
 function renderDropItems(lista,dropId,inputId){
-  document.getElementById(dropId).innerHTML=lista.slice(0,10).map(l=>{
+  document.getElementById(dropId).innerHTML=lista.slice(0,15).map(l=>{
     const meta=getLoteMeta(l);
     return `<div class="lote-drop-item" onmousedown="selLote('${inputId}','${dropId}','${l}')">
       <span class="lote-drop-code">${l}</span>
-      ${meta?`<span class="lote-drop-meta">${meta}</span>`:''}
+      ${meta?`<span class="lote-drop-meta" style="opacity:.6;font-size:11px">${meta}</span>`:''}
     </div>`;
   }).join('');
 }
@@ -2116,7 +2155,7 @@ function selLote(inputId,dropId,codigo){
 }
 
 // ── MODO RECEPCIÓN ──
-function selModoRecepcion(modo){
+async function selModoRecepcion(modo){
   document.getElementById('rec-modo-sel').style.display='none';
   if(modo==='nueva'){
     document.getElementById('rec-nueva-panel').style.display='block';
@@ -2131,6 +2170,9 @@ function selModoRecepcion(modo){
     document.getElementById('rec-nueva-panel').style.display='none';
     document.getElementById('mc-revisar').classList.add('sel-revisar');
     document.getElementById('mc-nueva').classList.remove('sel-nueva');
+    // Mostrar lo que hay localmente y luego refrescar desde Sheets
+    renderLotesGuardados();
+    await sincronizarDesdeSheets();
     renderLotesGuardados();
   }
 }
