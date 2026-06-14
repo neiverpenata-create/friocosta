@@ -185,6 +185,11 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
 .modo-card.sel-nueva{border-color:#2952b3;background:#e8eef8}
 .modo-card.sel-revisar{border-color:#0d6e3a;background:#e6f7ee}
 
+/* AREA SELECTOR */
+.area-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:8px 4px 6px;background:none;border:none;border-bottom:3px solid transparent;cursor:pointer;font-family:inherit;font-size:10px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;color:rgba(255,255,255,.45);transition:all .2s;margin-bottom:-2px}
+.area-btn.active{color:#facc15;border-bottom-color:#facc15;background:rgba(250,204,21,.07)}
+.area-btn span:last-child{font-size:9px;letter-spacing:1px}
+
 /* Lote revisar */
 .revisar-lote-wrap{background:#fff;border:1.5px solid #ccd6ef;border-radius:14px;padding:16px;margin-bottom:4px}
 .lote-guardado-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:10px;border:1.5px solid #e5e7eb;margin-bottom:8px;cursor:pointer;transition:all .15s}
@@ -228,17 +233,43 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
     </div>
   </div>
 
+  <!-- ÁREA SELECTOR -->
+  <div id="area-selector" style="background:#0a1628;display:flex;gap:0;flex-shrink:0;border-bottom:2px solid rgba(255,255,255,.1)">
+    <button class="area-btn active" id="area-btn-produccion" onclick="goArea('produccion',this)">
+      <span style="font-size:15px">⚙️</span><span>Producción</span>
+    </button>
+    <button class="area-btn" id="area-btn-calidad" onclick="goArea('calidad',this)">
+      <span style="font-size:15px">🔬</span><span>Calidad</span>
+    </button>
+    <button class="area-btn" id="area-btn-empaque" onclick="goArea('empaque',this)">
+      <span style="font-size:15px">📦</span><span>Empaque</span>
+    </button>
+  </div>
+
+  <!-- SUB-TABS: shown per area -->
   <nav class="top-tabs" id="top-tabs-nav">
-    <button class="ttab active" id="tab-nuevo" onclick="goTab('nuevo',this)">Recepción MP</button>
-    <button class="ttab" id="tab-pelado" onclick="goTab('pelado',this)">Control Pelado</button>
-    <button class="ttab" id="tab-humedad" onclick="goTab('humedad',this)">Control Humedad</button>
-    <button class="ttab" id="tab-chips" onclick="goTab('chips',this)">Espec. Chips</button>
-    <button class="ttab" id="tab-freidor" onclick="goTab('freidor',this)">Control Freidor</button>
-    <button class="ttab" id="tab-horno" onclick="goTab('horno',this)">Control Horno</button>
-    <button class="ttab" id="tab-brix" onclick="goTab('brix',this)">Control Brix</button>
-    <button class="ttab" id="tab-canastillas" onclick="goTab('canastillas',this)">Canastillas/Hora</button>
-    <button class="ttab" id="tab-tostones" onclick="goTab('tostones',this)">Espec. Tostones</button>
-    <button class="ttab" id="tab-desperdicios" onclick="goTab('desperdicios',this)">MP Desperdicios</button>
+    <!-- PRODUCCIÓN -->
+    <button class="ttab area-tab area-produccion active" id="tab-nuevo" onclick="goTab('nuevo',this)">Recepción MP</button>
+    <button class="ttab area-tab area-produccion" id="tab-pelado" onclick="goTab('pelado',this)">Control Pelado</button>
+    <button class="ttab area-tab area-produccion" id="tab-freidor" onclick="goTab('freidor',this)">Control Freidor</button>
+    <button class="ttab area-tab area-produccion" id="tab-temp-freidor" onclick="goTab('temp-freidor',this)">Temp. Freidor</button>
+    <button class="ttab area-tab area-produccion" id="tab-canastillas" onclick="goTab('canastillas',this)">Canastillas/Hora</button>
+    <button class="ttab area-tab area-produccion" id="tab-aceite-bache" onclick="goTab('aceite-bache',this)">Aceite Bache</button>
+    <button class="ttab area-tab area-produccion" id="tab-desperdicios" onclick="goTab('desperdicios',this)">MP Desperdicios</button>
+    <!-- CALIDAD -->
+    <button class="ttab area-tab area-calidad" id="tab-humedad" onclick="goTab('humedad',this)" style="display:none">Control Humedad</button>
+    <button class="ttab area-tab area-calidad" id="tab-chips" onclick="goTab('chips',this)" style="display:none">Espec. Chips</button>
+    <button class="ttab area-tab area-calidad" id="tab-horno" onclick="goTab('horno',this)" style="display:none">Control Horno</button>
+    <button class="ttab area-tab area-calidad" id="tab-temp-horno" onclick="goTab('temp-horno',this)" style="display:none">Temp. Horno</button>
+    <button class="ttab area-tab area-calidad" id="tab-brix" onclick="goTab('brix',this)" style="display:none">Control Brix</button>
+    <button class="ttab area-tab area-calidad" id="tab-tostones" onclick="goTab('tostones',this)" style="display:none">Espec. Tostones</button>
+    <button class="ttab area-tab area-calidad" id="tab-aceite-calidad" onclick="goTab('aceite-calidad',this)" style="display:none">Calidad Aceite</button>
+    <button class="ttab area-tab area-calidad" id="tab-cadena-frio" onclick="goTab('cadena-frio',this)" style="display:none">Cadena Frío PT</button>
+    <!-- EMPAQUE -->
+    <button class="ttab area-tab area-empaque" id="tab-empacado-tarros" onclick="goTab('empacado-tarros',this)" style="display:none">Empacado Tarros</button>
+    <button class="ttab area-tab area-empaque" id="tab-cajas-empacadas" onclick="goTab('cajas-empacadas',this)" style="display:none">Cajas x Lote</button>
+    <button class="ttab area-tab area-empaque" id="tab-trazabilidad-lotes" onclick="goTab('trazabilidad-lotes',this)" style="display:none">Trazab. Lotes</button>
+    <button class="ttab area-tab area-empaque" id="tab-desperdicios-frios" onclick="goTab('desperdicios-frios',this)" style="display:none">Desp. CF</button>
   </nav>
 
   <div class="app-body">
@@ -333,6 +364,24 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           </div>
           <div class="field"><span class="flabel">Municipio / Procedencia</span><input class="finput" type="text" id="f_origen" placeholder="Ej. Carmen de Bolívar"></div>
           <div class="field"><span class="flabel">Finca</span><input class="finput" type="text" id="f_finca" placeholder="Nombre o N/A"></div>
+        </div>
+
+        <!-- ACCESO RÁPIDO: Brix y Humedad del lote actual -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:4px">
+          <button onclick="irAFormConLote('brix')" style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:linear-gradient(135deg,#4c1d95,#7c3aed);border:none;border-radius:10px;color:#fff;font-family:inherit;cursor:pointer;box-shadow:0 3px 8px rgba(124,58,237,.3);-webkit-user-select:none">
+            <span style="font-size:18px;flex-shrink:0">🍬</span>
+            <div style="text-align:left">
+              <div style="font-size:11px;font-weight:800;letter-spacing:.3px">Control Brix</div>
+              <div style="font-size:9px;opacity:.75">Ir al formulario →</div>
+            </div>
+          </button>
+          <button onclick="irAFormConLote('humedad')" style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:linear-gradient(135deg,#0c4a6e,#0891b2);border:none;border-radius:10px;color:#fff;font-family:inherit;cursor:pointer;box-shadow:0 3px 8px rgba(8,145,178,.3);-webkit-user-select:none">
+            <span style="font-size:18px;flex-shrink:0">💧</span>
+            <div style="text-align:left">
+              <div style="font-size:11px;font-weight:800;letter-spacing:.3px">Control Humedad</div>
+              <div style="font-size:9px;opacity:.75">Ir al formulario →</div>
+            </div>
+          </button>
         </div>
 
         <div class="stitle">📐 Especificaciones</div>
@@ -714,6 +763,337 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
 
     <!-- /panel-prod -->
 
+    <!-- F10: CALIDAD DE ACEITE EN FRITURA (CAL-FOR-003) -->
+    <div class="panel" id="panel-aceite-calidad">
+      <div class="stitle">🛢️ Control de Calidad de Aceite en Fritura</div>
+      <div style="font-size:10px;color:#9ca3af;margin-bottom:12px;letter-spacing:1px">CAL-FOR-003 · Versión 01</div>
+      <div class="card">
+        <div class="row2">
+          <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="pa1_fecha"></div>
+          <div class="field"><span class="flabel">Producto</span><input class="finput" type="text" id="pa1_producto" placeholder="Nombre del producto"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><span class="flabel">Cliente</span><input class="finput" type="text" id="pa1_cliente" placeholder="Nombre del cliente"></div>
+          <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="pa1_resp" placeholder="Nombre"></div>
+        </div>
+        <div class="field"><span class="flabel">Número de Lote</span>
+          <div style="position:relative">
+            <input class="finput" type="text" id="pa1_lote" placeholder="Selecciona o escribe el lote" autocomplete="off"
+              oninput="filtrarLotesSel('pa1_lote','pa1_drop')"
+              onfocus="mostrarLotesSel('pa1_lote','pa1_drop')"
+              onblur="setTimeout(()=>{const d=document.getElementById('pa1_drop');if(d)d.style.display='none'},200)">
+            <div id="pa1_drop" class="lote-drop" style="display:none"></div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="stitle" style="margin-top:0">Registros por Hora</div>
+        <div id="pa1_filas"></div>
+        <button class="btn btn-s" style="margin-top:8px" onclick="addFilaAceiteCalidad()">+ Agregar registro</button>
+      </div>
+      <div class="card">
+        <div class="stitle" style="margin-top:0">Resumen de Carga</div>
+        <div class="row3">
+          <div class="field"><span class="flabel">Cargue Inicial Freidor (KG)</span><input class="finput" type="text" id="pa1_cargueInicial" inputmode="decimal" placeholder="0"></div>
+          <div class="field"><span class="flabel">Peso Final Aceite (KG)</span><input class="finput" type="text" id="pa1_pesoFinal" inputmode="decimal" placeholder="0"></div>
+          <div class="field"><span class="flabel">Total (KG)</span><input class="finput" type="text" id="pa1_total" inputmode="decimal" placeholder="0"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><span class="flabel">Elaboró</span><input class="finput" type="text" id="pa1_elaboro" placeholder="Nombre"></div>
+          <div class="field"><span class="flabel">Revisó</span><input class="finput" type="text" id="pa1_reviso" placeholder="Nombre"></div>
+        </div>
+      </div>
+      <button class="btn btn-g" onclick="guardarProd('aceite-calidad')">💾 Guardar Registro</button>
+      <div id="hist-aceite-calidad" style="margin-top:16px"></div>
+    </div>
+
+    <!-- F11: TEMPERATURAS Y TIEMPOS DEL FREIDOR (PROD-FOR-005) -->
+    <div class="panel" id="panel-temp-freidor">
+      <div class="stitle">🌡️ Temperaturas y Tiempos del Freidor</div>
+      <div style="font-size:10px;color:#9ca3af;margin-bottom:12px;letter-spacing:1px">PROD-FOR-005 · Versión 01</div>
+      <div class="card">
+        <div class="row2">
+          <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="pa2_fecha"></div>
+          <div class="field"><span class="flabel">Número de Lote</span>
+            <div style="position:relative">
+              <input class="finput" type="text" id="pa2_lote" placeholder="Selecciona o escribe el lote" autocomplete="off"
+                oninput="filtrarLotesSel('pa2_lote','pa2_drop')"
+                onfocus="mostrarLotesSel('pa2_lote','pa2_drop')"
+                onblur="setTimeout(()=>{const d=document.getElementById('pa2_drop');if(d)d.style.display='none'},200)">
+              <div id="pa2_drop" class="lote-drop" style="display:none"></div>
+            </div>
+          </div>
+        </div>
+        <div class="field"><span class="flabel">Producto</span><input class="finput" type="text" id="pa2_producto" placeholder="Nombre del producto"></div>
+        <div class="row2">
+          <div class="field"><span class="flabel">Inicio 1</span><input class="finput" type="text" id="pa2_inicio1" placeholder="HH:MM AM/PM"></div>
+          <div class="field"><span class="flabel">Final 1</span><input class="finput" type="text" id="pa2_final1" placeholder="HH:MM AM/PM"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><span class="flabel">Inicio 2</span><input class="finput" type="text" id="pa2_inicio2" placeholder="HH:MM AM/PM"></div>
+          <div class="field"><span class="flabel">Final 2</span><input class="finput" type="text" id="pa2_final2" placeholder="HH:MM AM/PM"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="stitle" style="margin-top:0">Control del Freidor por Hora</div>
+        <div id="pa2_filas"></div>
+        <button class="btn btn-s" style="margin-top:8px" onclick="addFilaTempFreidor()">+ Agregar registro</button>
+      </div>
+      <button class="btn btn-g" onclick="guardarProd('temp-freidor')">💾 Guardar Registro</button>
+      <div id="hist-temp-freidor" style="margin-top:16px"></div>
+    </div>
+
+    <!-- F12: ALIMENTACIÓN DE ACEITE BACHE -->
+    <div class="panel" id="panel-aceite-bache">
+      <div class="stitle">🫙 Alimentación de Aceite Bache</div>
+      <div class="card">
+        <div class="row2">
+          <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="pa3_fecha"></div>
+          <div class="field"><span class="flabel">Número de Lote</span>
+            <div style="position:relative">
+              <input class="finput" type="text" id="pa3_lote" placeholder="Selecciona o escribe el lote" autocomplete="off"
+                oninput="filtrarLotesSel('pa3_lote','pa3_drop')"
+                onfocus="mostrarLotesSel('pa3_lote','pa3_drop')"
+                onblur="setTimeout(()=>{const d=document.getElementById('pa3_drop');if(d)d.style.display='none'},200)">
+              <div id="pa3_drop" class="lote-drop" style="display:none"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field"><span class="flabel">Producto a Freír</span><input class="finput" type="text" id="pa3_producto" placeholder="Nombre del producto"></div>
+          <div class="field"><span class="flabel">Freidor</span><input class="finput" type="text" id="pa3_freidor" placeholder="Número o nombre del freidor"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><span class="flabel">Firma Operario</span><input class="finput" type="text" id="pa3_resp" placeholder="Nombre del operario"></div>
+          <div class="field"><span class="flabel">Firma Supervisor</span><input class="finput" type="text" id="pa3_supervisor" placeholder="Nombre del supervisor"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="stitle" style="margin-top:0">Registros de Alimentación</div>
+        <div id="pa3_filas"></div>
+        <button class="btn btn-s" style="margin-top:8px" onclick="addFilaAceiteBache()">+ Agregar registro</button>
+      </div>
+      <button class="btn btn-g" onclick="guardarProd('aceite-bache')">💾 Guardar Registro</button>
+      <div id="hist-aceite-bache" style="margin-top:16px"></div>
+    </div>
+
+    <!-- F13: CONTROL DE CADENA DE FRÍO (CAL-FOR-005) -->
+    <div class="panel" id="panel-cadena-frio">
+      <div class="stitle">❄️ Control de Cadena de Frío - Producto Terminado</div>
+      <div style="font-size:10px;color:#9ca3af;margin-bottom:12px;letter-spacing:1px">CAL-FOR-005 · Versión 01</div>
+      <div class="card">
+        <div class="row2">
+          <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="pa4_fecha"></div>
+          <div class="field"><span class="flabel">Número de Lote</span>
+            <div style="position:relative">
+              <input class="finput" type="text" id="pa4_lote" placeholder="Selecciona o escribe el lote" autocomplete="off"
+                oninput="filtrarLotesSel('pa4_lote','pa4_drop')"
+                onfocus="mostrarLotesSel('pa4_lote','pa4_drop')"
+                onblur="setTimeout(()=>{const d=document.getElementById('pa4_drop');if(d)d.style.display='none'},200)">
+              <div id="pa4_drop" class="lote-drop" style="display:none"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field"><span class="flabel">Cliente</span><input class="finput" type="text" id="pa4_cliente" placeholder="Nombre del cliente"></div>
+          <div class="field"><span class="flabel">Producto</span><input class="finput" type="text" id="pa4_producto" placeholder="Nombre del producto"></div>
+        </div>
+        <div class="field"><span class="flabel">Código Materia Prima</span><input class="finput" type="text" id="pa4_codMateria" placeholder="Código MP"></div>
+        <div class="row2">
+          <div class="field"><span class="flabel">Elaboró</span><input class="finput" type="text" id="pa4_resp" placeholder="Nombre"></div>
+          <div class="field"><span class="flabel">Revisó</span><input class="finput" type="text" id="pa4_reviso" placeholder="Nombre"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="stitle" style="margin-top:0">Registros de Control</div>
+        <div id="pa4_filas"></div>
+        <button class="btn btn-s" style="margin-top:8px" onclick="addFilaCadenaFrio()">+ Agregar registro</button>
+      </div>
+      <button class="btn btn-g" onclick="guardarProd('cadena-frio')">💾 Guardar Registro</button>
+      <div id="hist-cadena-frio" style="margin-top:16px"></div>
+    </div>
+
+    <!-- F14: EMPACADO DE TARROS -->
+    <div class="panel" id="panel-empacado-tarros">
+      <div class="stitle">🫙 Empacado de Tarros</div>
+      <div class="card">
+        <div class="row2">
+          <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="pa5_fecha"></div>
+          <div class="field"><span class="flabel">Número de Lote</span>
+            <div style="position:relative">
+              <input class="finput" type="text" id="pa5_lote" placeholder="Selecciona o escribe el lote" autocomplete="off"
+                oninput="filtrarLotesSel('pa5_lote','pa5_drop')"
+                onfocus="mostrarLotesSel('pa5_lote','pa5_drop')"
+                onblur="setTimeout(()=>{const d=document.getElementById('pa5_drop');if(d)d.style.display='none'},200)">
+              <div id="pa5_drop" class="lote-drop" style="display:none"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field"><span class="flabel">Producto</span><input class="finput" type="text" id="pa5_producto" placeholder="Nombre del producto"></div>
+          <div class="field"><span class="flabel">Cliente</span><input class="finput" type="text" id="pa5_cliente" placeholder="Nombre del cliente"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><span class="flabel">Referencia</span><input class="finput" type="text" id="pa5_referencia" placeholder="Referencia del tarro"></div>
+          <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="pa5_resp" placeholder="Nombre"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><span class="flabel">Turno</span><select class="finput" id="pa5_turno"><option value="">Seleccionar...</option><option>Turno 1</option><option>Turno 2</option><option>Turno 3</option></select></div>
+          <div class="field"><span class="flabel">Fecha Vencimiento</span><input class="finput" type="date" id="pa5_vencimiento"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="stitle" style="margin-top:0">Registros por Hora</div>
+        <div id="pa5_filas"></div>
+        <button class="btn btn-s" style="margin-top:8px" onclick="addFilaEmpacadoTarros()">+ Agregar registro</button>
+      </div>
+      <div class="card">
+        <div class="field"><span class="flabel">Total Tarros Turno</span><input class="finput" type="text" id="pa5_totalTarros" inputmode="decimal" placeholder="0"></div>
+        <div class="field"><span class="flabel">Elaborado por</span><input class="finput" type="text" id="pa5_elaboro" placeholder="Nombre"></div>
+      </div>
+      <button class="btn btn-g" onclick="guardarProd('empacado-tarros')">💾 Guardar Registro</button>
+      <div id="hist-empacado-tarros" style="margin-top:16px"></div>
+    </div>
+
+    <!-- F15: TEMPERATURAS Y TIEMPOS DEL HORNO (PROD-FOR-00X) -->
+    <div class="panel" id="panel-temp-horno">
+      <div class="stitle">🔥 Temperaturas y Tiempos del Horno</div>
+      <div style="font-size:10px;color:#9ca3af;margin-bottom:12px;letter-spacing:1px">PROD-FOR-00X · Versión 01</div>
+      <div class="card">
+        <div class="row2">
+          <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="pa6_fecha"></div>
+          <div class="field"><span class="flabel">Número de Lote</span>
+            <div style="position:relative">
+              <input class="finput" type="text" id="pa6_lote" placeholder="Selecciona o escribe el lote" autocomplete="off"
+                oninput="filtrarLotesSel('pa6_lote','pa6_drop')"
+                onfocus="mostrarLotesSel('pa6_lote','pa6_drop')"
+                onblur="setTimeout(()=>{const d=document.getElementById('pa6_drop');if(d)d.style.display='none'},200)">
+              <div id="pa6_drop" class="lote-drop" style="display:none"></div>
+            </div>
+          </div>
+        </div>
+        <div class="field"><span class="flabel">Producto</span><input class="finput" type="text" id="pa6_producto" placeholder="Nombre del producto"></div>
+        <div class="row2">
+          <div class="field"><span class="flabel">Inicio 1</span><input class="finput" type="text" id="pa6_inicio1" placeholder="HH:MM AM/PM"></div>
+          <div class="field"><span class="flabel">Final 1</span><input class="finput" type="text" id="pa6_final1" placeholder="HH:MM AM/PM"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><span class="flabel">Inicio 2</span><input class="finput" type="text" id="pa6_inicio2" placeholder="HH:MM AM/PM"></div>
+          <div class="field"><span class="flabel">Final 2</span><input class="finput" type="text" id="pa6_final2" placeholder="HH:MM AM/PM"></div>
+        </div>
+        <div class="field"><span class="flabel">Fecha de Elaboración</span><input class="finput" type="date" id="pa6_fechaElab"></div>
+      </div>
+      <div class="card">
+        <div class="stitle" style="margin-top:0">Control del Horno por Hora</div>
+        <div id="pa6_filas"></div>
+        <button class="btn btn-s" style="margin-top:8px" onclick="addFilaTempHorno()">+ Agregar registro</button>
+      </div>
+      <button class="btn btn-g" onclick="guardarProd('temp-horno')">💾 Guardar Registro</button>
+      <div id="hist-temp-horno" style="margin-top:16px"></div>
+    </div>
+
+    <!-- F16: CONTROL DE TRAZABILIDAD DE LOTES (CAL-FOR-006) -->
+    <div class="panel" id="panel-trazabilidad-lotes">
+      <div class="stitle">📦 Control de Trazabilidad de Lotes</div>
+      <div style="font-size:10px;color:#9ca3af;margin-bottom:12px;letter-spacing:1px">CAL-FOR-006 · Versión 01</div>
+      <div class="card">
+        <div class="row2">
+          <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="pa7_fecha"></div>
+          <div class="field"><span class="flabel">Elaboró</span><input class="finput" type="text" id="pa7_resp" placeholder="Nombre"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><span class="flabel">Revisó</span><input class="finput" type="text" id="pa7_reviso" placeholder="Nombre"></div>
+          <div class="field"><span class="flabel">Aprobó</span><input class="finput" type="text" id="pa7_aprobo" placeholder="Nombre"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="stitle" style="margin-top:0">Registros de Lotes</div>
+        <div id="pa7_filas"></div>
+        <button class="btn btn-s" style="margin-top:8px" onclick="addFilaTrazabilidadLotes()">+ Agregar lote</button>
+      </div>
+      <button class="btn btn-g" onclick="guardarProd('trazabilidad-lotes')">💾 Guardar Registro</button>
+      <div id="hist-trazabilidad-lotes" style="margin-top:16px"></div>
+    </div>
+
+    <!-- F17: CONTROL DE CAJAS EMPACADAS POR LOTES (PROD-FOR-009) -->
+    <div class="panel" id="panel-cajas-empacadas">
+      <div class="stitle">📦 Control de Cajas Empacadas por Lotes</div>
+      <div style="font-size:10px;color:#9ca3af;margin-bottom:12px;letter-spacing:1px">PROD-FOR-009 · Versión 01</div>
+      <div class="card">
+        <div class="row2">
+          <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="pa8_fecha"></div>
+          <div class="field"><span class="flabel">Número de Lote</span>
+            <div style="position:relative">
+              <input class="finput" type="text" id="pa8_lote" placeholder="Selecciona o escribe el lote" autocomplete="off"
+                oninput="filtrarLotesSel('pa8_lote','pa8_drop')"
+                onfocus="mostrarLotesSel('pa8_lote','pa8_drop')"
+                onblur="setTimeout(()=>{const d=document.getElementById('pa8_drop');if(d)d.style.display='none'},200)">
+              <div id="pa8_drop" class="lote-drop" style="display:none"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field"><span class="flabel">Producto</span><input class="finput" type="text" id="pa8_producto" placeholder="Nombre del producto"></div>
+          <div class="field"><span class="flabel">Fecha Elaboración</span><input class="finput" type="date" id="pa8_fechaElab"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><span class="flabel">Cliente</span><input class="finput" type="text" id="pa8_cliente" placeholder="Nombre del cliente"></div>
+          <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="pa8_resp" placeholder="Nombre"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="stitle" style="margin-top:0">Registros por Hora</div>
+        <div id="pa8_filas"></div>
+        <button class="btn btn-s" style="margin-top:8px" onclick="addFilaCajasEmpacadas()">+ Agregar registro</button>
+      </div>
+      <button class="btn btn-g" onclick="guardarProd('cajas-empacadas')">💾 Guardar Registro</button>
+      <div id="hist-cajas-empacadas" style="margin-top:16px"></div>
+    </div>
+
+    <!-- F18: CONTROL DE DESPERDICIOS EN CUARTOS FRÍOS (PROD-FOR-008) -->
+    <div class="panel" id="panel-desperdicios-frios">
+      <div class="stitle">🧊 Control de Desperdicios en Cuartos Fríos</div>
+      <div style="font-size:10px;color:#9ca3af;margin-bottom:12px;letter-spacing:1px">PROD-FOR-008 · Versión 01</div>
+      <div class="card">
+        <div class="row2">
+          <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="pa9_fecha"></div>
+          <div class="field"><span class="flabel">Número de Lote</span>
+            <div style="position:relative">
+              <input class="finput" type="text" id="pa9_lote" placeholder="Selecciona o escribe el lote" autocomplete="off"
+                oninput="filtrarLotesSel('pa9_lote','pa9_drop')"
+                onfocus="mostrarLotesSel('pa9_lote','pa9_drop')"
+                onblur="setTimeout(()=>{const d=document.getElementById('pa9_drop');if(d)d.style.display='none'},200)">
+              <div id="pa9_drop" class="lote-drop" style="display:none"></div>
+            </div>
+          </div>
+        </div>
+        <div class="row2">
+          <div class="field"><span class="flabel">Producto</span><input class="finput" type="text" id="pa9_producto" placeholder="Nombre del producto"></div>
+          <div class="field"><span class="flabel">Cliente</span><input class="finput" type="text" id="pa9_cliente" placeholder="Nombre del cliente"></div>
+        </div>
+        <div class="row2">
+          <div class="field"><span class="flabel">Fecha Elaboración</span><input class="finput" type="date" id="pa9_fechaElab"></div>
+          <div class="field"><span class="flabel">Turno</span><select class="finput" id="pa9_turno"><option value="">Seleccionar...</option><option>Turno 1</option><option>Turno 2</option><option>Turno 3</option></select></div>
+        </div>
+        <div class="row2">
+          <div class="field"><span class="flabel">Elaboró</span><input class="finput" type="text" id="pa9_resp" placeholder="Nombre"></div>
+          <div class="field"><span class="flabel">Revisó</span><input class="finput" type="text" id="pa9_reviso" placeholder="Nombre"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="stitle" style="margin-top:0">Desperdicios Desencofrado</div>
+        <div id="pa9_filas_desencofrado"></div>
+        <button class="btn btn-s" style="margin-top:8px" onclick="addFilaDesDes()">+ Agregar registro desencofrado</button>
+      </div>
+      <div class="card">
+        <div class="stitle" style="margin-top:0">Desperdicios en Empaque</div>
+        <div id="pa9_filas_empaque"></div>
+        <button class="btn btn-s" style="margin-top:8px" onclick="addFilaDesEmp()">+ Agregar registro empaque</button>
+      </div>
+      <button class="btn btn-g" onclick="guardarProd('desperdicios-frios')">💾 Guardar Registro</button>
+      <div id="hist-desperdicios-frios" style="margin-top:16px"></div>
+    </div>
+
     <!-- BUSQUEDA POR LOTE -->
     <div class="panel" id="panel-trazabilidad">
       <div class="stitle">🔍 Búsqueda por Lote</div>
@@ -966,7 +1346,7 @@ function doLogin(){
     document.getElementById('adminBtns').style.display='block';
   }
   // Pre-fill production forms with today and user
-  ['p1','p2','p3','p4','p5','p6','p7','p8','p9'].forEach(p=>{
+  ['p1','p2','p3','p4','p5','p6','p7','p8','p9','pa1','pa2','pa3','pa4','pa5','pa6','pa7','pa8','pa9'].forEach(p=>{
     const fd=document.getElementById(p+'_fecha');
     if(fd)fd.value=today();
     const fr=document.getElementById(p+'_resp')||document.getElementById(p+'_operario');
@@ -1014,20 +1394,26 @@ function openProd(tipo){ goTab(tipo, document.getElementById('tab-'+tipo)); }
 function closeProd(){ /* no redirige */ }
 
 function limpiarFormProd(tipo){
-  const prefix='p'+{pelado:1,humedad:2,chips:3,freidor:4,horno:5,brix:6,canastillas:7,tostones:8,desperdicios:9}[tipo];
-  // Limpiar fecha y campos fijos
+  const PREFIXES={pelado:'p1',humedad:'p2',chips:'p3',freidor:'p4',horno:'p5',brix:'p6',canastillas:'p7',tostones:'p8',desperdicios:'p9',
+    'aceite-calidad':'pa1','temp-freidor':'pa2','aceite-bache':'pa3','cadena-frio':'pa4',
+    'empacado-tarros':'pa5','temp-horno':'pa6','trazabilidad-lotes':'pa7',
+    'cajas-empacadas':'pa8','desperdicios-frios':'pa9'};
+  const prefix=PREFIXES[tipo]||('p'+{pelado:1,humedad:2,chips:3,freidor:4,horno:5,brix:6,canastillas:7,tostones:8,desperdicios:9}[tipo]);
   ['fecha','lote','resp','operario','producto','cliente','calibre','materia',
    'lider','totalKg','inicio','final','inicio1','final1','inicio2','final2',
-   'proveedor','kgFresco','kgPelado','cascara','crudo','frito','obs'].forEach(f=>{
+   'proveedor','kgFresco','kgPelado','cascara','crudo','frito','obs',
+   'cargueInicial','pesoFinal','total','elaboro','reviso','aprobo','supervisor',
+   'freidor','referencia','turno','vencimiento','fechaElab','codMateria','totalTarros'].forEach(f=>{
     const el=document.getElementById(prefix+'_'+f);
     if(el){
       if(el.tagName==='SELECT') el.selectedIndex=0;
       else el.value='';
     }
   });
-  // Limpiar filas dinámicas
-  const filasEl=document.getElementById(prefix+'_filas');
-  if(filasEl) filasEl.innerHTML='';
+  ['filas','filas_desencofrado','filas_empaque'].forEach(s=>{
+    const filasEl=document.getElementById(prefix+'_'+s);
+    if(filasEl) filasEl.innerHTML='';
+  });
 }
 
 // =================== FILAS DINÁMICAS ===================
@@ -1270,8 +1656,258 @@ function addFilaDesperdicio(){
   </div>`);
 }
 
-// =================== GUARDAR PRODUCCIÓN ===================
-const PROD_NAMES={pelado:'Control Pelado',humedad:'Control Humedad',chips:'Espec. Chips',freidor:'Control Freidor',horno:'Control Horno',brix:'Control Brix',canastillas:'Canastillas/Hora',tostones:'Espec. Tostones',desperdicios:'MP Desperdicios'};
+// FA1 CALIDAD ACEITE FRITURA
+function addFilaAceiteCalidad(){
+  const c=document.getElementById('pa1_filas');
+  const i=c.children.length+1;
+  c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Hora</span><input class="finput" type="text" value="${nowTimeAMPM()}" placeholder="HH:MM AM/PM"></div>
+      <div class="field"><span class="flabel">Inicio Cargue Freidor/Mezclas</span><input class="finput" type="text" placeholder="HH:MM AM/PM"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Aceite Nuevo Alimentado (L)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Compuesto Polares (%)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Índice de Acidez</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Índice de Peróxidos</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
+      <div class="field"><span class="flabel">Elaboró</span><input class="finput" type="text" placeholder="Nombre"></div>
+    </div>
+    <div class="field"><span class="flabel">Revisó</span><input class="finput" type="text" placeholder="Nombre"></div>
+  </div>`);
+}
+
+// FA2 TEMPERATURAS Y TIEMPOS FREIDOR
+function addFilaTempFreidor(){
+  const c=document.getElementById('pa2_filas');
+  const i=c.children.length+1;
+  c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">PROCESO #${i}</div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Hora</span><input class="finput" type="text" value="${nowTimeAMPM()}" placeholder="HH:MM AM/PM"></div>
+      <div class="field"><span class="flabel">Temp 1 (°C)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="row3">
+      <div class="field"><span class="flabel">Temp 2 (°C)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temp 3 (°C)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temp 4 (°C)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="row3">
+      <div class="field"><span class="flabel">Temp 5 (°C)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Tiempo de Fritura (min)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Velocidad Malla (Hz)</span><input class="finput" type="text" placeholder="0"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Alimentación de Aceite (L/T)</span><input class="finput" type="text" placeholder="0"></div>
+      <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Realizó</span><input class="finput" type="text" placeholder="Nombre"></div>
+      <div class="field"><span class="flabel">Revisó</span><input class="finput" type="text" placeholder="Nombre"></div>
+    </div>
+  </div>`);
+}
+
+// FA3 ACEITE BACHE
+function addFilaAceiteBache(){
+  const c=document.getElementById('pa3_filas');
+  const i=c.children.length+1;
+  c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">BATCH #${i}</div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Hora Inicial</span><input class="finput" type="text" value="${nowTimeAMPM()}" placeholder="HH:MM AM/PM"></div>
+      <div class="field"><span class="flabel">Hora Final</span><input class="finput" type="text" placeholder="HH:MM AM/PM"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Cantidad Producto por Batch (KG)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Cantidad Aceite Alimentado (L)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="field"><span class="flabel">Temperatura Inicial / Temp. cuando Baja</span><input class="finput" type="text" placeholder="Ej. 180°C / 160°C"></div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Tiempo en el Freidor (min)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Polares (%)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Realizado por</span><input class="finput" type="text" placeholder="Nombre"></div>
+      <div class="field"><span class="flabel">Revisado por</span><input class="finput" type="text" placeholder="Nombre"></div>
+    </div>
+    <div class="field"><span class="flabel">Observación</span><input class="finput" type="text" placeholder="..."></div>
+  </div>`);
+}
+
+// FA4 CADENA DE FRIO
+function addFilaCadenaFrio(){
+  const c=document.getElementById('pa4_filas');
+  const i=c.children.length+1;
+  c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Temp. Cuarto Frío CF1 (°C)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Hora Ingreso CF1</span><input class="finput" type="text" value="${nowTimeAMPM()}" placeholder="HH:MM AM/PM"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Temp. Producto a Ingresar CF2 (°C)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Hora Ingreso CF2</span><input class="finput" type="text" placeholder="HH:MM AM/PM"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Cantidad Producto (KG)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">N° Canastillas</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Temp. CF2 (°C)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Temp. Salida Producto (°C)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="row3">
+      <div class="field"><span class="flabel">C</span><select class="finput"><option value="">—</option><option>C</option><option>NC</option><option>NA</option></select></div>
+      <div class="field"><span class="flabel">MC</span><select class="finput"><option value="">—</option><option>C</option><option>NC</option><option>NA</option></select></div>
+      <div class="field"><span class="flabel">Hora Salida Producto</span><input class="finput" type="text" placeholder="HH:MM AM/PM"></div>
+    </div>
+    <div class="row3">
+      <div class="field"><span class="flabel">Peso Prom. Unidades (g)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Peso Bolsa (g)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Peso Caja (g)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
+  </div>`);
+}
+
+// FA5 EMPACADO TARROS
+function addFilaEmpacadoTarros(){
+  const c=document.getElementById('pa5_filas');
+  const i=c.children.length+1;
+  c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Hora Inicio</span><input class="finput" type="text" value="${nowTimeAMPM()}" placeholder="HH:MM AM/PM"></div>
+      <div class="field"><span class="flabel">Hora Final</span><input class="finput" type="text" value="${addOneHourAMPM(nowTimeAMPM())}" placeholder="HH:MM AM/PM"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">N° Tarros por Hora</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
+    </div>
+  </div>`);
+}
+
+// FA6 TEMPERATURAS HORNO
+function addFilaTempHorno(){
+  const c=document.getElementById('pa6_filas');
+  const i=c.children.length+1;
+  c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">PROCESO #${i}</div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Hora</span><input class="finput" type="text" value="${nowTimeAMPM()}" placeholder="HH:MM AM/PM"></div>
+      <div class="field"><span class="flabel">Temp 1 (°C)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Temp 2 (°C)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">Tiempo de Horno (min)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Velocidad de Malla (Hz)</span><input class="finput" type="text" placeholder="0"></div>
+      <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Realizó</span><input class="finput" type="text" placeholder="Nombre"></div>
+      <div class="field"><span class="flabel">Revisó</span><input class="finput" type="text" placeholder="Nombre"></div>
+    </div>
+  </div>`);
+}
+
+// FA7 TRAZABILIDAD LOTES
+function addFilaTrazabilidadLotes(){
+  const c=document.getElementById('pa7_filas');
+  const i=c.children.length+1;
+  c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">LOTE #${i}</div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" value="${document.getElementById('pa7_fecha')?.value||''}"></div>
+      <div class="field"><span class="flabel">Producto</span><input class="finput" type="text" placeholder="Nombre del producto"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" placeholder="Código de lote" style="font-family:monospace;font-weight:700"></div>
+      <div class="field"><span class="flabel">Cliente</span><input class="finput" type="text" placeholder="Nombre del cliente"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">F. Elaboración</span><input class="finput" type="date"></div>
+      <div class="field"><span class="flabel">F. Vencimiento</span><input class="finput" type="date"></div>
+    </div>
+    <div class="field"><span class="flabel">Cantidad de Cajas</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Elabororio</span><input class="finput" type="text" placeholder="Nombre"></div>
+      <div class="field"><span class="flabel">Revisó</span><input class="finput" type="text" placeholder="Nombre"></div>
+    </div>
+  </div>`);
+}
+
+// FA8 CAJAS EMPACADAS
+function addFilaCajasEmpacadas(){
+  const c=document.getElementById('pa8_filas');
+  const i=c.children.length+1;
+  c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Hora Inicio</span><input class="finput" type="text" value="${nowTimeAMPM()}" placeholder="HH:MM AM/PM"></div>
+      <div class="field"><span class="flabel">Hora Final</span><input class="finput" type="text" value="${addOneHourAMPM(nowTimeAMPM())}" placeholder="HH:MM AM/PM"></div>
+    </div>
+    <div class="row3">
+      <div class="field"><span class="flabel">Turno #</span><input class="finput" type="text" inputmode="numeric" placeholder="1"></div>
+      <div class="field"><span class="flabel">Cajas Empacadas</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">N° Personas</span><input class="finput" type="text" inputmode="numeric" placeholder="0"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Elaboró</span><input class="finput" type="text" placeholder="Nombre"></div>
+      <div class="field"><span class="flabel">Revisó</span><input class="finput" type="text" placeholder="Nombre"></div>
+    </div>
+    <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
+  </div>`);
+}
+
+// FA9a DESPERDICIOS DESENCOFRADO
+function addFilaDesDes(){
+  const c=document.getElementById('pa9_filas_desencofrado');
+  const i=c.children.length+1;
+  c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Desperdicio Desencofrado (KG)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">No Cumple Especificaciones</span><select class="finput"><option value="">—</option><option>Sí</option><option>No</option></select></div>
+    </div>
+    <div class="field"><span class="flabel">Desperdicio Piso (KG)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+    <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
+  </div>`);
+}
+
+// FA9b DESPERDICIOS EMPAQUE
+function addFilaDesEmp(){
+  const c=document.getElementById('pa9_filas_empaque');
+  const i=c.children.length+1;
+  c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
+    <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">REGISTRO #${i}</div>
+    <div class="row2">
+      <div class="field"><span class="flabel">Desperdicio en Empaque (KG)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+      <div class="field"><span class="flabel">No Cumple Especificaciones</span><select class="finput"><option value="">—</option><option>Sí</option><option>No</option></select></div>
+    </div>
+    <div class="field"><span class="flabel">Desperdicio Piso (KG)</span><input class="finput" type="text" inputmode="decimal" placeholder="0"></div>
+    <div class="field"><span class="flabel">Observaciones</span><input class="finput" type="text" placeholder="..."></div>
+  </div>`);
+}
+
+
+const PROD_NAMES={
+  pelado:'Control Pelado',humedad:'Control Humedad',chips:'Espec. Chips',
+  freidor:'Control Freidor',horno:'Control Horno',brix:'Control Brix',
+  canastillas:'Canastillas/Hora',tostones:'Espec. Tostones',desperdicios:'MP Desperdicios',
+  'aceite-calidad':'Cal. Aceite Fritura','temp-freidor':'Temp. Freidor',
+  'aceite-bache':'Aceite Bache','cadena-frio':'Cadena de Frío',
+  'empacado-tarros':'Empacado Tarros','temp-horno':'Temp. Horno',
+  'trazabilidad-lotes':'Trazab. Lotes','cajas-empacadas':'Cajas Empacadas',
+  'desperdicios-frios':'Desp. Cuartos Fríos'
+};
 
 function recopilarFilas(containerId){
   const rows=[];
@@ -1470,12 +2106,23 @@ function buildFilas(tipo, prefix){
     return filasData.map(fd=>{const v=Object.values(fd).map(x=>ns(x));
       return [ts,usuario,lote,ns(gv(prefix+'_materia')),resp,v[0]||'—',v[1]||'—',v[2]||'—',v[3]||'—',v[4]||'—',v[5]||'—'];});
   }
+  // New forms - generic row builder
+  if(['aceite-calidad','temp-freidor','aceite-bache','cadena-frio','empacado-tarros','temp-horno','trazabilidad-lotes','cajas-empacadas','desperdicios-frios'].includes(tipo)){
+    const base=[ts,usuario,ns(gv(prefix+'_lote')),ns(gv(prefix+'_producto')),ns(gv(prefix+'_resp'))];
+    if(!filasData.length) return [base];
+    return filasData.map(fd=>{const v=Object.values(fd).map(x=>ns(x));return [...base,...v.slice(0,15)];});
+  }
   return [[ts,usuario,lote,resp]];
 }
 
 
 function guardarProd(tipo){
-  const prefix='p'+{pelado:1,humedad:2,chips:3,freidor:4,horno:5,brix:6,canastillas:7,tostones:8,desperdicios:9}[tipo];
+  const PREFIXES={pelado:'p1',humedad:'p2',chips:'p3',freidor:'p4',horno:'p5',brix:'p6',canastillas:'p7',tostones:'p8',desperdicios:'p9',
+    'aceite-calidad':'pa1','temp-freidor':'pa2','aceite-bache':'pa3','cadena-frio':'pa4',
+    'empacado-tarros':'pa5','temp-horno':'pa6','trazabilidad-lotes':'pa7',
+    'cajas-empacadas':'pa8','desperdicios-frios':'pa9'};
+  const prefix=PREFIXES[tipo];
+  if(!prefix){showToast('⚠️ Tipo desconocido','#b91c1c');return;}
   const fechaEl=document.getElementById(prefix+'_fecha');
   if(!fechaEl||!fechaEl.value){showToast('⚠️ Ingrese la fecha','#b91c1c');return;}
   
@@ -1490,12 +2137,19 @@ function guardarProd(tipo){
   };
 
   ['lote','resp','operario','producto','cliente','calibre','materia','lider','totalKg',
-   'inicio1','final1','inicio2','final2','proveedor','kgFresco','kgPelado','cascara','crudo','frito','obs'].forEach(f=>{
+   'inicio1','final1','inicio2','final2','proveedor','kgFresco','kgPelado','cascara','crudo','frito','obs',
+   'cargueInicial','pesoFinal','total','elaboro','reviso','aprobo','supervisor','freidor',
+   'referencia','turno','vencimiento','fechaElab','codMateria','totalTarros'].forEach(f=>{
     const el=document.getElementById(prefix+'_'+f);
     if(el)rec.datos[f]=el.value;
   });
   const filasEl=document.getElementById(prefix+'_filas');
   if(filasEl)rec.datos.filas=recopilarFilas(prefix+'_filas');
+  // Formularios con múltiples secciones de filas
+  const filasDesEl=document.getElementById(prefix+'_filas_desencofrado');
+  const filasEmpEl=document.getElementById(prefix+'_filas_empaque');
+  if(filasDesEl)rec.datos.filasDesencofrado=recopilarFilas(prefix+'_filas_desencofrado');
+  if(filasEmpEl)rec.datos.filasEmpaque=recopilarFilas(prefix+'_filas_empaque');
 
   prodRegs.push(rec);
   ls('fc_prod6',prodRegs);
@@ -1516,7 +2170,10 @@ function guardarProd(tipo){
 }
 
 // HISTORIAL POR FORMULARIO
-const COLORS_PROD={pelado:'#2952b3',humedad:'#0891b2',chips:'#d97706',freidor:'#dc2626',horno:'#ea580c',brix:'#7c3aed',canastillas:'#0d6e3a',tostones:'#be185d',desperdicios:'#374151'};
+const COLORS_PROD={pelado:'#2952b3',humedad:'#0891b2',chips:'#d97706',freidor:'#dc2626',horno:'#ea580c',brix:'#7c3aed',canastillas:'#0d6e3a',tostones:'#be185d',desperdicios:'#374151',
+  'aceite-calidad':'#854d0e','temp-freidor':'#b91c1c','aceite-bache':'#92400e','cadena-frio':'#0e7490',
+  'empacado-tarros':'#4338ca','temp-horno':'#c2410c','trazabilidad-lotes':'#1d4ed8',
+  'cajas-empacadas':'#15803d','desperdicios-frios':'#0369a1'};
 
 function renderHistTipo(tipo){
   const con=document.getElementById('hist-'+tipo);
@@ -1546,7 +2203,9 @@ function renderHistTipo(tipo){
 }
 
 function renderProdHist(){
-  ['pelado','humedad','chips','freidor','horno','brix','canastillas','tostones','desperdicios'].forEach(t=>renderHistTipo(t));
+  ['pelado','humedad','chips','freidor','horno','brix','canastillas','tostones','desperdicios',
+   'aceite-calidad','temp-freidor','aceite-bache','cadena-frio','empacado-tarros',
+   'temp-horno','trazabilidad-lotes','cajas-empacadas','desperdicios-frios'].forEach(t=>renderHistTipo(t));
 }
 
 // CHIPS RECEPCION
@@ -1598,8 +2257,58 @@ function evalDiag(){
   if(!document.getElementById('f_decision').value)setDec(hasFail?'Rechazado':'Aceptado');
 }
 
+// =================== ÁREA NAVIGATION ===================
+const AREA_MAP={
+  produccion:['nuevo','pelado','freidor','temp-freidor','canastillas','aceite-bache','desperdicios'],
+  calidad:['humedad','chips','horno','temp-horno','brix','tostones','aceite-calidad','cadena-frio'],
+  empaque:['empacado-tarros','cajas-empacadas','trazabilidad-lotes','desperdicios-frios']
+};
+let currentArea='produccion';
+
+function goArea(area, btn){
+  currentArea=area;
+  // Update area buttons
+  document.querySelectorAll('.area-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  // Show/hide tabs
+  document.querySelectorAll('.area-tab').forEach(t=>{
+    if(t.classList.contains('area-'+area)){
+      t.style.display='';
+    } else {
+      t.style.display='none';
+      t.classList.remove('active');
+    }
+  });
+  // Auto-select first tab of this area
+  const first=AREA_MAP[area][0];
+  const firstBtn=document.getElementById('tab-'+first);
+  if(firstBtn) goTab(first, firstBtn);
+}
+
+function irAFormConLote(tipo){
+  const lote=document.getElementById('f_lote').value.trim();
+  const fecha=document.getElementById('f_fecha').value;
+  const MAP={
+    brix:  {area:'calidad', tab:'brix',    prefix:'p6'},
+    humedad:{area:'calidad',tab:'humedad', prefix:'p2'},
+  };
+  const cfg=MAP[tipo];
+  if(!cfg) return;
+  // Switch area first if needed
+  if(currentArea!==cfg.area){
+    const areaBtn=document.getElementById('area-btn-'+cfg.area);
+    if(areaBtn) goArea(cfg.area, areaBtn);
+  }
+  // Then go to the specific tab
+  const tabBtn=document.getElementById('tab-'+cfg.tab);
+  if(tabBtn) goTab(cfg.tab, tabBtn);
+  // Pre-fill lote and fecha
+  if(lote){const el=document.getElementById(cfg.prefix+'_lote');if(el)el.value=lote;}
+  if(fecha){const el=document.getElementById(cfg.prefix+'_fecha');if(el)el.value=fecha;}
+  if(lote) showToast('📋 Lote '+lote+' precargado','#2952b3');
+}
+
 function setDec(val){
-  document.getElementById('f_decision').value=val;
   document.getElementById('dec_ok').className='decbtn'+(val==='Aceptado'?' ok':'');
   document.getElementById('dec_fail').className='decbtn'+(val==='Rechazado'?' fail':'');
   document.getElementById('dec_warn').className='decbtn'+(val==='Condicional'?' warn':'');
@@ -1715,7 +2424,7 @@ function renderHistorial(){renderHistorialGeneral();}
 function renderHistorialGeneral(){
   const f=document.getElementById('filtroFecha').value;
   const con=document.getElementById('recordList');
-  const COLORS={pelado:'#2952b3',humedad:'#0891b2',chips:'#d97706',freidor:'#dc2626',horno:'#ea580c',brix:'#7c3aed',canastillas:'#0d6e3a',tostones:'#be185d',desperdicios:'#374151',recepcion:'#0d6e3a'};
+  const COLORS={pelado:'#2952b3',humedad:'#0891b2',chips:'#d97706',freidor:'#dc2626',horno:'#ea580c',brix:'#7c3aed',canastillas:'#0d6e3a',tostones:'#be185d',desperdicios:'#374151',recepcion:'#0d6e3a','aceite-calidad':'#854d0e','temp-freidor':'#b91c1c','aceite-bache':'#92400e','cadena-frio':'#0e7490','empacado-tarros':'#4338ca','temp-horno':'#c2410c','trazabilidad-lotes':'#1d4ed8','cajas-empacadas':'#15803d','desperdicios-frios':'#0369a1'};
   const dc={Aceptado:'ok',Rechazado:'fail',Condicional:'warn'};
   const bc={Aceptado:'bok',Rechazado:'bfail',Condicional:'bwarn'};
 
@@ -1818,7 +2527,7 @@ function closeDetail(){
 }
 
 function openDetail(tipo, id){
-  const COLORS={pelado:'#2952b3',humedad:'#0891b2',chips:'#d97706',freidor:'#dc2626',horno:'#ea580c',brix:'#7c3aed',canastillas:'#0d6e3a',tostones:'#be185d',desperdicios:'#374151',recepcion:'#0d6e3a'};
+  const COLORS={pelado:'#2952b3',humedad:'#0891b2',chips:'#d97706',freidor:'#dc2626',horno:'#ea580c',brix:'#7c3aed',canastillas:'#0d6e3a',tostones:'#be185d',desperdicios:'#374151',recepcion:'#0d6e3a','aceite-calidad':'#854d0e','temp-freidor':'#b91c1c','aceite-bache':'#92400e','cadena-frio':'#0e7490','empacado-tarros':'#4338ca','temp-horno':'#c2410c','trazabilidad-lotes':'#1d4ed8','cajas-empacadas':'#15803d','desperdicios-frios':'#0369a1'};
   const dc={Aceptado:'#16a34a',Rechazado:'#dc2626',Condicional:'#d97706'};
   let r,color,isRec=false;
   if(tipo==='recepcion'){
@@ -1935,10 +2644,49 @@ const TRAZA_INFO={
   canastillas:{label:'Canastillas/Hora', icon:'🧺',color:'#0d6e3a'},
   tostones:   {label:'Espec. Tostones',  icon:'🫓',color:'#be185d'},
   desperdicios:{label:'MP Desperdicios', icon:'♻️',color:'#374151'},
+  'aceite-calidad':    {label:'Cal. Aceite Fritura',  icon:'🛢️',color:'#854d0e'},
+  'temp-freidor':      {label:'Temp. Freidor',         icon:'🌡️',color:'#b91c1c'},
+  'aceite-bache':      {label:'Aceite Bache',          icon:'🫙',color:'#92400e'},
+  'cadena-frio':       {label:'Cadena de Frío',        icon:'❄️',color:'#0e7490'},
+  'empacado-tarros':   {label:'Empacado Tarros',       icon:'🫙',color:'#4338ca'},
+  'temp-horno':        {label:'Temp. Horno',           icon:'🔥',color:'#c2410c'},
+  'trazabilidad-lotes':{label:'Trazab. Lotes',         icon:'📦',color:'#1d4ed8'},
+  'cajas-empacadas':   {label:'Cajas Empacadas',       icon:'📦',color:'#15803d'},
+  'desperdicios-frios':{label:'Desp. Cuartos Fríos',   icon:'🧊',color:'#0369a1'},
 };
 
 // ── PROVEEDORES ──
-const PROVEEDORES = [
+// ── ETAPAS DEL LOTE ──
+// Los formularios de empaque son la etapa final — cuando un lote llega aquí se marca como completado
+const ETAPAS_FINALES=['empacado-tarros','cajas-empacadas','trazabilidad-lotes','desperdicios-frios'];
+
+function getLotesActivos(){
+  // Lotes recepcionados
+  const todos=new Set();
+  regs.forEach(r=>{if(r.lote)todos.add(r.lote.trim().toUpperCase());});
+  // Filtrar los que ya completaron la etapa final (aparecen en formularios de empaque)
+  const completados=new Set();
+  prodRegs.forEach(r=>{
+    if(ETAPAS_FINALES.includes(r.tipo)){
+      const lote=(r.datos&&r.datos.lote)||'';
+      if(lote)completados.add(lote.trim().toUpperCase());
+    }
+  });
+  // Devolver solo los NO completados, más recientes primero
+  return [...todos].filter(l=>!completados.has(l)).sort((a,b)=>b.localeCompare(a));
+}
+
+function getLoteMetaV2(codigo){
+  // Buscar en recepciones — mostrar MATERIA · LOTE (no fecha)
+  const rec=regs.find(r=>(r.lote||'').trim().toUpperCase()===codigo);
+  if(rec) return `${rec.materia||'—'} · ${rec.lote||codigo}`;
+  const prod=prodRegs.find(r=>((r.datos&&r.datos.lote)||'').trim().toUpperCase()===codigo);
+  if(prod) return prod.nombre||prod.tipo||'—';
+  return '';
+}
+
+// ── PROVEEDORES (base fija + nuevos guardados en localStorage) ──
+const PROVEEDORES_BASE = [
   {nombre:'PEDRO TULENA',                                    codigo:'101'},
   {nombre:'JOSE GALMA MARRIAGA',                             codigo:'102'},
   {nombre:'LUIS EDUARDO FABRA MENDEZ',                       codigo:'103'},
@@ -1974,9 +2722,35 @@ const PROVEEDORES = [
   {nombre:'EDINSON SALINAS (CONFIS ASESORIAS Y SERVICIOS)',  codigo:'134'},
   {nombre:'EL FRANCES',                                      codigo:'135'},
   {nombre:'ORLANDO VALDERRAMA',                              codigo:'136'},
-  {nombre:'ISRAEL PERALTA',                                  codigo:'137'},
-  {nombre:'__otro__',                                        codigo:''},
+  {nombre:'ISRAEL PERALTA',                                   codigo:'137'},
+  {nombre:'__otro__',                                         codigo:''},
 ];
+
+// Combina proveedores base + nuevos guardados localmente
+function getProveedores(){
+  const guardados=JSON.parse(localStorage.getItem('fc_proveedores_nuevos')||'[]');
+  // Insertar nuevos antes de __otro__
+  const base=PROVEEDORES_BASE.filter(p=>p.nombre!=='__otro__');
+  const todos=[...base,...guardados,{nombre:'__otro__',codigo:''}];
+  return todos;
+}
+let PROVEEDORES=getProveedores();
+
+function guardarNuevoProveedor(nombre, codigo){
+  if(!nombre||nombre==='__otro__') return;
+  // Verificar que no exista ya
+  if(PROVEEDORES.some(p=>p.nombre.toUpperCase()===nombre.toUpperCase())) return;
+  const nuevos=JSON.parse(localStorage.getItem('fc_proveedores_nuevos')||'[]');
+  const maxCod=PROVEEDORES.reduce((mx,p)=>{const n=parseInt(p.codigo)||0;return n>mx?n:mx;},137);
+  const nuevoCod=codigo||String(maxCod+1);
+  nuevos.push({nombre:nombre.toUpperCase(),codigo:nuevoCod,esNuevo:true});
+  localStorage.setItem('fc_proveedores_nuevos',JSON.stringify(nuevos));
+  PROVEEDORES=getProveedores();
+  showToast('✅ Proveedor "'+nombre+'" guardado (cód. '+nuevoCod+')','#0d6e3a');
+  // Enviar a Sheets también
+  const payload={hoja:'PROVEEDORES',fila:[tsLegible(),nombre.toUpperCase(),nuevoCod,'Nuevo - registrado desde app']};
+  fetch(SCRIPT_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(payload)}).catch(()=>{});
+}
 
 function mostrarProveedores(){
   const q=document.getElementById('f_proveedor').value.trim().toUpperCase();
@@ -2017,7 +2791,7 @@ function selProveedor(nombre, codigo){
   document.getElementById('prov_drop').style.display='none';
   if(nombre==='__otro__'){
     inp.value='';
-    inp.placeholder='Escribe el nombre del proveedor...';
+    inp.placeholder='Escribe el nombre del nuevo proveedor...';
     inp.focus();
     cod.value='';
     cod.removeAttribute('readonly');
@@ -2025,9 +2799,38 @@ function selProveedor(nombre, codigo){
     cod.style.color='';
     cod.style.fontFamily='';
     cod.style.fontWeight='';
-    cod.placeholder='Escribe el código...';
+    cod.placeholder='Código (se asignará automático)';
+    // Guardar nuevo proveedor inmediatamente al escribir (debounce 800ms)
+    let _provTimer=null;
+    inp.oninput=function(){
+      clearTimeout(_provTimer);
+      const val=inp.value.trim();
+      if(val.length<3) return;
+      _provTimer=setTimeout(()=>{
+        guardarNuevoProveedor(val, cod.value.trim());
+        // Regenerar código de lote si ya hay materia prima
+        const mat=document.getElementById('f_materia').value;
+        if(mat && mat!=='__otro_mat__'){
+          document.getElementById('f_lote').value=generarCodigoLote(mat);
+        }
+      }, 800);
+    };
+    inp.onblur=function(){
+      clearTimeout(_provTimer);
+      const val=inp.value.trim();
+      if(val && val.length>2){
+        guardarNuevoProveedor(val, cod.value.trim());
+        const mat=document.getElementById('f_materia').value;
+        if(mat && mat!=='__otro_mat__'){
+          document.getElementById('f_lote').value=generarCodigoLote(mat);
+        }
+      }
+      inp.onblur=null;
+      inp.oninput=null;
+    };
   } else {
     inp.value=nombre;
+    inp.onblur=null;
     cod.value=codigo;
     cod.removeAttribute('readonly');
     cod.style.background='';
@@ -2103,9 +2906,9 @@ function todosLosLotes(){
 
 function getLoteMeta(codigo){
   const rec=regs.find(r=>(r.lote||'').trim().toUpperCase()===codigo);
-  if(rec)return `${rec.materia} · ${rec.fecha}`;
+  if(rec) return `${rec.materia||'—'} · ${rec.lote||codigo}`;
   const prod=prodRegs.find(r=>((r.datos&&r.datos.lote)||'').trim().toUpperCase()===codigo);
-  if(prod)return prod.fecha;
+  if(prod) return prod.nombre||prod.tipo||'—';
   return '';
 }
 
@@ -2139,10 +2942,12 @@ function filtrarLotesSel(inputId,dropId){
 
 function renderDropItems(lista,dropId,inputId){
   document.getElementById(dropId).innerHTML=lista.slice(0,15).map(l=>{
-    const meta=getLoteMeta(l);
+    const rec=regs.find(r=>(r.lote||'').trim().toUpperCase()===l);
+    const materia=rec?rec.materia||'—':'—';
+    const loteCode=l;
     return `<div class="lote-drop-item" onmousedown="selLote('${inputId}','${dropId}','${l}')">
-      <span class="lote-drop-code">${l}</span>
-      ${meta?`<span class="lote-drop-meta" style="opacity:.6;font-size:11px">${meta}</span>`:''}
+      <span class="lote-drop-code" style="font-size:13px;letter-spacing:.3px">${materia}</span>
+      <span style="font-family:monospace;font-size:12px;color:#2952b3;font-weight:700;letter-spacing:.5px">${loteCode}</span>
     </div>`;
   }).join('');
 }
