@@ -2312,6 +2312,7 @@ function setDec(val){
   document.getElementById('dec_ok').className='decbtn'+(val==='Aceptado'?' ok':'');
   document.getElementById('dec_fail').className='decbtn'+(val==='Rechazado'?' fail':'');
   document.getElementById('dec_warn').className='decbtn'+(val==='Condicional'?' warn':'');
+  document.getElementById('f_decision').value=val;
 }
 
 function registrar(){
@@ -2726,12 +2727,25 @@ const PROVEEDORES_BASE = [
   {nombre:'__otro__',                                         codigo:''},
 ];
 
-// Combina proveedores base + nuevos guardados localmente
+// Combina proveedores base + nuevos guardados localmente, aplicando ediciones y eliminaciones
 function getProveedores(){
   const guardados=JSON.parse(localStorage.getItem('fc_proveedores_nuevos')||'[]');
+  const eliminados=JSON.parse(localStorage.getItem('fc_proveedores_eliminados')||'[]');
+  const ediciones=JSON.parse(localStorage.getItem('fc_proveedores_editados')||'{}');
   // Insertar nuevos antes de __otro__
   const base=PROVEEDORES_BASE.filter(p=>p.nombre!=='__otro__');
-  const todos=[...base,...guardados,{nombre:'__otro__',codigo:''}];
+  let todos=[...base,...guardados];
+  // Quitar los eliminados (por nombre original)
+  todos=todos.filter(p=>!eliminados.includes(p.nombreOriginal||p.nombre));
+  // Aplicar ediciones (clave = nombre original)
+  todos=todos.map(p=>{
+    const claveOriginal=p.nombreOriginal||p.nombre;
+    if(ediciones[claveOriginal]){
+      return {...p, nombre:ediciones[claveOriginal].nombre, codigo:ediciones[claveOriginal].codigo, nombreOriginal:claveOriginal};
+    }
+    return {...p, nombreOriginal:claveOriginal};
+  });
+  todos.push({nombre:'__otro__',codigo:''});
   return todos;
 }
 let PROVEEDORES=getProveedores();
@@ -2772,17 +2786,92 @@ function renderDropProv(lista){
     drop.style.display='block';
     return;
   }
-  drop.innerHTML=lista.map(p=>p.nombre==='__otro__'
-    ?`<div class="lote-drop-item" onclick="selProveedor('__otro__','')">
+  drop.innerHTML=lista.map((p,idx)=>p.nombre==='__otro__'
+    ?`<div class="lote-drop-item" onmousedown="selProveedor('__otro__','')">
         <span class="lote-drop-code">✏️ Otro proveedor</span>
         <span class="lote-drop-meta">Escribir manualmente</span>
       </div>`
-    :`<div class="lote-drop-item" onclick="selProveedor('${p.nombre}','${p.codigo}')">
-        <span class="lote-drop-code">${p.nombre}</span>
-        <span class="lote-drop-meta">Código: ${p.codigo}</span>
+    :`<div class="lote-drop-item" style="position:relative">
+        <div onmousedown="selProveedor('${p.nombre}','${p.codigo}')">
+          <span class="lote-drop-code">${p.nombre}</span>
+          <span class="lote-drop-meta">Código: ${p.codigo}</span>
+        </div>
+        <button onmousedown="event.preventDefault();event.stopPropagation();toggleProvMenu(event,'prov_menu_${idx}')"
+             style="position:absolute;top:8px;right:6px;background:none;border:none;color:#6b7280;
+                    font-size:18px;font-weight:900;cursor:pointer;padding:2px 8px;border-radius:6px;line-height:1"
+             title="Opciones">⋮</button>
+        <div id="prov_menu_${idx}" class="prov-menu" style="display:none;position:absolute;top:30px;right:6px;
+             background:#fff;border:1.5px solid #ccd6ef;border-radius:10px;box-shadow:0 6px 18px rgba(0,0,0,.15);
+             z-index:400;min-width:120px;overflow:hidden">
+          <div onmousedown="event.preventDefault();event.stopPropagation();editarProveedor('${p.nombreOriginal||p.nombre}','${p.nombre}','${p.codigo}')"
+               style="padding:10px 14px;font-size:13px;font-weight:600;color:#111827;cursor:pointer;border-bottom:1px solid #f3f4f6">✏️ Editar</div>
+          <div onmousedown="event.preventDefault();event.stopPropagation();eliminarProveedor('${p.nombreOriginal||p.nombre}','${p.nombre}')"
+               style="padding:10px 14px;font-size:13px;font-weight:600;color:#dc2626;cursor:pointer">🗑️ Eliminar</div>
+        </div>
       </div>`
   ).join('');
   drop.style.display='block';
+}
+
+function toggleProvMenu(e,id){
+  e.stopPropagation();
+  document.querySelectorAll('.prov-menu').forEach(m=>{ if(m.id!==id) m.style.display='none'; });
+  const m=document.getElementById(id);
+  if(m) m.style.display=(m.style.display==='block')?'none':'block';
+}
+document.addEventListener('click',(e)=>{
+  if(e.target.closest && e.target.closest('.prov-menu')) return;
+  if(e.target.title==='Opciones') return;
+  document.querySelectorAll('.prov-menu').forEach(m=>m.style.display='none');
+});
+
+function editarProveedor(nombreOriginal, nombreActual, codigoActual){
+  const nuevoNombre=prompt('Editar nombre del proveedor:', nombreActual);
+  if(nuevoNombre===null) return;
+  const nombreLimpio=nuevoNombre.trim().toUpperCase();
+  if(!nombreLimpio){ showToast('⚠️ El nombre no puede estar vacío','#d97706'); return; }
+  const nuevoCodigo=prompt('Editar código del proveedor:', codigoActual);
+  if(nuevoCodigo===null) return;
+  const codigoLimpio=nuevoCodigo.trim()||codigoActual;
+
+  // Si es un proveedor "nuevo" (agregado desde la app), editar directamente en su registro
+  const nuevos=JSON.parse(localStorage.getItem('fc_proveedores_nuevos')||'[]');
+  const idxNuevo=nuevos.findIndex(p=>p.nombre===nombreOriginal);
+  if(idxNuevo!==-1){
+    nuevos[idxNuevo]={...nuevos[idxNuevo],nombre:nombreLimpio,codigo:codigoLimpio};
+    localStorage.setItem('fc_proveedores_nuevos',JSON.stringify(nuevos));
+  } else {
+    // Es un proveedor base: guardar la edición como override
+    const ediciones=JSON.parse(localStorage.getItem('fc_proveedores_editados')||'{}');
+    ediciones[nombreOriginal]={nombre:nombreLimpio,codigo:codigoLimpio};
+    localStorage.setItem('fc_proveedores_editados',JSON.stringify(ediciones));
+  }
+  PROVEEDORES=getProveedores();
+  showToast('✅ Proveedor actualizado','#0d6e3a');
+  filtrarProveedores();
+}
+
+function eliminarProveedor(nombreOriginal, nombreActual){
+  if(!confirm('¿Eliminar el proveedor "'+(nombreActual||nombreOriginal)+'" de la lista?')) return;
+  // Si es un proveedor "nuevo", quitarlo del array de nuevos
+  const nuevos=JSON.parse(localStorage.getItem('fc_proveedores_nuevos')||'[]');
+  const existeComoNuevo=nuevos.some(p=>p.nombre===nombreOriginal);
+  if(existeComoNuevo){
+    const filtrados=nuevos.filter(p=>p.nombre!==nombreOriginal);
+    localStorage.setItem('fc_proveedores_nuevos',JSON.stringify(filtrados));
+  } else {
+    // Es un proveedor base: marcarlo como eliminado
+    const eliminados=JSON.parse(localStorage.getItem('fc_proveedores_eliminados')||'[]');
+    if(!eliminados.includes(nombreOriginal)) eliminados.push(nombreOriginal);
+    localStorage.setItem('fc_proveedores_eliminados',JSON.stringify(eliminados));
+    // Limpiar también cualquier edición pendiente de ese proveedor
+    const ediciones=JSON.parse(localStorage.getItem('fc_proveedores_editados')||'{}');
+    delete ediciones[nombreOriginal];
+    localStorage.setItem('fc_proveedores_editados',JSON.stringify(ediciones));
+  }
+  PROVEEDORES=getProveedores();
+  showToast('🗑️ Proveedor eliminado','#b91c1c');
+  filtrarProveedores();
 }
 
 function selProveedor(nombre, codigo){
