@@ -521,7 +521,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
               </div>
             </div>
           </div>
-          <div class="field"><span class="flabel">Producto</span><input class="finput" type="text" id="p2_producto" placeholder="Ej. Chips de plátano"></div>
+          <div class="field"><span class="flabel">Producto</span><select class="finput" id="p2_producto"><option value="">Seleccionar producto...</option><option>Chips de Plátano</option><option>Tostones</option><option>Estefanía</option><option>Patacones</option><option>Plátano Frito</option><option>Chisp</option></select></div>
           <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p2_resp" placeholder="Nombre"></div>
         </div>
         <div class="card">
@@ -580,6 +580,9 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
               </div>
             </div>
           </div>
+          <div class="field"><span class="flabel">Producto</span>
+            <select class="finput" id="p4_producto"><option value="">Seleccionar producto...</option><option>Chips de Plátano</option><option>Tostones</option><option>Estefanía</option><option>Patacones</option><option>Plátano Frito</option><option>Chisp</option></select>
+          </div>
           <div class="row2">
             <div class="field"><span class="flabel">Hora Inicio Proceso 1</span><input class="finput" type="text" id="p4_inicio1"></div>
             <div class="field"><span class="flabel">Hora Final Proceso 1</span><input class="finput" type="text" id="p4_final1"></div>
@@ -587,6 +590,10 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           <div class="row2">
             <div class="field"><span class="flabel">Hora Inicio Proceso 2</span><input class="finput" type="text" id="p4_inicio2"></div>
             <div class="field"><span class="flabel">Hora Final Proceso 2</span><input class="finput" type="text" id="p4_final2"></div>
+          </div>
+          <div class="row2">
+            <div class="field"><span class="flabel">Firma Operario</span><input class="finput" type="text" id="p4_firmaOperario" placeholder="Nombre operario"></div>
+            <div class="field"><span class="flabel">Firma Supervisor</span><input class="finput" type="text" id="p4_firmaSupervisor" placeholder="Nombre supervisor"></div>
           </div>
           <div class="field"><span class="flabel">Responsable</span><input class="finput" type="text" id="p4_resp" placeholder="Nombre"></div>
         </div>
@@ -770,7 +777,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
       <div class="card">
         <div class="row2">
           <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" id="pa1_fecha"></div>
-          <div class="field"><span class="flabel">Producto</span><input class="finput" type="text" id="pa1_producto" placeholder="Nombre del producto"></div>
+          <div class="field"><span class="flabel">Producto</span><select class="finput" id="pa1_producto"><option value="">Seleccionar producto...</option><option>Chips de Plátano</option><option>Tostones</option><option>Estefanía</option><option>Patacones</option><option>Plátano Frito</option><option>Chisp</option></select></div>
         </div>
         <div class="row2">
           <div class="field"><span class="flabel">Cliente</span><input class="finput" type="text" id="pa1_cliente" placeholder="Nombre del cliente"></div>
@@ -824,7 +831,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
             </div>
           </div>
         </div>
-        <div class="field"><span class="flabel">Producto</span><input class="finput" type="text" id="pa2_producto" placeholder="Nombre del producto"></div>
+        <div class="field"><span class="flabel">Producto</span><select class="finput" id="pa2_producto"><option value="">Seleccionar producto...</option><option>Chips de Plátano</option><option>Tostones</option><option>Estefanía</option><option>Patacones</option><option>Plátano Frito</option><option>Chisp</option></select></div>
         <div class="row2">
           <div class="field"><span class="flabel">Inicio 1</span><input class="finput" type="text" id="pa2_inicio1" placeholder="HH:MM AM/PM"></div>
           <div class="field"><span class="flabel">Final 1</span><input class="finput" type="text" id="pa2_final1" placeholder="HH:MM AM/PM"></div>
@@ -860,7 +867,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           </div>
         </div>
         <div class="row2">
-          <div class="field"><span class="flabel">Producto a Freír</span><input class="finput" type="text" id="pa3_producto" placeholder="Nombre del producto"></div>
+          <div class="field"><span class="flabel">Producto a Freír</span><select class="finput" id="pa3_producto"><option value="">Seleccionar producto...</option><option>Chips de Plátano</option><option>Tostones</option><option>Estefanía</option><option>Patacones</option><option>Plátano Frito</option><option>Chisp</option></select></div>
           <div class="field"><span class="flabel">Freidor</span><input class="finput" type="text" id="pa3_freidor" placeholder="Número o nombre del freidor"></div>
         </div>
         <div class="row2">
@@ -896,7 +903,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
         </div>
         <div class="row2">
           <div class="field"><span class="flabel">Cliente</span><input class="finput" type="text" id="pa4_cliente" placeholder="Nombre del cliente"></div>
-          <div class="field"><span class="flabel">Producto</span><input class="finput" type="text" id="pa4_producto" placeholder="Nombre del producto"></div>
+          <div class="field"><span class="flabel">Producto</span><select class="finput" id="pa4_producto"><option value="">Seleccionar producto...</option><option>Chips de Plátano</option><option>Tostones</option><option>Estefanía</option><option>Patacones</option><option>Plátano Frito</option><option>Chisp</option></select></div>
         </div>
         <div class="field"><span class="flabel">Código Materia Prima</span><input class="finput" type="text" id="pa4_codMateria" placeholder="Código MP"></div>
         <div class="row2">
@@ -930,7 +937,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           </div>
         </div>
         <div class="row2">
-          <div class="field"><span class="flabel">Producto</span><input class="finput" type="text" id="pa5_producto" placeholder="Nombre del producto"></div>
+          <div class="field"><span class="flabel">Producto</span><select class="finput" id="pa5_producto"><option value="">Seleccionar producto...</option><option>Chips de Plátano</option><option>Tostones</option><option>Estefanía</option><option>Patacones</option><option>Plátano Frito</option><option>Chisp</option></select></div>
           <div class="field"><span class="flabel">Cliente</span><input class="finput" type="text" id="pa5_cliente" placeholder="Nombre del cliente"></div>
         </div>
         <div class="row2">
@@ -972,7 +979,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
             </div>
           </div>
         </div>
-        <div class="field"><span class="flabel">Producto</span><input class="finput" type="text" id="pa6_producto" placeholder="Nombre del producto"></div>
+        <div class="field"><span class="flabel">Producto</span><select class="finput" id="pa6_producto"><option value="">Seleccionar producto...</option><option>Chips de Plátano</option><option>Tostones</option><option>Estefanía</option><option>Patacones</option><option>Plátano Frito</option><option>Chisp</option></select></div>
         <div class="row2">
           <div class="field"><span class="flabel">Inicio 1</span><input class="finput" type="text" id="pa6_inicio1" placeholder="HH:MM AM/PM"></div>
           <div class="field"><span class="flabel">Final 1</span><input class="finput" type="text" id="pa6_final1" placeholder="HH:MM AM/PM"></div>
@@ -1033,7 +1040,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           </div>
         </div>
         <div class="row2">
-          <div class="field"><span class="flabel">Producto</span><input class="finput" type="text" id="pa8_producto" placeholder="Nombre del producto"></div>
+          <div class="field"><span class="flabel">Producto</span><select class="finput" id="pa8_producto"><option value="">Seleccionar producto...</option><option>Chips de Plátano</option><option>Tostones</option><option>Estefanía</option><option>Patacones</option><option>Plátano Frito</option><option>Chisp</option></select></div>
           <div class="field"><span class="flabel">Fecha Elaboración</span><input class="finput" type="date" id="pa8_fechaElab"></div>
         </div>
         <div class="row2">
@@ -1068,7 +1075,7 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
           </div>
         </div>
         <div class="row2">
-          <div class="field"><span class="flabel">Producto</span><input class="finput" type="text" id="pa9_producto" placeholder="Nombre del producto"></div>
+          <div class="field"><span class="flabel">Producto</span><select class="finput" id="pa9_producto"><option value="">Seleccionar producto...</option><option>Chips de Plátano</option><option>Tostones</option><option>Estefanía</option><option>Patacones</option><option>Plátano Frito</option><option>Chisp</option></select></div>
           <div class="field"><span class="flabel">Cliente</span><input class="finput" type="text" id="pa9_cliente" placeholder="Nombre del cliente"></div>
         </div>
         <div class="row2">
@@ -1169,6 +1176,16 @@ select.finput{font-family:'Outfit',sans-serif;font-size:14px}
 
 <script>
 const SCRIPT_URL='https://script.google.com/macros/s/AKfycbx1Jdl05X8fn-gw8zXP8tkD3sUPZ_TlVxCPuI-1son8WMzDFGGdMXrJIrS6aimlyC2OSg/exec';
+
+// Productos manejados por Frío Costa Alimentos Delhi
+const PRODUCTOS_EMPRESA = [
+  'Chips de Plátano',
+  'Tostones',
+  'Estefanía',
+  'Patacones',
+  'Plátano Frito',
+  'Chisp'
+];
 
 const USERS=[
   {code:'ADMIN001',name:'Administrador',rol:'admin'},
@@ -1569,14 +1586,23 @@ function addFilaBrix(){
   const c=document.getElementById('p6_filas');
   const i=c.children.length+1;
   const uid='bfoto'+Date.now();
+  const loteActual=document.getElementById('p6_lote')?document.getElementById('p6_lote').value:'';
+  const optsProducto=PRODUCTOS_EMPRESA.map(p=>`<option value="${p}">${p}</option>`).join('');
+  const lotsDisp=typeof todosLosLotes==='function'?todosLosLotes():[];
+  let optsLote=lotsDisp.length?lotsDisp.map(l=>`<option value="${l}"${l===loteActual?' selected':''}>${l}</option>`).join(''):'';
+  if(loteActual&&!lotsDisp.includes(loteActual)) optsLote=`<option value="${loteActual}" selected>${loteActual}</option>`+optsLote;
   c.insertAdjacentHTML('beforeend',`<div class="card" style="margin-bottom:8px;padding:10px">
     <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">MUESTRA #${i}</div>
     <div class="row2">
-      <div class="field"><span class="flabel">Producto Terminado</span><input class="finput" type="text" placeholder="Ej. Estefana"></div>
+      <div class="field"><span class="flabel">Producto Terminado</span>
+        <select class="finput"><option value="">Seleccionar producto...</option>${optsProducto}</select>
+      </div>
       <div class="field"><span class="flabel">Proveedor</span><input class="finput" type="text" placeholder="Nombre"></div>
     </div>
     <div class="row3">
-      <div class="field"><span class="flabel">Número de Lote</span><input class="finput" type="text" placeholder="Ej. L-001-2026"></div>
+      <div class="field"><span class="flabel">Número de Lote</span>
+        <select class="finput" style="font-family:monospace;font-weight:700"><option value="">Seleccionar lote...</option>${optsLote}</select>
+      </div>
       <div class="field"><span class="flabel">Resultado en °Brix</span><input class="finput" type="text" inputmode="decimal" pattern="[0-9]*[.,]?[0-9]*" placeholder="0"></div>
       <div class="field"><span class="flabel">Hora de Toma de Muestra</span><input class="finput" type="text" value="${nowTimeAMPM()}" placeholder="HH:MM AM/PM"></div>
     </div>
@@ -1826,7 +1852,9 @@ function addFilaTrazabilidadLotes(){
     <div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px">LOTE #${i}</div>
     <div class="row2">
       <div class="field"><span class="flabel">Fecha</span><input class="finput" type="date" value="${document.getElementById('pa7_fecha')?.value||''}"></div>
-      <div class="field"><span class="flabel">Producto</span><input class="finput" type="text" placeholder="Nombre del producto"></div>
+      <div class="field"><span class="flabel">Producto</span>
+        <select class="finput"><option value="">Seleccionar...</option><option>Chips de Plátano</option><option>Tostones</option><option>Estefanía</option><option>Patacones</option><option>Plátano Frito</option><option>Chisp</option></select>
+      </div>
     </div>
     <div class="row2">
       <div class="field"><span class="flabel">Lote</span><input class="finput" type="text" placeholder="Código de lote" style="font-family:monospace;font-weight:700"></div>
@@ -2077,9 +2105,17 @@ function buildFilas(tipo, prefix){
       return [ts,usuario,lote,ns(gv(prefix+'_cliente')),ns(gv(prefix+'_calibre')),resp,v[0]||'—',v[1]||'—',v[2]||'—',v[3]||'—',v[4]||'—'];});
   }
   if(tipo==='freidor'){
-    if(!filasData.length) return [[ts,usuario,lote,ns(gv(prefix+'_realizo')),'—','—','—','—','—','—','—','—','—','—','—']];
+    const prod=ns(gv(prefix+'_producto'));
+    const fOp=ns(gv(prefix+'_firmaOperario'));
+    const fSup=ns(gv(prefix+'_firmaSupervisor'));
+    const ini1=ns(gv(prefix+'_inicio1'));
+    const fin1=ns(gv(prefix+'_final1'));
+    const ini2=ns(gv(prefix+'_inicio2'));
+    const fin2=ns(gv(prefix+'_final2'));
+    if(!filasData.length) return [[ts,usuario,lote,prod,fOp,fSup,'—','—','—','—','—','—','—','—',ns(gv(prefix+'_resp')),'—','—']];
     return filasData.map(fd=>{const v=Object.values(fd).map(x=>ns(x));
-      return [ts,usuario,lote,ns(gv(prefix+'_realizo')),v[0]||'—',v[1]||'—',v[2]||'—',v[3]||'—',v[4]||'—',v[5]||'—',v[6]||'—',v[7]||'—',v[8]||'—',v[9]||'—',v[10]||'—'];});
+      // v[0]=horaIni, v[1]=horaFin, v[2]=tempZ1, v[3]=tempZ2, v[4]=tempZ3, v[5]=tempZ4, v[6]=tempZ5, v[7]=tiempoFritura, v[8]=velMalla, v[9]=alimentacion, v[10]=obs
+      return [ts,usuario,lote,prod,fOp,fSup,v[0]||'—',v[1]||'—',v[2]||'—',v[3]||'—',v[4]||'—',v[5]||'—',v[6]||'—',v[7]||'—',v[8]||'—',v[9]||'—',v[10]||'—'];});
   }
   if(tipo==='horno'){
     if(!filasData.length) return [[ts,usuario,lote,ns(gv(prefix+'_realizo')),'—','—','—','—','—','—','—','—']];
@@ -2107,10 +2143,43 @@ function buildFilas(tipo, prefix){
       return [ts,usuario,lote,ns(gv(prefix+'_materia')),resp,v[0]||'—',v[1]||'—',v[2]||'—',v[3]||'—',v[4]||'—',v[5]||'—'];});
   }
   // New forms - generic row builder
-  if(['aceite-calidad','temp-freidor','aceite-bache','cadena-frio','empacado-tarros','temp-horno','trazabilidad-lotes','cajas-empacadas','desperdicios-frios'].includes(tipo)){
+  if(['aceite-calidad','temp-freidor','aceite-bache','cadena-frio','temp-horno','trazabilidad-lotes','cajas-empacadas'].includes(tipo)){
     const base=[ts,usuario,ns(gv(prefix+'_lote')),ns(gv(prefix+'_producto')),ns(gv(prefix+'_resp'))];
     if(!filasData.length) return [base];
     return filasData.map(fd=>{const v=Object.values(fd).map(x=>ns(x));return [...base,...v.slice(0,15)];});
+  }
+  if(tipo==='empacado-tarros'){
+    // Columnas Sheets: ts,usuario,lote,producto,cliente,referencia,turno,fechaVencimiento,elaboradoPor,horaInicio,horaFinal,nTarrosPorHora,obs,totalTarrosTurno
+    const base=[ts,usuario,
+      ns(gv(prefix+'_lote')),ns(gv(prefix+'_producto')),ns(gv(prefix+'_cliente')),
+      ns(gv(prefix+'_referencia')),ns(gv(prefix+'_turno')),ns(gv(prefix+'_vencimiento')),
+      ns(gv(prefix+'_elaboro'))];
+    const total=ns(gv(prefix+'_totalTarros'));
+    if(!filasData.length) return [[...base,'—','—','—','—',total]];
+    return filasData.map(fd=>{const v=Object.values(fd).map(x=>ns(x));
+      // v[0]=horaInicio, v[1]=horaFinal, v[2]=nTarrosPorHora, v[3]=obs
+      return [...base,v[0]||'—',v[1]||'—',v[2]||'—',v[3]||'—',total];});
+  }
+  if(tipo==='desperdicios-frios'){
+    // Columnas: ts,usuario,lote,producto,cliente,fechaElab,turno,elaboro,reviso + filas desencofrado y empaque separadas
+    const base=[ts,usuario,
+      ns(gv(prefix+'_lote')),ns(gv(prefix+'_producto')),ns(gv(prefix+'_cliente')),
+      ns(gv(prefix+'_fechaElab')),ns(gv(prefix+'_turno')),
+      ns(gv(prefix+'_resp')),ns(gv(prefix+'_reviso'))];
+    // filas desencofrado
+    const fDes=recopilarFilas(prefix+'_filas_desencofrado');
+    // filas empaque
+    const fEmp=recopilarFilas(prefix+'_filas_empaque');
+    const rows=[];
+    const maxRows=Math.max(fDes.length,fEmp.length,1);
+    for(let i=0;i<maxRows;i++){
+      const d=fDes[i]?Object.values(fDes[i]).map(x=>ns(x)):['—','—','—','—'];
+      const e=fEmp[i]?Object.values(fEmp[i]).map(x=>ns(x)):['—','—','—','—'];
+      rows.push([...base,
+        d[0]||'—',d[1]||'—',d[2]||'—',d[3]||'—',
+        e[0]||'—',e[1]||'—',e[2]||'—',e[3]||'—']);
+    }
+    return rows;
   }
   return [[ts,usuario,lote,resp]];
 }
@@ -2139,7 +2208,8 @@ function guardarProd(tipo){
   ['lote','resp','operario','producto','cliente','calibre','materia','lider','totalKg',
    'inicio1','final1','inicio2','final2','proveedor','kgFresco','kgPelado','cascara','crudo','frito','obs',
    'cargueInicial','pesoFinal','total','elaboro','reviso','aprobo','supervisor','freidor',
-   'referencia','turno','vencimiento','fechaElab','codMateria','totalTarros'].forEach(f=>{
+   'referencia','turno','vencimiento','fechaElab','codMateria','totalTarros',
+   'firmaOperario','firmaSupervisor'].forEach(f=>{
     const el=document.getElementById(prefix+'_'+f);
     if(el)rec.datos[f]=el.value;
   });
